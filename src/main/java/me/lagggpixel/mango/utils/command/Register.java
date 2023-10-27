@@ -22,7 +22,7 @@ public class Register {
 
   public Register() {
     try {
-      this.commandMap = (SimpleCommandMap) Bukkit.getServer().getClass().getDeclaredMethod("getCommandMap", new Class[0]).invoke(Bukkit.getServer(), new Object[0]);
+      this.commandMap = (SimpleCommandMap) Bukkit.getServer().getClass().getDeclaredMethod("getCommandMap").invoke(Bukkit.getServer(), new Object[0]);
     } catch (Exception ex) {
       ex.printStackTrace();
     }
@@ -30,9 +30,9 @@ public class Register {
 
   public BaseCommand constructFromAnnotation(final IBaseCommand base) {
     try {
-      Method execute = base.getClass().getMethod("execute", new Class[]{CommandSender.class, String[].class});
+      Method execute = base.getClass().getMethod("execute", CommandSender.class, String[].class);
       if (execute.isAnnotationPresent(BaseCommandAnn.class)) {
-        BaseCommandAnn commandAnn = execute.<BaseCommandAnn>getAnnotation(BaseCommandAnn.class);
+        BaseCommandAnn commandAnn = execute.getAnnotation(BaseCommandAnn.class);
 
         BaseCommand command = new BaseCommand(commandAnn.name(), (commandAnn.permission() == null) ? null : commandAnn.permission(), commandAnn.commandUsage(), commandAnn.aliases()) {
           public void execute(CommandSender sender, String[] args) {
@@ -55,7 +55,7 @@ public class Register {
 
   public void loadCommandsFromPackage(String packageName) {
     for (Class<?> clazz : getClassesInPackage(packageName)) {
-      System.out.println(String.valueOf(clazz.getName()) + "\n\n");
+      System.out.println(clazz.getName() + "\n\n");
       if (BaseCommand.class.isAssignableFrom(clazz))
         try {
           BaseCommand executor = (BaseCommand) clazz.newInstance();
@@ -113,12 +113,12 @@ public class Register {
     PluginCommand command = Bukkit.getServer().getPluginCommand(cmd.toLowerCase());
 
     if (command == null) {
-      Constructor<?> constructor = PluginCommand.class.getDeclaredConstructor(new Class[]{String.class, Plugin.class});
+      Constructor<?> constructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
       constructor.setAccessible(true);
       command = (PluginCommand) constructor.newInstance(new Object[]{cmd, Mango.getInstance()});
     }
 
-    command.setExecutor((CommandExecutor) executor);
+    command.setExecutor(executor);
     List<String> list = Arrays.asList(executor.aliases);
     command.setAliases(list);
 
@@ -146,7 +146,7 @@ public class Register {
     } catch (Exception exception) {
     }
 
-    this.commandMap.register(cmd, (Command) command);
+    this.commandMap.register(cmd, command);
   }
 
   public void unregisterCommand(String name) {

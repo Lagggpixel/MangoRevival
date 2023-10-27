@@ -49,7 +49,7 @@ public class ClaimListeners
   private final PillarManager plm = this.main.getPillarManager();
 
   public ClaimListeners() {
-    Bukkit.getPluginManager().registerEvents(this, (Plugin) this.main);
+    Bukkit.getPluginManager().registerEvents(this, this.main);
   }
 
   private ClaimProfile getProfile(UUID id) {
@@ -247,7 +247,7 @@ public class ClaimListeners
                 profile.setLastInside(null);
               }
             }
-          }).runTaskLater((Plugin) this.main, 1L);
+          }).runTaskLater(this.main, 1L);
         }
       }
     }
@@ -278,7 +278,7 @@ public class ClaimListeners
         Faction faction = null;
         PlayerFaction playerFaction = this.fm.getFaction(p);
         if (this.main.getClaiming().containsKey(p.getUniqueId())) {
-          faction = (Faction) this.main.getClaiming().get(p.getUniqueId());
+          faction = this.main.getClaiming().get(p.getUniqueId());
         }
         if (faction != null) {
           if (e.getAction() == Action.RIGHT_CLICK_AIR) {
@@ -356,9 +356,7 @@ public class ClaimListeners
               }
 
 
-              if (this.main.getClaiming().containsKey(p.getUniqueId())) {
-                this.main.getClaiming().remove(p.getUniqueId());
-              }
+              this.main.getClaiming().remove(p.getUniqueId());
 
               Claim claim = new Claim(UUID.randomUUID().toString() + UUID.randomUUID(), faction, prof.getX1(), prof.getX2(), prof.getZ1(), prof.getZ2(), p.getWorld(), price);
               this.cm.getClaims().add(claim);
@@ -513,7 +511,7 @@ public class ClaimListeners
                 Pillar pillar = ClaimListeners.this.plm.getPillar(prof, "second");
                 pillar.sendPillar();
               }
-            }).runTaskLater((Plugin) this.main, 1L);
+            }).runTaskLater(this.main, 1L);
           }
         }
       }

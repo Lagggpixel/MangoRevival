@@ -3,10 +3,13 @@
  import java.io.File;
  import java.io.IOException;
  import java.util.HashSet;
+
+ import lombok.Getter;
  import org.bukkit.Location;
  import org.bukkit.configuration.file.YamlConfiguration;
  import me.lagggpixel.mango.factions.claims.Claim;
  
+ @Getter
  public abstract class Faction
  {
    private String name;
@@ -17,33 +20,14 @@
    
    public void setName(String name) {
      this.name = name; } public void setFile(File file) { this.file = file; } public void setConfiguration(YamlConfiguration configuration) { this.configuration = configuration; } public void setClaims(HashSet<Claim> claims) { this.claims = claims; } public void setHome(Location home) { this.home = home; }
- 
- 
- 
-   
-   public HashSet<Claim> getClaims() {
-     return this.claims; } public Location getHome() {
-     return this.home;
-   }
-   
+
+
    public Faction(String name) {
      this.name = name;
      this.claims = new HashSet<>();
    }
-   
-   public String getName() {
-     return this.name;
-   }
-   
-   public File getFile() {
-     return this.file;
-   }
-   
-   public YamlConfiguration getConfiguration() {
-     return this.configuration;
-   }
- 
-   
+
+
    public void delete() {}
    
    public boolean isPlayerFaction() {

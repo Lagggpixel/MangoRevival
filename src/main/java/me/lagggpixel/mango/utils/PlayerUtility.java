@@ -32,7 +32,7 @@ public class PlayerUtility {
       }
     }
 
-    return (inv.addItem(new ItemStack[]{is.clone()}).size() <= 0);
+    return (inv.addItem(new ItemStack[]{is.clone()}).size() == 0);
   }
 
 

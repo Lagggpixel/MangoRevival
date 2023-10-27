@@ -19,7 +19,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,12 +65,12 @@ public class HomeCommand extends FactionSubCommand implements Listener {
       }
       if (p.getWorld().getName().equalsIgnoreCase("world_nether")) {
         Warmup warmup = new Warmup(p, playerFaction1.getHome(), (new Entry("stuck", scoreboard)).setText(this.cf.getString("FACTION_HOME")).setCountdown(true).setTime(25.0D).send());
-        warmup.runTaskLater((Plugin) Mango.getInstance(), 500L);
+        warmup.runTaskLater(Mango.getInstance(), 500L);
         waiting.put(p.getName(), warmup);
         p.sendMessage(ChatColor.RED + "You will be teleported to your faction home in 25 seconds!");
       } else if (p.getWorld().getName().equalsIgnoreCase("world")) {
         Warmup warmup = new Warmup(p, playerFaction1.getHome(), (new Entry("stuck", scoreboard)).setText(this.cf.getString("FACTION_HOME")).setCountdown(true).setTime(10.0D).send());
-        warmup.runTaskLater((Plugin) Mango.getInstance(), 200L);
+        warmup.runTaskLater(Mango.getInstance(), 200L);
         waiting.put(p.getName(), warmup);
         p.sendMessage(ChatColor.RED + "You will be teleported to your faction home in 10 seconds!");
       } else {
@@ -94,8 +93,8 @@ public class HomeCommand extends FactionSubCommand implements Listener {
 
     if (from.getBlockX() != to.getBlockX() || from.getBlockY() != to.getBlockY() || from.getBlockZ() != to.getBlockZ()) {
       p.sendMessage(this.lf.getString("FACTION_TELEPORT_CANCELLED"));
-      ((Warmup) waiting.get(p.getName())).cancel();
-      ((Warmup) waiting.get(p.getName())).cancelEntry();
+      waiting.get(p.getName()).cancel();
+      waiting.get(p.getName()).cancelEntry();
       waiting.remove(p.getName());
     }
   }

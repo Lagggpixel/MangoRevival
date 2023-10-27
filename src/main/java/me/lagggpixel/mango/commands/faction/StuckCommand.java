@@ -31,7 +31,7 @@ public class StuckCommand extends FactionSubCommand implements Listener {
 
   public StuckCommand() {
     super("stuck");
-    Bukkit.getPluginManager().registerEvents(this, (Plugin) Mango.getInstance());
+    Bukkit.getPluginManager().registerEvents(this, Mango.getInstance());
   }
 
 
@@ -67,8 +67,8 @@ public class StuckCommand extends FactionSubCommand implements Listener {
   @EventHandler
   public void onMove(PlayerMoveEvent e) {
     if ((e.getFrom().getBlockX() != e.getTo().getBlockX() || e.getFrom().getBlockY() != e.getTo().getBlockY() || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) && waiting.containsKey(e.getPlayer().getName())) {
-      ((Warmup) waiting.get(e.getPlayer().getName())).cancel();
-      ((Warmup) waiting.get(e.getPlayer().getName())).cancelEntry();
+      waiting.get(e.getPlayer().getName()).cancel();
+      waiting.get(e.getPlayer().getName()).cancelEntry();
       waiting.remove(e.getPlayer().getName());
       e.getPlayer().sendMessage(this.lf.getString("FACTION_TELEPORT_CANCELLED"));
     }

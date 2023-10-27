@@ -13,14 +13,12 @@ import me.lagggpixel.mango.impl.glaedr.Glaedr;
 import me.lagggpixel.mango.listeners.ChatListeners;
 import me.lagggpixel.mango.listeners.ClaimListeners;
 import me.lagggpixel.mango.listeners.PlayerListeners;
-import me.lagggpixel.mango.utils.command.BaseCommand;
 import me.lagggpixel.mango.utils.command.Register;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -56,9 +54,9 @@ public class Mango extends JavaPlugin {
   @Getter
   private Glaedr glaedr;
   @Getter
-  private String symbol = "»";
+  private final String symbol = "»";
   @Getter
-  private List<Player> vanishedPlayers = new ArrayList<>();
+  private final List<Player> vanishedPlayers = new ArrayList<>();
 
 
   public void onEnable() {
@@ -113,7 +111,6 @@ public class Mango extends JavaPlugin {
           faction.save();
 
         } catch (IOException e) {
-
           e.printStackTrace();
 
         }
@@ -153,13 +150,9 @@ public class Mango extends JavaPlugin {
     Register register = new Register();
 
     try {
-
-      register.registerCommand("faction", (BaseCommand) new FactionCommand());
-
+      register.registerCommand("faction", new FactionCommand());
     } catch (Exception e) {
-
       e.printStackTrace();
-
     }
 
   }
@@ -182,7 +175,8 @@ public class Mango extends JavaPlugin {
 
       RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
 
-      this.chat = (Chat) rsp.getProvider();
+      assert rsp != null;
+      this.chat = rsp.getProvider();
 
       Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Mango successfully hooked into Vault and " + rsp.getProvider().getName() + "!");
 
@@ -201,15 +195,15 @@ public class Mango extends JavaPlugin {
 
       Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MANGO ERROR: VAULT DEPENDENCY NOT FOUND! PLUGIN DISABLING!");
 
-      Bukkit.getPluginManager().disablePlugin((Plugin) this);
+      Bukkit.getPluginManager().disablePlugin(this);
 
     } else {
 
       try {
 
         RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(Economy.class);
-
-        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Mango successfully hooked into Vault and " + ((Economy) economyProvider.getProvider()).getName() + "!");
+        assert economyProvider != null;
+        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Mango successfully hooked into Vault and " + economyProvider.getProvider().getName() + "!");
 
         this.economy = economyProvider.getProvider();
 

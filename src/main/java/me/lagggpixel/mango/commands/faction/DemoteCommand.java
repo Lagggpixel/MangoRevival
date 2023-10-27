@@ -19,7 +19,7 @@ public class DemoteCommand extends FactionSubCommand {
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
   public DemoteCommand() {
-    super("demote", Arrays.asList(new String[]{"unmod", "demod"}));
+    super("demote", Arrays.asList("unmod", "demod"));
   }
 
 
@@ -40,8 +40,8 @@ public class DemoteCommand extends FactionSubCommand {
       PlayerFaction playerFaction1 = playerFaction;
 
       StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < args.length; i++) {
-        sb.append(args[i]).append(" ");
+      for (String arg : args) {
+        sb.append(arg).append(" ");
       }
 
       String name = sb.toString().trim().replace(" ", "");

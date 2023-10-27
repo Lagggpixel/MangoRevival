@@ -32,7 +32,7 @@ public class PlayerListeners
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
   public PlayerListeners() {
-    Bukkit.getPluginManager().registerEvents(this, (Plugin) Mango.getInstance());
+    Bukkit.getPluginManager().registerEvents(this, Mango.getInstance());
   }
 
   @EventHandler

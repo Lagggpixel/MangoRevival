@@ -19,7 +19,7 @@ public class LeaderCommand extends FactionSubCommand {
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
   public LeaderCommand() {
-    super("leader", Arrays.asList(new String[]{"owner"}));
+    super("leader", Arrays.asList("owner"));
   }
 
 
@@ -40,8 +40,8 @@ public class LeaderCommand extends FactionSubCommand {
       PlayerFaction playerFaction1 = playerFaction;
 
       StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < args.length; i++) {
-        sb.append(args[i]).append(" ");
+      for (String arg : args) {
+        sb.append(arg).append(" ");
       }
 
       String name = sb.toString().trim().replace(" ", "");

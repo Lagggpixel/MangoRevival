@@ -1,5 +1,6 @@
 package me.lagggpixel.mango.factions.types;
 
+import lombok.Getter;
 import me.lagggpixel.mango.Mango;
 import me.lagggpixel.mango.config.ConfigFile;
 import me.lagggpixel.mango.factions.Faction;
@@ -24,21 +25,36 @@ import java.util.UUID;
 
 public class PlayerFaction
     extends Faction {
+  @Getter
   private Mango main = Mango.getInstance();
+  @Getter
   private UUID leader;
+  @Getter
   private ArrayList<UUID> officers;
+  @Getter
   private ArrayList<UUID> members;
+  @Getter
   private ArrayList<UUID> invitedPlayers;
+  @Getter
   private ConfigFile configFile = this.main.getConfigFile();
+  @Getter
   private int balance;
+  @Getter
   private int frozenInit;
+  @Getter
   private int frozenTime;
   private BigDecimal dtr;
+  @Getter
   private HashSet<PlayerFaction> allies;
+  @Getter
   private HashSet<PlayerFaction> requestedAllies;
+  @Getter
   private YamlConfiguration config = getConfiguration();
+  @Getter
   private List<UUID> allyChat;
+  @Getter
   private List<UUID> factionChat;
+  @Getter
   private boolean deleted = false;
 
   public PlayerFaction(String name, UUID leader) {
@@ -58,120 +74,63 @@ public class PlayerFaction
     checkDTR();
   }
 
-  public Mango getMain() {
-    return this.main;
-  }
-
   public void setMain(Mango main) {
     this.main = main;
-  }
-
-  public ConfigFile getConfigFile() {
-    return this.configFile;
   }
 
   public void setConfigFile(ConfigFile configFile) {
     this.configFile = configFile;
   }
 
-  public UUID getLeader() {
-    return this.leader;
-  }
-
   public void setLeader(UUID leader) {
     this.leader = leader;
-  }
-
-  public ArrayList<UUID> getOfficers() {
-    return this.officers;
   }
 
   public void setOfficers(ArrayList<UUID> officers) {
     this.officers = officers;
   }
 
-  public ArrayList<UUID> getMembers() {
-    return this.members;
-  }
-
   public void setMembers(ArrayList<UUID> members) {
     this.members = members;
-  }
-
-  public int getBalance() {
-    return this.balance;
   }
 
   public void setBalance(int balance) {
     this.balance = balance;
   }
 
-  public int getFrozenInit() {
-    return this.frozenInit;
-  }
-
   public void setFrozenInit(int frozenInit) {
     this.frozenInit = frozenInit;
-  }
-
-  public int getFrozenTime() {
-    return this.frozenTime;
   }
 
   public void setFrozenTime(int frozenTime) {
     this.frozenTime = frozenTime;
   }
 
-  public File getFile() {
-    return this.file;
-  }
-
   public void setFile(File file) {
     this.file = file;
   }
 
-  public HashSet<PlayerFaction> getAllies() {
-    return this.allies;
-  }  private File file = getFile();
+  @Getter
+  private File file = getFile();
 
   public void setAllies(HashSet<PlayerFaction> allies) {
     this.allies = allies;
-  }
-
-  public HashSet<PlayerFaction> getRequestedAllies() {
-    return this.requestedAllies;
   }
 
   public void setRequestedAllies(HashSet<PlayerFaction> requestedAllies) {
     this.requestedAllies = requestedAllies;
   }
 
-  public YamlConfiguration getConfig() {
-    return this.config;
-  }
-
   public void setConfig(YamlConfiguration config) {
     this.config = config;
-  }
-
-  public List<UUID> getAllyChat() {
-    return this.allyChat;
   }
 
   public void setAllyChat(List<UUID> allyChat) {
     this.allyChat = allyChat;
   }
 
-  public List<UUID> getFactionChat() {
-    return this.factionChat;
-  }
-
   public void setFactionChat(List<UUID> factionChat) {
     this.factionChat = factionChat;
-  }
-
-  public boolean isDeleted() {
-    return this.deleted;
   }
 
   public void setDeleted(boolean deleted) {
@@ -218,26 +177,22 @@ public class PlayerFaction
     this.config.set("members", mems);
     this.config.set("allies", als);
     this.config.set("invited_players", invs);
-    this.config.set("dtr", Double.valueOf(this.dtr.doubleValue()));
-    this.config.set("balance", Integer.valueOf(this.balance));
-    this.config.set("frozeninit", Integer.valueOf(this.frozenInit));
-    this.config.set("frozentime", Integer.valueOf(this.frozenTime));
+    this.config.set("dtr", this.dtr.doubleValue());
+    this.config.set("balance", this.balance);
+    this.config.set("frozeninit", this.frozenInit);
+    this.config.set("frozentime", this.frozenTime);
     for (Claim claim : getClaims()) {
-      this.config.set("claims." + claim.getId() + ".x1", Integer.valueOf(claim.getX1()));
-      this.config.set("claims." + claim.getId() + ".x2", Integer.valueOf(claim.getX2()));
-      this.config.set("claims." + claim.getId() + ".z1", Integer.valueOf(claim.getZ1()));
-      this.config.set("claims." + claim.getId() + ".z2", Integer.valueOf(claim.getZ2()));
+      this.config.set("claims." + claim.getId() + ".x1", claim.getX1());
+      this.config.set("claims." + claim.getId() + ".x2", claim.getX2());
+      this.config.set("claims." + claim.getId() + ".z1", claim.getZ1());
+      this.config.set("claims." + claim.getId() + ".z2", claim.getZ2());
       this.config.set("claims." + claim.getId() + ".world", claim.getWorld().getName());
-      this.config.set("claims." + claim.getId() + ".value", Integer.valueOf(claim.getValue()));
+      this.config.set("claims." + claim.getId() + ".value", claim.getValue());
     }
     if (getHome() != null) {
       this.config.set("home", LocationSerialization.serializeLocation(getHome()));
     }
     this.config.save(this.file);
-  }
-
-  public ArrayList<UUID> getInvitedPlayers() {
-    return this.invitedPlayers;
   }
 
   public void setInvitedPlayers(ArrayList<UUID> invitedPlayers) {
@@ -329,10 +284,7 @@ public class PlayerFaction
     for (int i = 0; i < getPlayers().size(); i++) {
       currentDtr = currentDtr.add(BigDecimal.valueOf(perPlayer));
     }
-    if (currentDtr.doubleValue() > this.configFile.getDouble("MAX_DTR")) {
-      return this.configFile.getDouble("MAX_DTR");
-    }
-    return currentDtr.doubleValue();
+    return Math.min(currentDtr.doubleValue(), this.configFile.getDouble("MAX_DTR"));
   }
 
   public int[] getFreezeLength() {
@@ -415,7 +367,7 @@ public class PlayerFaction
           }
         }
       }
-    }).runTaskTimerAsynchronously((Plugin) this.main, 20L, 20L);
+    }).runTaskTimerAsynchronously(this.main, 20L, 20L);
   }
 
   public void unfreeze() {

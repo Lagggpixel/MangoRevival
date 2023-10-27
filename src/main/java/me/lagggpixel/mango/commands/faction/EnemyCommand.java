@@ -18,7 +18,7 @@ public class EnemyCommand extends FactionSubCommand {
   private final ConfigFile cf = this.main.getConfigFile();
 
   public EnemyCommand() {
-    super("enemy", Arrays.asList(new String[]{"unally"}));
+    super("enemy", Arrays.asList("unally"));
   }
 
 
@@ -32,8 +32,8 @@ public class EnemyCommand extends FactionSubCommand {
         PlayerFaction faction = this.fm.getFaction(p);
         if (faction.getOfficers().contains(p.getUniqueId()) || faction.isLeader(p.getUniqueId()) || p.hasPermission(this.cf.getString("ROOT_NODE") + ".enemy")) {
           StringBuilder sb = new StringBuilder();
-          for (int i = 0; i < args.length; i++) {
-            sb.append(args[i]).append(" ");
+          for (String arg : args) {
+            sb.append(arg).append(" ");
           }
           String name = sb.toString().trim().replace(" ", "");
 

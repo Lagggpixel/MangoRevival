@@ -36,7 +36,7 @@ public class LanguageFile {
       }
       return strings;
     }
-    return Arrays.asList(new String[]{"ERROR: STRING LIST NOT FOUND!"});
+    return Arrays.asList("ERROR: STRING LIST NOT FOUND!");
   }
 }
 

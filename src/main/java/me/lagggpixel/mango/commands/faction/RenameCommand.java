@@ -19,7 +19,7 @@ public class RenameCommand extends FactionSubCommand {
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
   public RenameCommand() {
-    super("rename", Arrays.asList(new String[]{"tag"}));
+    super("rename", Arrays.asList("tag"));
   }
 
 
@@ -37,8 +37,8 @@ public class RenameCommand extends FactionSubCommand {
       return;
     }
     StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < args.length; i++) {
-      sb.append(args[i]).append(" ");
+    for (String arg : args) {
+      sb.append(arg).append(" ");
     }
     String name = sb.toString().trim().replace(" ", "");
 

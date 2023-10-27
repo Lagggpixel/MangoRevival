@@ -21,7 +21,7 @@ public class DepositCommand extends FactionSubCommand {
   private final Economy econ = Mango.getInstance().getEconomy();
 
   public DepositCommand() {
-    super("deposit", Arrays.asList(new String[]{"d"}));
+    super("deposit", Arrays.asList("d"));
   }
 
 
@@ -43,7 +43,7 @@ public class DepositCommand extends FactionSubCommand {
       if (!NumberUtils.isNumber(args[0])) {
         if (args[0].equalsIgnoreCase("all")) {
 
-          int balance = (int) this.econ.getBalance((OfflinePlayer) p);
+          int balance = (int) this.econ.getBalance(p);
 
           if (balance <= 0) {
             p.sendMessage(this.lf.getString("FACTION_INVALID_ECONOMY_AMOUNT"));
@@ -52,25 +52,25 @@ public class DepositCommand extends FactionSubCommand {
           }
           faction.setBalance(faction.getBalance() + balance);
           faction.sendMessage(this.lf.getString("FACTION_MONEY_DEPOSITED").replace("{player}", p.getName()).replace("{amount}", balance + ""));
-          this.econ.withdrawPlayer((OfflinePlayer) p, this.econ.getBalance((OfflinePlayer) p));
+          this.econ.withdrawPlayer(p, this.econ.getBalance(p));
           return;
         }
         p.sendMessage(this.lf.getString("FACTION_INVALID_ECONOMY_AMOUNT"));
 
         return;
       }
-      int amount = Integer.valueOf(args[0]).intValue();
+      int amount = Integer.valueOf(args[0]);
       if (amount <= 0) {
         p.sendMessage(this.lf.getString("FACTION_INVALID_ECONOMY_AMOUNT"));
 
         return;
       }
-      if (this.econ.getBalance((OfflinePlayer) p) < amount) {
+      if (this.econ.getBalance(p) < amount) {
         p.sendMessage(this.lf.getString("FACTION_NOT_ENOUGH_ECONOMY"));
 
         return;
       }
-      this.econ.withdrawPlayer((OfflinePlayer) p, amount);
+      this.econ.withdrawPlayer(p, amount);
       faction.setBalance(faction.getBalance() + amount);
       faction.sendMessage(this.lf.getString("FACTION_MONEY_DEPOSITED").replace("{player}", p.getName()).replace("{amount}", amount + ""));
     }

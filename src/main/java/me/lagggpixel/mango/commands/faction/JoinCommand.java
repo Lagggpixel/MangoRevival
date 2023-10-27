@@ -17,7 +17,7 @@ public class JoinCommand extends FactionSubCommand {
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
   public JoinCommand() {
-    super("join", Arrays.asList(new String[]{"accept"}));
+    super("join", Arrays.asList("accept"));
   }
 
 
@@ -30,8 +30,8 @@ public class JoinCommand extends FactionSubCommand {
         return;
       }
       StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < args.length; i++) {
-        sb.append(args[i]).append(" ");
+      for (String arg : args) {
+        sb.append(arg).append(" ");
       }
       String name = sb.toString().trim().replace(" ", "");
 

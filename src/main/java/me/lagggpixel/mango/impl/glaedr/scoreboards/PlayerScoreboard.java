@@ -91,7 +91,7 @@ public class PlayerScoreboard {
         colorText = colorText + ChatColor.getLastColors(sub);
       }
 
-      if (!keys.values().contains(colorText)) {
+      if (!keys.containsValue(colorText)) {
         keys.put(entry, colorText);
         return colorText;
       }
@@ -116,14 +116,14 @@ public class PlayerScoreboard {
 
     for (int i = start; i > goal; i--) {
       if (!(scores.containsKey(entry))) {
-        if (!(scores.values().contains(i))) {
+        if (!(scores.containsValue(i))) {
           scores.put(entry, i);
           return i;
         }
       } else {
         int score = scores.get(entry);
         for (int toSub = 0; toSub < start; toSub++) {
-          if (i - toSub > score && !scores.values().contains(i - toSub)) {
+          if (i - toSub > score && !scores.containsValue(i - toSub)) {
             scores.put(entry, i - toSub);
             return i - toSub;
           }

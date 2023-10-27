@@ -21,7 +21,7 @@ public class WithdrawCommand extends FactionSubCommand {
   private final Economy econ = Mango.getInstance().getEconomy();
 
   public WithdrawCommand() {
-    super("withdraw", Arrays.asList(new String[]{"w"}));
+    super("withdraw", Arrays.asList("w"));
   }
 
 
@@ -54,7 +54,7 @@ public class WithdrawCommand extends FactionSubCommand {
             return;
           }
           faction.sendMessage(this.lf.getString("FACTION_MONEY_WITHDRAWN").replace("{player}", p.getName()).replace("{amount}", faction.getBalance() + ""));
-          this.econ.depositPlayer((OfflinePlayer) p, faction.getBalance());
+          this.econ.depositPlayer(p, faction.getBalance());
           faction.setBalance(0);
           return;
         }
@@ -62,7 +62,7 @@ public class WithdrawCommand extends FactionSubCommand {
 
         return;
       }
-      int amount = Integer.valueOf(args[0]).intValue();
+      int amount = Integer.valueOf(args[0]);
       if (amount <= 0) {
         p.sendMessage(this.lf.getString("FACTION_INVALID_ECONOMY_AMOUNT"));
 
@@ -73,7 +73,7 @@ public class WithdrawCommand extends FactionSubCommand {
 
         return;
       }
-      this.econ.depositPlayer((OfflinePlayer) p, amount);
+      this.econ.depositPlayer(p, amount);
       faction.sendMessage(this.lf.getString("FACTION_MONEY_WITHDRAWN").replace("{player}", p.getName()).replace("{amount}", amount + ""));
       faction.setBalance(faction.getBalance() - amount);
     }

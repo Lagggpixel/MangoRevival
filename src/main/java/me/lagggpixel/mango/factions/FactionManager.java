@@ -1,5 +1,6 @@
 package me.lagggpixel.mango.factions;
 
+import lombok.Getter;
 import me.lagggpixel.mango.Mango;
 import me.lagggpixel.mango.factions.claims.Claim;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
@@ -16,13 +17,10 @@ import java.math.BigDecimal;
 import java.util.*;
 
 
+@Getter
 public class FactionManager {
   private final HashSet<Faction> factions = new HashSet<>();
 
-
-  public HashSet<Faction> getFactions() {
-    return this.factions;
-  }
 
   public void load() throws NullPointerException {
     File systemFactions = new File(Mango.getInstance().getDataFolder(), "systemfactions");
@@ -58,7 +56,7 @@ public class FactionManager {
             int z2 = config.getInt("claims." + c + ".z2");
             int value = config.getInt("claims." + c + ".value");
             World world = Bukkit.getWorld(config.getString("claims." + c + ".world"));
-            Claim claim = new Claim(c, (Faction) faction, x1, x2, z1, z2, world, value);
+            Claim claim = new Claim(c, faction, x1, x2, z1, z2, world, value);
             if (!claim.isGlitched()) {
               Mango.getInstance().getClaimManager().getClaims().add(claim);
               faction.getClaims().add(claim);
@@ -146,7 +144,7 @@ public class FactionManager {
             int z2 = config.getInt("claims." + c + ".z2");
             int value = config.getInt("claims." + c + ".value");
             World world = Bukkit.getWorld(config.getString("claims." + c + ".world"));
-            Claim claim = new Claim(c, (Faction) faction, x1, x2, z1, z2, world, value);
+            Claim claim = new Claim(c, faction, x1, x2, z1, z2, world, value);
             if (!claim.isGlitched()) {
               Mango.getInstance().getClaimManager().getClaims().add(claim);
               faction.getClaims().add(claim);
@@ -163,13 +161,7 @@ public class FactionManager {
   }
 
   public void checkFactions() {
-    Iterator<Claim> claims = Mango.getInstance().getClaimManager().getClaims().iterator();
-    while (claims.hasNext()) {
-      Claim claim = claims.next();
-      if (getFactionByName(claim.getOwner().getName()) == null) {
-        claims.remove();
-      }
-    }
+    Mango.getInstance().getClaimManager().getClaims().removeIf(claim -> getFactionByName(claim.getOwner().getName()) == null);
   }
 
   public void checkDoubles() {

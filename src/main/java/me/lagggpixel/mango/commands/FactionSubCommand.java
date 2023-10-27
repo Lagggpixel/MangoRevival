@@ -1,5 +1,6 @@
 package me.lagggpixel.mango.commands;
 
+import lombok.Getter;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedList;
@@ -7,10 +8,12 @@ import java.util.List;
 
 
 public abstract class FactionSubCommand {
-  String name;
-  boolean leader;
-  boolean leaderOnly;
-  List<String> aliases;
+  @Getter
+  final String name;
+  final boolean leader;
+  final boolean leaderOnly;
+  @Getter
+  final List<String> aliases;
 
   public FactionSubCommand(String name, boolean leader, List<String> aliases, boolean leaderOnly) {
     this.name = name;
@@ -29,14 +32,6 @@ public abstract class FactionSubCommand {
 
   public FactionSubCommand(String name) {
     this(name, false, new LinkedList<>(), false);
-  }
-
-  public String getName() {
-    return this.name;
-  }
-
-  public List<String> getAliases() {
-    return this.aliases;
   }
 
   public abstract void execute(Player paramPlayer, String[] paramArrayOfString);

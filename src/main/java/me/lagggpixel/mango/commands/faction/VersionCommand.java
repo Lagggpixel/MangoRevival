@@ -17,7 +17,7 @@ public class VersionCommand extends FactionSubCommand {
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
   public VersionCommand() {
-    super("version", Arrays.asList(new String[]{"ver"}));
+    super("version", Arrays.asList("ver"));
   }
 
 

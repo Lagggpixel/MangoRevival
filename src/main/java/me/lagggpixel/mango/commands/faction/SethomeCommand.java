@@ -19,7 +19,7 @@ public class SethomeCommand extends FactionSubCommand {
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
   public SethomeCommand() {
-    super("sethome", Arrays.asList(new String[]{"addhome"}));
+    super("sethome", Arrays.asList("addhome"));
   }
 
 

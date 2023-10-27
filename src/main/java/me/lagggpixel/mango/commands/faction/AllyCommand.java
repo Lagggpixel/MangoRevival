@@ -7,7 +7,6 @@ import me.lagggpixel.mango.config.LanguageFile;
 import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 
@@ -28,12 +27,12 @@ public class AllyCommand extends FactionSubCommand {
         p.sendMessage(this.lf.getString("FACTION_NOT_IN"));
         return;
       }
-      if (this.fm.getFaction(p) instanceof PlayerFaction) {
+      if (this.fm.getFaction(p) != null) {
         final PlayerFaction faction = this.fm.getFaction(p);
         if (faction.getOfficers().contains(p.getUniqueId()) || faction.isLeader(p.getUniqueId()) || p.hasPermission(this.cf.getString("ROOT_NODE") + ".ally")) {
           StringBuilder sb = new StringBuilder();
-          for (int i = 0; i < args.length; i++) {
-            sb.append(args[i]).append(" ");
+          for (String arg : args) {
+            sb.append(arg).append(" ");
           }
           String name = sb.toString().trim().replace(" ", "");
 
@@ -78,11 +77,9 @@ public class AllyCommand extends FactionSubCommand {
 
             (new BukkitRunnable() {
               public void run() {
-                if (faction.getRequestedAllies().contains(allyFaction)) {
-                  faction.getRequestedAllies().remove(allyFaction);
-                }
+                faction.getRequestedAllies().remove(allyFaction);
               }
-            }).runTaskLater((Plugin) this.main, (long) (this.cf.getDouble("ALLY_REQUEST_TIMEOUT") * 20.0D));
+            }).runTaskLater(this.main, (long) (this.cf.getDouble("ALLY_REQUEST_TIMEOUT") * 20.0D));
           }
 
 
@@ -115,11 +112,9 @@ public class AllyCommand extends FactionSubCommand {
 
             (new BukkitRunnable() {
               public void run() {
-                if (faction.getRequestedAllies().contains(allyFaction)) {
-                  faction.getRequestedAllies().remove(allyFaction);
-                }
+                faction.getRequestedAllies().remove(allyFaction);
               }
-            }).runTaskLater((Plugin) this.main, (long) (this.cf.getDouble("ALLY_REQUEST_TIMEOUT") * 20.0D));
+            }).runTaskLater(this.main, (long) (this.cf.getDouble("ALLY_REQUEST_TIMEOUT") * 20.0D));
 
           }
 

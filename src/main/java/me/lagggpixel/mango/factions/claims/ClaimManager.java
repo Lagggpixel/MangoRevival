@@ -1,6 +1,7 @@
 package me.lagggpixel.mango.factions.claims;
 
 
+import lombok.Getter;
 import me.lagggpixel.mango.Mango;
 import me.lagggpixel.mango.config.ConfigFile;
 import me.lagggpixel.mango.config.LanguageFile;
@@ -15,17 +16,11 @@ import java.util.HashSet;
 
 
 public class ClaimManager {
+  @Getter
   private final HashSet<Claim> claims = new HashSet<>();
   private final LanguageFile lf = Mango.getInstance().getLanguageFile();
   private final ConfigFile cf = Mango.getInstance().getConfigFile();
   private final FactionManager fm = Mango.getInstance().getFactionManager();
-
-
-  public HashSet<Claim> getClaims() {
-
-    return this.claims;
-
-  }
 
 
   public Claim getClaimAt(Location location) {

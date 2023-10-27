@@ -26,8 +26,8 @@ public class SetFactionHomeCommand extends FactionSubCommand {
     if (p.hasPermission(this.cf.getString("ROOT_NODE") + ".setfactionhome")) {
       if (args.length >= 1) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < args.length; i++) {
-          sb.append(args[i]).append(" ");
+        for (String arg : args) {
+          sb.append(arg).append(" ");
         }
         String name = sb.toString().trim().replace(" ", "");
         Faction faction = this.fm.getFactionByName(name);

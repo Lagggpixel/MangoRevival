@@ -19,7 +19,7 @@ public class ListCommand extends FactionSubCommand {
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
   public ListCommand() {
-    super("list", Arrays.asList(new String[]{"factions", "online"}));
+    super("list", Arrays.asList("factions", "online"));
   }
 
 
@@ -30,13 +30,13 @@ public class ListCommand extends FactionSubCommand {
       }
       return;
     }
-    String stringNumber = StringUtils.join((Object[]) args, ' ', 0, args.length);
+    String stringNumber = StringUtils.join(args, ' ', 0, args.length);
     if (!NumberUtils.isNumber(stringNumber)) {
       for (String list : getFactionList(1)) {
         p.sendMessage(list);
       }
     } else {
-      for (String list : getFactionList(Integer.valueOf(stringNumber).intValue())) {
+      for (String list : getFactionList(Integer.parseInt(stringNumber))) {
         p.sendMessage(list);
       }
     }
@@ -49,20 +49,16 @@ public class ListCommand extends FactionSubCommand {
 
     for (Faction faction : this.fm.getFactions()) {
       if (faction instanceof PlayerFaction) {
-        factions.put(faction.getName(), Integer.valueOf(((PlayerFaction) faction).getOnlinePlayers().size()));
+        factions.put(faction.getName(), ((PlayerFaction) faction).getOnlinePlayers().size());
       }
     }
 
     List<String> sorted = new ArrayList<>(factions.keySet());
 
-    Collections.sort(sorted, new Comparator<String>() {
-      public int compare(String s1, String s2) {
-        return ((Integer) factions.get(s2)).compareTo((Integer) factions.get(s1));
-      }
-    });
+    sorted.sort((s1, s2) -> ((Integer) factions.get(s2)).compareTo((Integer) factions.get(s1)));
 
     if (sorted.size() < page) {
-      return Arrays.asList(new String[]{this.lf.getString("FACTION_LIST_EMPTY")});
+      return Arrays.asList(this.lf.getString("FACTION_LIST_EMPTY"));
     }
 
     for (int i = page * 10 - 10; i < page * 10; i++) {

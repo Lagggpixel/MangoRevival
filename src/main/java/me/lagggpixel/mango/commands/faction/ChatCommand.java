@@ -12,9 +12,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.plugin.Plugin;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 
 public class ChatCommand extends FactionSubCommand implements Listener {
@@ -23,8 +23,8 @@ public class ChatCommand extends FactionSubCommand implements Listener {
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
   public ChatCommand() {
-    super("chat", Arrays.asList(new String[]{"c"}));
-    Bukkit.getPluginManager().registerEvents(this, (Plugin) Mango.getInstance());
+    super("chat", Collections.singletonList("c"));
+    Bukkit.getPluginManager().registerEvents(this, Mango.getInstance());
   }
 
 
@@ -81,7 +81,7 @@ public class ChatCommand extends FactionSubCommand implements Listener {
   @EventHandler
   public void onChat(AsyncPlayerChatEvent e) {
     Player p = e.getPlayer();
-    if (this.fm.getFaction(p) != null && this.fm.getFaction(p) instanceof PlayerFaction) {
+    if (this.fm.getFaction(p) != null && this.fm.getFaction(p) != null) {
       PlayerFaction faction = this.fm.getFaction(p);
       if (faction.getAllyChat().contains(p.getUniqueId())) {
         e.setCancelled(true);

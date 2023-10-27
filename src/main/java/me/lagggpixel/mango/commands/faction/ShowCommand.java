@@ -25,7 +25,7 @@ public class ShowCommand extends FactionSubCommand {
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
   public ShowCommand() {
-    super("show", Arrays.asList(new String[]{"who"}));
+    super("show", Arrays.asList("who"));
   }
 
 
@@ -34,7 +34,7 @@ public class ShowCommand extends FactionSubCommand {
       if (this.fm.getFaction(p) == null) {
         p.sendMessage(this.lf.getString("FACTION_NOT_IN"));
       } else {
-        for (String msg : getInformation((Faction) this.fm.getFaction(p))) {
+        for (String msg : getInformation(this.fm.getFaction(p))) {
           p.sendMessage(msg);
         }
       }
@@ -42,8 +42,8 @@ public class ShowCommand extends FactionSubCommand {
     }
     if (args.length >= 1) {
       StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < args.length; i++) {
-        sb.append(args[i]).append(" ");
+      for (String arg : args) {
+        sb.append(arg).append(" ");
       }
       String name = sb.toString().trim().replace(" ", "");
 
@@ -70,8 +70,8 @@ public class ShowCommand extends FactionSubCommand {
         msg = msg.replace("{online}", ((PlayerFaction) faction).getOnlinePlayers().size() + "");
         msg = msg.replace("{total}", ((PlayerFaction) faction).getIDs().size() + "");
 
-        if (((PlayerFaction) faction).getHome() != null) {
-          msg = msg.replace("{home-coords}", ((PlayerFaction) faction).getHome().getBlockX() + ", " + ((PlayerFaction) faction).getHome().getBlockZ());
+        if (faction.getHome() != null) {
+          msg = msg.replace("{home-coords}", faction.getHome().getBlockX() + ", " + faction.getHome().getBlockZ());
         } else {
           msg = msg.replace("{home-coords}", "None");
         }
@@ -182,7 +182,7 @@ public class ShowCommand extends FactionSubCommand {
     List<String> information = new ArrayList<>();
     for (String msg : this.lf.getStringList("SYSTEM_SHOW")) {
       if (systemFaction.getHome() != null) {
-        msg = msg.replace("{home-coords}", ((SystemFaction) faction).getHome().getBlockX() + ", " + ((SystemFaction) faction).getHome().getBlockZ());
+        msg = msg.replace("{home-coords}", faction.getHome().getBlockX() + ", " + faction.getHome().getBlockZ());
       } else {
         msg = msg.replace("{home-coords}", "None");
       }

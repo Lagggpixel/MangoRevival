@@ -19,7 +19,7 @@ public class OfficerCommand extends FactionSubCommand {
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
   public OfficerCommand() {
-    super("officer", Arrays.asList(new String[]{"mod", "promote"}));
+    super("officer", Arrays.asList("mod", "promote"));
   }
 
 
@@ -40,8 +40,8 @@ public class OfficerCommand extends FactionSubCommand {
       PlayerFaction playerFaction1 = playerFaction;
 
       StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < args.length; i++) {
-        sb.append(args[i]).append(" ");
+      for (String arg : args) {
+        sb.append(arg).append(" ");
       }
 
       String name = sb.toString().trim().replace(" ", "");

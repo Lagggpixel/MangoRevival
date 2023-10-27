@@ -38,7 +38,7 @@ public class ClaimFactionCommand extends FactionSubCommand {
         }
         p.sendMessage(this.lf.getString("FACTION_CLAIM_OTHER").replace("{faction}", faction.getName()));
         p.getInventory().remove(this.cm.getWand());
-        p.getInventory().addItem(new ItemStack[]{this.cm.getWand()});
+        p.getInventory().addItem(this.cm.getWand());
 
         Mango.getInstance().getClaiming().put(p.getUniqueId(), faction);
       } else {

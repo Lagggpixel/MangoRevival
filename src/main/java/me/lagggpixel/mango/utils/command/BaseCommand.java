@@ -1,5 +1,6 @@
 package me.lagggpixel.mango.utils.command;
 
+import lombok.Getter;
 import me.lagggpixel.mango.utils.MessageManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -11,10 +12,15 @@ import java.util.List;
 
 public abstract class BaseCommand
     implements TabExecutor {
-  String name;
-  String permission;
-  CommandUsageBy commandUsage;
-  String[] aliases;
+  @Getter
+  final String name;
+  @Getter
+  final String permission;
+  @Getter
+  final CommandUsageBy commandUsage;
+  @Getter
+  final String[] aliases;
+  @Getter
   String usage;
   int maxArgs;
   int minArgs;
@@ -73,26 +79,6 @@ public abstract class BaseCommand
 
   public List<String> tabComplete(String[] args, CommandSender sender) {
     return new ArrayList<>();
-  }
-
-  public String getName() {
-    return this.name;
-  }
-
-  public CommandUsageBy getCommandUsage() {
-    return this.commandUsage;
-  }
-
-  public String getPermission() {
-    return this.permission;
-  }
-
-  public String[] getAliases() {
-    return this.aliases;
-  }
-
-  public String getUsage() {
-    return this.usage;
   }
 
   public void setUsage(String usage) {

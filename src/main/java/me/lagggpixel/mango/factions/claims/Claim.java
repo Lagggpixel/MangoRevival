@@ -1,6 +1,7 @@
 package me.lagggpixel.mango.factions.claims;
 
 
+import lombok.Getter;
 import me.lagggpixel.mango.Mango;
 import me.lagggpixel.mango.config.ConfigFile;
 import me.lagggpixel.mango.config.LanguageFile;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 
+@Getter
 public class Claim {
 
 
@@ -69,26 +71,14 @@ public class Claim {
 
   }
 
-  public LanguageFile getLf() {
-    return this.lf;
-  }
-
 
   public void setLf(LanguageFile lf) {
 
     this.lf = lf;
   }
 
-  public ConfigFile getCf() {
-    return this.cf;
-  }
-
   public void setCf(ConfigFile cf) {
     this.cf = cf;
-  }
-
-  public FactionManager getFm() {
-    return this.fm;
   }
 
   public void setFm(FactionManager fm) {
@@ -96,40 +86,20 @@ public class Claim {
   }
 
 
-  public int getX1() {
-    return this.x1;
-  }
-
   public void setX1(int x1) {
     this.x1 = x1;
-  }
-
-  public int getX2() {
-    return this.x2;
   }
 
   public void setX2(int x2) {
     this.x2 = x2;
   }
 
-  public int getZ1() {
-    return this.z1;
-  }
-
   public void setZ1(int z1) {
     this.z1 = z1;
   }
 
-  public int getZ2() {
-    return this.z2;
-  }
-
   public void setZ2(int z2) {
     this.z2 = z2;
-  }
-
-  public int getValue() {
-    return this.value;
   }
 
   public void setValue(int value) {
@@ -137,41 +107,21 @@ public class Claim {
   }
 
 
-  public World getWorld() {
-    return this.world;
-  }
-
   public void setWorld(World world) {
     this.world = world;
   }
 
 
-  public Location getCornerOne() {
-    return this.cornerOne;
-  }
-
   public void setCornerOne(Location cornerOne) {
     this.cornerOne = cornerOne;
-  }
-
-  public Location getCornerTwo() {
-    return this.cornerTwo;
   }
 
   public void setCornerTwo(Location cornerTwo) {
     this.cornerTwo = cornerTwo;
   }
 
-  public Location getCornerThree() {
-    return this.cornerThree;
-  }
-
   public void setCornerThree(Location cornerThree) {
     this.cornerThree = cornerThree;
-  }
-
-  public Location getCornerFour() {
-    return this.cornerFour;
   }
 
   public void setCornerFour(Location cornerFour) {
@@ -179,27 +129,13 @@ public class Claim {
   }
 
 
-  public Faction getOwner() {
-    return this.owner;
-  }
-
   public void setOwner(Faction owner) {
     this.owner = owner;
   }
 
 
-  public List<UUID> getPlayers() {
-    return this.players;
-  }
-
   public void setPlayers(List<UUID> players) {
     this.players = players;
-  }
-
-  public String getId() {
-
-    return this.id;
-
   }
 
   public void setId(String id) {

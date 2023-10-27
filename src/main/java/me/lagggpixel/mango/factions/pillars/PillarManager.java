@@ -1,11 +1,13 @@
 package me.lagggpixel.mango.factions.pillars;
 
+import lombok.Getter;
 import me.lagggpixel.mango.factions.claims.ClaimProfile;
 
 import java.util.HashSet;
 import java.util.Iterator;
 
 
+@Getter
 public class PillarManager {
   private final HashSet<Pillar> pillars = new HashSet<>();
 
@@ -22,15 +24,12 @@ public class PillarManager {
 
   public void removeAll() {
     for (Iterator<Pillar> pillars = getPillars().iterator(); pillars.hasNext(); ) {
-      ((Pillar) pillars.next()).removePillar();
+      pillars.next().removePillar();
       pillars.remove();
     }
   }
 
 
-  public HashSet<Pillar> getPillars() {
-    return this.pillars;
-  }
 }
 
 

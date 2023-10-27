@@ -19,13 +19,13 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 public class FactionCommand extends BaseCommand {
-  List<String> list = Arrays.asList(new String[]{"help", "create", "show", "disband", "ally", "enemy", "invite", "join", "accept", "c", "chat", "deposit", "withdraw", "version", "ver", "msg", "message", "leader", "owner", "mod", "officer", "promote", "demote", "unmod", "demod", "tag", "rename", "sethome", "broadcast", "sethome", "list", "online", "factions", "home", "h", "stuck", "uninvite", "deinvite", "claim", "unclaim", "map", "createsystem", "disbandfaction", "renamefaction", "claimfaction", "color", "setfactionhome", "deathban", "thaw", "freeze", "setdtr", "unclaimall", "save"});
+  final List<String> list = Arrays.asList("help", "create", "show", "disband", "ally", "enemy", "invite", "join", "accept", "c", "chat", "deposit", "withdraw", "version", "ver", "msg", "message", "leader", "owner", "mod", "officer", "promote", "demote", "unmod", "demod", "tag", "rename", "sethome", "broadcast", "sethome", "list", "online", "factions", "home", "h", "stuck", "uninvite", "deinvite", "claim", "unclaim", "map", "createsystem", "disbandfaction", "renamefaction", "claimfaction", "color", "setfactionhome", "deathban", "thaw", "freeze", "setdtr", "unclaimall", "save");
   private final List<FactionSubCommand> commands = new LinkedList<>();
   private final FactionManager fm = Mango.getInstance().getFactionManager();
   private final LanguageFile lf = Mango.getInstance().getLanguageFile();
 
   public FactionCommand() {
-    super("faction", null, CommandUsageBy.PlAYER, new String[]{"f"});
+    super("faction", null, CommandUsageBy.PlAYER, "f");
     setMinArgs(0);
     setMaxArgs(3);
 
