@@ -63,7 +63,6 @@ me\lagggpixel\mango\utils\command\BaseCommandAnn.class
 me\lagggpixel\mango\commands\faction\WithdrawCommand.class
 me\lagggpixel\mango\commands\faction\UninviteCommand.class
 me\lagggpixel\mango\impl\glaedr\scoreboards\PlayerScoreboard.class
-me\lagggpixel\mango\commands\faction\ListCommand$1.class
 me\lagggpixel\mango\commands\faction\KickCommand.class
 me\lagggpixel\mango\impl\glaedr\events\EntryTickEvent.class
 me\lagggpixel\mango\utils\PlayerUtility.class
