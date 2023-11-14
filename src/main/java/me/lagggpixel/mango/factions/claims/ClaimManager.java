@@ -76,16 +76,9 @@ public class ClaimManager {
 
   public boolean isWand(ItemStack stack) {
 
-    if (stack != null && stack.getType() == getWand().getType() &&
-        stack.getItemMeta() != null && stack.getItemMeta().getDisplayName() != null && stack.getItemMeta().getDisplayName().equalsIgnoreCase(getWand().getItemMeta().getDisplayName()) &&
-        stack.getItemMeta().getLore() != null) {
-
-      return true;
-
-    }
-
-
-    return false;
+      return stack != null && stack.getType() == getWand().getType() && getWand().getItemMeta() != null &&
+              stack.getItemMeta() != null && stack.getItemMeta().hasDisplayName() && stack.getItemMeta().getDisplayName().equalsIgnoreCase(getWand().getItemMeta().getDisplayName()) &&
+              stack.getItemMeta().getLore() != null;
 
   }
 
