@@ -44,15 +44,8 @@ public class ClaimManager {
 
     Claim claim = getClaimAt(location);
 
-    if (claim != null && claim.getOwner() instanceof SystemFaction &&
-        !((SystemFaction) claim.getOwner()).isDeathbanBoolean()) {
-
-      return true;
-
-    }
-
-
-    return false;
+    return claim != null && claim.getOwner() instanceof SystemFaction &&
+        !((SystemFaction) claim.getOwner()).isDeathbanBoolean();
 
   }
 
@@ -76,9 +69,9 @@ public class ClaimManager {
 
   public boolean isWand(ItemStack stack) {
 
-      return stack != null && stack.getType() == getWand().getType() && getWand().getItemMeta() != null &&
-              stack.getItemMeta() != null && stack.getItemMeta().hasDisplayName() && stack.getItemMeta().getDisplayName().equalsIgnoreCase(getWand().getItemMeta().getDisplayName()) &&
-              stack.getItemMeta().getLore() != null;
+    return stack != null && stack.getType() == getWand().getType() && getWand().getItemMeta() != null &&
+        stack.getItemMeta() != null && stack.getItemMeta().hasDisplayName() && stack.getItemMeta().getDisplayName().equalsIgnoreCase(getWand().getItemMeta().getDisplayName()) &&
+        stack.getItemMeta().getLore() != null;
 
   }
 
