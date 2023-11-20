@@ -9,10 +9,12 @@ import me.lagggpixel.mango.factions.Faction;
 import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.claims.ClaimManager;
 import me.lagggpixel.mango.factions.pillars.PillarManager;
+import me.lagggpixel.mango.factions.types.PlayerFaction;
 import me.lagggpixel.mango.impl.glaedr.Glaedr;
 import me.lagggpixel.mango.listeners.ChatListeners;
 import me.lagggpixel.mango.listeners.ClaimListeners;
 import me.lagggpixel.mango.listeners.PlayerListeners;
+import me.lagggpixel.mango.utils.PlayerUtility;
 import me.lagggpixel.mango.utils.command.Register;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
@@ -21,6 +23,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,6 +61,31 @@ public class Mango extends JavaPlugin {
   @Getter
   private final List<Player> vanishedPlayers = new ArrayList<>();
 
+  private final BukkitRunnable autoSaveRunnable = new BukkitRunnable() {
+    @Override
+    public void run() {
+      int systems = 0, players = 0;
+      for (Faction faction : factionManager.getFactions()) {
+        try {
+          faction.save();
+          if (faction instanceof PlayerFaction) {
+            players++;
+            continue;
+          }
+          systems++;
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+      for (Player player : PlayerUtility.getOnlinePlayers()) {
+        if (player.hasPermission(configFile.getString("ROOT_NODE") + ".save")) {
+          player.sendMessage(languageFile.getString("SAVED.PLAYER").replace("{amount}", players + ""));
+          player.sendMessage(languageFile.getString("SAVED.SYSTEM").replace("{amount}", systems + ""));
+        }
+      }
+    }
+  };
+
 
   public void onEnable() {
 
@@ -91,6 +119,7 @@ public class Mango extends JavaPlugin {
 
       this.factionManager.load();
 
+      autoSaveRunnable.runTaskTimerAsynchronously(this, 20 * 60 * 5, 20 * 60 * 5);
     }
 
   }
