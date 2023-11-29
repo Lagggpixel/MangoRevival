@@ -75,7 +75,7 @@ public class Mango extends JavaPlugin {
           }
           systems++;
         } catch (IOException e) {
-          e.printStackTrace();
+am          throw new RuntimeException(e);
         }
       }
       for (Player player : PlayerUtility.getOnlinePlayers()) {
@@ -94,7 +94,7 @@ public class Mango extends JavaPlugin {
 
       instance = this;
 
-      Metrics metrics = new Metrics(this, 20415);
+      new Metrics(this, 20415);
 
       this.languageFile = new LanguageFile();
 
@@ -139,12 +139,9 @@ public class Mango extends JavaPlugin {
       for (Faction faction : this.factionManager.getFactions()) {
 
         try {
-
           faction.save();
-
         } catch (IOException e) {
-          e.printStackTrace();
-
+          throw new RuntimeException(e);
         }
 
       }
@@ -162,7 +159,9 @@ public class Mango extends JavaPlugin {
 
     if (!playerFactions.exists()) {
 
-      playerFactions.mkdir();
+      if (!playerFactions.mkdir()) {
+        Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Mango: Failed to create player factions directory.");
+      }
 
     }
 
@@ -170,7 +169,9 @@ public class Mango extends JavaPlugin {
 
     if (!systemFactions.exists()) {
 
-      systemFactions.mkdir();
+      if (systemFactions.mkdir()) {
+        Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Mango: Failed to create system factions directory.");
+      }
 
     }
 
@@ -184,7 +185,7 @@ public class Mango extends JavaPlugin {
     try {
       register.registerCommand("faction", new FactionCommand());
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
 
   }
