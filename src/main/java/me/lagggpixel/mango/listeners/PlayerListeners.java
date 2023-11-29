@@ -20,7 +20,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.Plugin;
 
 import java.math.BigDecimal;
 
@@ -39,7 +38,7 @@ public class PlayerListeners
   public void onDeath(PlayerDeathEvent e) {
     Player p = e.getEntity();
     PlayerFaction playerFaction = this.fm.getFaction(p);
-    if (playerFaction != null && playerFaction instanceof PlayerFaction) {
+    if (playerFaction != null) {
       playerFaction.freeze(this.cf.getInt("FREEZE_DURATION"));
       playerFaction.setDtr(playerFaction.getDtrDecimal().subtract(BigDecimal.valueOf(1L)));
       playerFaction.sendMessage(this.lf.getString("PLAYER_EVENTS.DEATH").replace("{player}", p.getName()).replace("{dtr}", playerFaction.getDtrDecimal() + "").replace("{maxdtr}", playerFaction.getMaxDtr() + ""));
@@ -50,15 +49,14 @@ public class PlayerListeners
   public void onJoin(PlayerJoinEvent e) {
     Player p = e.getPlayer();
     PlayerFaction playerFaction = this.fm.getFaction(p);
-    if (playerFaction != null && playerFaction instanceof PlayerFaction) {
+    if (playerFaction != null) {
       playerFaction.sendMessage(this.lf.getString("PLAYER_EVENTS.JOIN").replace("{player}", p.getName()));
     }
   }
 
   @EventHandler(ignoreCancelled = true)
   public void onDamage(EntityDamageEvent e) {
-    if (e.getEntity() instanceof Player) {
-      Player p = (Player) e.getEntity();
+    if (e.getEntity() instanceof Player p) {
       for (Claim claim : Mango.getInstance().getClaimManager().getClaims()) {
         if (claim.isInside(p.getLocation(), true) &&
             claim.getOwner() instanceof SystemFaction &&
@@ -72,9 +70,7 @@ public class PlayerListeners
 
   @EventHandler(ignoreCancelled = true)
   public void onDamage(EntityDamageByEntityEvent e) {
-    if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
-      Player p = (Player) e.getEntity();
-      Player d = (Player) e.getDamager();
+    if (e.getEntity() instanceof Player p && e.getDamager() instanceof Player d) {
       if (this.fm.getFaction(p) != null && this.fm.getFaction(d) != null) {
         if (this.fm.getFaction(p) == this.fm.getFaction(d) && d != p) {
           d.sendMessage(this.lf.getString("FACTION_FRIENDLY_DAMAGE").replace("{player}", p.getName()));
@@ -87,11 +83,8 @@ public class PlayerListeners
           e.setCancelled(true);
         }
       }
-    } else if (e.getEntity() instanceof Player && e.getDamager() instanceof Projectile) {
-      Player p = (Player) e.getEntity();
-      Projectile projectile = (Projectile) e.getDamager();
-      if (projectile.getShooter() instanceof Player) {
-        Player d = (Player) projectile.getShooter();
+    } else if (e.getEntity() instanceof Player p && e.getDamager() instanceof Projectile projectile) {
+      if (projectile.getShooter() instanceof Player d) {
         if (this.fm.getFaction(p) != null && this.fm.getFaction(d) != null) {
           if (this.fm.getFaction(p) == this.fm.getFaction(d) && d != p) {
             d.sendMessage(this.lf.getString("FACTION_FRIENDLY_DAMAGE").replace("{player}", p.getName()));
@@ -119,7 +112,7 @@ public class PlayerListeners
   public void onJoin(PlayerQuitEvent e) {
     Player p = e.getPlayer();
     PlayerFaction playerFaction = this.fm.getFaction(p);
-    if (playerFaction != null && playerFaction instanceof PlayerFaction)
+    if (playerFaction != null)
       playerFaction.sendMessage(this.lf.getString("PLAYER_EVENTS.QUIT").replace("{player}", p.getName()));
   }
 }

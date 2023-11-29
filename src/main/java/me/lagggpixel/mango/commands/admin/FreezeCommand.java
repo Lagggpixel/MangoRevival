@@ -32,12 +32,10 @@ public class FreezeCommand extends FactionSubCommand {
 
           return;
         }
-        if (!(faction instanceof PlayerFaction)) {
+        if (!(faction instanceof PlayerFaction playerFaction)) {
           p.sendMessage(this.lf.getString("FACTION_IS_SYSTEM"));
-
           return;
         }
-        PlayerFaction playerFaction = (PlayerFaction) faction;
         playerFaction.freeze(getTime(args[1]));
         p.sendMessage(this.lf.getString("FACTION_FROZEN").replace("{faction}", faction.getName()).replace("{time}", playerFaction.getFreezeTime()));
       } else {

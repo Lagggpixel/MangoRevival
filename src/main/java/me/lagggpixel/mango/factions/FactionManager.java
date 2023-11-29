@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -230,7 +231,7 @@ public class FactionManager {
     return null;
   }
 
-  public Faction getFactionByPlayerName(String name) {
+  public @Nullable Faction getFactionByPlayerName(String name) {
     for (Faction faction : getFactions()) {
       if (faction instanceof PlayerFaction) {
         for (OfflinePlayer offlinePlayer : ((PlayerFaction) faction).getPlayers()) {
@@ -257,7 +258,7 @@ public class FactionManager {
   }
 
 
-  public PlayerFaction getFaction(Player p) {
+  public @Nullable PlayerFaction getFaction(Player p) {
     return (PlayerFaction) getFactionByPlayerName(p.getName());
   }
 }

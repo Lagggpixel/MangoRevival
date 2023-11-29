@@ -1,6 +1,6 @@
 SCOREBOARD_TITLE: "&6Mango Revival&7(Map 1)"
 FACTION_STUCK: "&cStuck Teleport &8»&7"
-FACTION_HOME: "&cStuck Teleport &8»&7"
+FACTION_HOME: "&cHome Teleport &8»&7"
 ROOT_NODE: "mango" #nodes will be like mango.setdtr, or whatever you said root_node to be
 ALLY_REQUEST_TIMEOUT: 30
 DTR_SPEED: 60 #This is how long it will take (in seconds) for a faction to regen 0.1 dtr

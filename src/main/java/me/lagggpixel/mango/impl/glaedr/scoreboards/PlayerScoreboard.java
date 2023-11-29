@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -171,24 +172,25 @@ public class PlayerScoreboard {
 
   public void createScoreboard(String title, boolean hook, boolean overrideTitle) {
     if (hook) {
-      if (player.getScoreboard() != Bukkit.getScoreboardManager().getMainScoreboard()) {
+      if (player.getScoreboard() != Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard()) {
         scoreboard = player.getScoreboard();
 
         if (scoreboard.getObjective(DisplaySlot.SIDEBAR) != null) {
           objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
           if (overrideTitle) {
+            assert objective != null;
             objective.setDisplayName(title);
           }
         } else {
-          objective = scoreboard.registerNewObjective(player.getName(), "dummy");
+          objective = scoreboard.registerNewObjective(player.getName(), Criteria.DUMMY,  "dummy");
           objective.setDisplaySlot(DisplaySlot.SIDEBAR);
           objective.setDisplayName(title);
         }
         return;
       }
     }
-    scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-    objective = scoreboard.registerNewObjective(player.getName(), "dummy");
+    scoreboard = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
+    objective = scoreboard.registerNewObjective(player.getName(), Criteria.DUMMY, "dummy");
     objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     objective.setDisplayName(title);
   }
