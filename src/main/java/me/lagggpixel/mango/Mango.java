@@ -75,7 +75,7 @@ public class Mango extends JavaPlugin {
           }
           systems++;
         } catch (IOException e) {
-am          throw new RuntimeException(e);
+          throw new RuntimeException(e);
         }
       }
       for (Player player : PlayerUtility.getOnlinePlayers()) {

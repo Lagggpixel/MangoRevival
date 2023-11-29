@@ -151,9 +151,9 @@ public class ClaimListeners
   /**
    * Sends a claim change notification to the player.
    *
-   * @param  p       the player to send the notification to
-   * @param  faction the faction involved in the claim change
-   * @param  entering true if the player is entering the claim, false if leaving
+   * @param p        the player to send the notification to
+   * @param faction  the faction involved in the claim change
+   * @param entering true if the player is entering the claim, false if leaving
    */
   private void sendClaimChange(Player p, Faction faction, boolean entering) {
     PlayerFaction playerFaction = this.fm.getFaction(p);
@@ -271,156 +271,163 @@ public class ClaimListeners
       if (this.main.getClaiming().containsKey(p.getUniqueId())) {
         faction = this.main.getClaiming().get(p.getUniqueId());
       }
-      if (faction != null) {
-        if (e.getAction() == Action.RIGHT_CLICK_AIR) {
-          e.setCancelled(true);
-          if (prof.getX1() != 0 && prof.getX2() != 0 && prof.getZ1() != 0 && prof.getZ2() != 0) {
-            if (!this.clicked.contains(p.getUniqueId())) {
-              p.sendMessage(this.lf.getString("WAND_MESSAGES.CLEAR"));
-              this.clicked.add(p.getUniqueId());
-            } else {
-              Pillar two = this.plm.getPillar(prof, "second");
-              Pillar one = this.plm.getPillar(prof, "first");
-              if (one != null) {
-                one.removePillar();
-              }
-              if (two != null) {
-                two.removePillar();
-              }
-              p.sendMessage(this.lf.getString("WAND_MESSAGES.CLEARED"));
-              this.clicked.remove(p.getUniqueId());
-              prof.setX1(0);
-              prof.setZ1(0);
-              prof.setZ2(0);
-              prof.setX2(0);
-
-              return;
-            }
+      if (faction == null) {
+        faction = this.fm.getFaction(p);
+      }
+      if (faction == null) {
+        return;
+      }
+      if (e.getAction() == Action.RIGHT_CLICK_AIR) {
+        e.setCancelled(true);
+        if (prof.getX1() != 0 && prof.getX2() != 0 && prof.getZ1() != 0 && prof.getZ2() != 0) {
+          if (!this.clicked.contains(p.getUniqueId())) {
+            p.sendMessage(this.lf.getString("WAND_MESSAGES.CLEAR"));
+            this.clicked.add(p.getUniqueId());
           } else {
-            p.sendMessage(this.lf.getString("WAND_MESSAGES.INVALID_SELECTION"));
-
-            return;
-          }
-        }
-        if (e.getAction() == Action.LEFT_CLICK_AIR &&
-            p.isSneaking()) {
-          if (prof.getX1() != 0 && prof.getX2() != 0 && prof.getZ1() != 0 && prof.getZ2() != 0) {
-            for (Claim claim1 : this.cm.getClaims()) {
-              if (claim1.overlaps(prof.getX1(), prof.getZ1(), prof.getX2(), prof.getZ2()) && claim1.getWorld() == p.getWorld()) {
-                p.sendMessage(this.lf.getString("WAND_MESSAGES.OVERCLAIM"));
-
-                return;
-              }
-            }
-            if (!this.worlds.contains(p.getWorld().getName()) && !p.hasPermission(this.cf.getString("ADMIN_NODE"))) {
-              p.sendMessage(this.lf.getString("WAND_MESSAGES.OTHER"));
-
-              return;
-            }
-
             Pillar two = this.plm.getPillar(prof, "second");
             Pillar one = this.plm.getPillar(prof, "first");
-
-            Location loc1 = new Location(p.getWorld(), prof.getX1(), 0.0D, prof.getZ1());
-            Location loc2 = new Location(p.getWorld(), prof.getX2(), 0.0D, prof.getZ2());
-
-            int price = (int) Math.round(loc1.distance(loc2) * this.cf.getInt("CLAIM_PRICE_MULTIPLER"));
-
-            if (faction instanceof PlayerFaction playerFaction1) {
-
-              if (price > playerFaction1.getBalance() && !p.hasPermission(this.cf.getString("ADMIN_NODE"))) {
-                p.sendMessage(this.lf.getString("WAND_MESSAGES.INVALID_FUNDS"));
-                return;
-              }
-              playerFaction1.setBalance(playerFaction1.getBalance() - price);
-              playerFaction1.sendMessage(this.lf.getString("WAND_MESSAGES.BROADCAST").replace("{player}", p.getName()));
-            } else {
-              p.sendMessage(this.lf.getString("WAND_MESSAGES.BROADCAST").replace("{player}", p.getName()));
-            }
-
             if (one != null) {
               one.removePillar();
             }
             if (two != null) {
               two.removePillar();
             }
-
-
-            this.main.getClaiming().remove(p.getUniqueId());
-
-            Claim claim = new Claim(UUID.randomUUID().toString() + UUID.randomUUID(), faction, prof.getX1(), prof.getX2(), prof.getZ1(), prof.getZ2(), p.getWorld(), price);
-            this.cm.getClaims().add(claim);
-            faction.getClaims().add(claim);
+            p.sendMessage(this.lf.getString("WAND_MESSAGES.CLEARED"));
+            this.clicked.remove(p.getUniqueId());
             prof.setX1(0);
             prof.setZ1(0);
             prof.setZ2(0);
             prof.setX2(0);
-            p.getInventory().remove(p.getInventory().getItemInMainHand());
 
             return;
           }
+        } else {
           p.sendMessage(this.lf.getString("WAND_MESSAGES.INVALID_SELECTION"));
 
           return;
         }
-
-        if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
-          e.setCancelled(true);
-
-          if (e.getClickedBlock() == null) {
-            return;
-          }
-
-          if (!faction.getClaims().isEmpty() && !faction.isNearBorder(e.getClickedBlock().getLocation()) && !p.hasPermission(this.cf.getString("ADMIN_NODE"))) {
-            p.sendMessage(this.lf.getString("WAND_MESSAGES.TOO_FAR"));
-
-            return;
-          }
-          if (checkIfPlayerCanClaim(e, p, faction)) {
-            return;
-          }
-          prof.setX1(e.getClickedBlock().getX());
-          prof.setZ1(e.getClickedBlock().getZ());
-
-          handlePointSelection(p, faction, e.getClickedBlock(), prof);
-
-          Pillar pillar = this.plm.getPillar(prof, "first");
-          if (pillar != null) {
-            this.plm.getPillars().remove(pillar);
-            pillar.removePillar();
-          }
-          pillar = new Pillar(prof, Material.DIAMOND_BLOCK, (byte) 0, e.getClickedBlock().getLocation(), "first");
-          pillar.sendPillar();
-        }
-
-        if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-          e.setCancelled(true);
-
-          if (e.getClickedBlock() == null) {
-            return;
-          }
-          if (checkIfPlayerCanClaim(e, p, faction)) {
-            return;
-          }
-          prof.setX2(e.getClickedBlock().getX());
-          prof.setZ2(e.getClickedBlock().getZ());
-
-          handlePointSelection(p, faction, e.getClickedBlock(), prof);
-
-          Pillar pillar = this.plm.getPillar(prof, "second");
-          if (pillar != null) {
-            this.plm.getPillars().remove(pillar);
-            pillar.removePillar();
-          }
-          // Pillar pillar1 = new Pillar(prof, Material.DIAMOND_BLOCK, (byte) 0, e.getClickedBlock().getLocation(), "second");
-          (new BukkitRunnable() {
-            public void run() {
-              Pillar pillar = ClaimListeners.this.plm.getPillar(prof, "second");
-              pillar.sendPillar();
-            }
-          }).runTaskLater(this.main, 1L);
-        }
       }
+      // Claim land with wand
+      if (e.getAction() == Action.LEFT_CLICK_AIR && p.isSneaking()) {
+        if (prof.getX1() != 0 && prof.getX2() != 0 && prof.getZ1() != 0 && prof.getZ2() != 0) {
+          for (Claim claim1 : this.cm.getClaims()) {
+            if (claim1.overlaps(prof.getX1(), prof.getZ1(), prof.getX2(), prof.getZ2()) && claim1.getWorld() == p.getWorld()) {
+              p.sendMessage(this.lf.getString("WAND_MESSAGES.OVERCLAIM"));
+
+              return;
+            }
+          }
+          if (!this.worlds.contains(p.getWorld().getName()) && !p.hasPermission(this.cf.getString("ADMIN_NODE"))) {
+            p.sendMessage(this.lf.getString("WAND_MESSAGES.OTHER"));
+
+            return;
+          }
+
+          Pillar two = this.plm.getPillar(prof, "second");
+          Pillar one = this.plm.getPillar(prof, "first");
+
+          Location loc1 = new Location(p.getWorld(), prof.getX1(), 0.0D, prof.getZ1());
+          Location loc2 = new Location(p.getWorld(), prof.getX2(), 0.0D, prof.getZ2());
+
+          int price = (int) Math.round(loc1.distance(loc2) * this.cf.getInt("CLAIM_PRICE_MULTIPLER"));
+
+          if (faction instanceof PlayerFaction playerFaction1) {
+
+            if (price > playerFaction1.getBalance() && !p.hasPermission(this.cf.getString("ADMIN_NODE"))) {
+              p.sendMessage(this.lf.getString("WAND_MESSAGES.INVALID_FUNDS"));
+              return;
+            }
+            playerFaction1.setBalance(playerFaction1.getBalance() - price);
+            playerFaction1.sendMessage(this.lf.getString("WAND_MESSAGES.BROADCAST").replace("{player}", p.getName()));
+          } else {
+            p.sendMessage(this.lf.getString("WAND_MESSAGES.BROADCAST").replace("{player}", p.getName()));
+          }
+
+          if (one != null) {
+            one.removePillar();
+          }
+          if (two != null) {
+            two.removePillar();
+          }
+
+
+          this.main.getClaiming().remove(p.getUniqueId());
+
+          Claim claim = new Claim(UUID.randomUUID().toString() + UUID.randomUUID(), faction, prof.getX1(), prof.getX2(), prof.getZ1(), prof.getZ2(), p.getWorld(), price);
+          this.cm.getClaims().add(claim);
+          faction.getClaims().add(claim);
+          prof.setX1(0);
+          prof.setZ1(0);
+          prof.setZ2(0);
+          prof.setX2(0);
+          p.getInventory().remove(p.getInventory().getItemInMainHand());
+
+          return;
+        }
+        p.sendMessage(this.lf.getString("WAND_MESSAGES.INVALID_SELECTION"));
+
+        return;
+      }
+
+      // Set position 1
+      if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
+        e.setCancelled(true);
+
+        if (e.getClickedBlock() == null) {
+          return;
+        }
+
+        if (!faction.getClaims().isEmpty() && !faction.isNearBorder(e.getClickedBlock().getLocation()) && !p.hasPermission(this.cf.getString("ADMIN_NODE"))) {
+          p.sendMessage(this.lf.getString("WAND_MESSAGES.TOO_FAR"));
+
+          return;
+        }
+        if (checkIfPlayerCanClaim(e, p, faction)) {
+          return;
+        }
+        prof.setX1(e.getClickedBlock().getX());
+        prof.setZ1(e.getClickedBlock().getZ());
+
+        handlePointSelection(p, faction, e.getClickedBlock(), prof, 1);
+
+        Pillar pillar = this.plm.getPillar(prof, "first");
+        if (pillar != null) {
+          this.plm.getPillars().remove(pillar);
+          pillar.removePillar();
+        }
+        pillar = new Pillar(prof, Material.DIAMOND_BLOCK, (byte) 0, e.getClickedBlock().getLocation(), "first");
+        pillar.sendPillar();
+      }
+
+      // Set position 2
+      if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        e.setCancelled(true);
+
+        if (e.getClickedBlock() == null) {
+          return;
+        }
+        if (checkIfPlayerCanClaim(e, p, faction)) {
+          return;
+        }
+        prof.setX2(e.getClickedBlock().getX());
+        prof.setZ2(e.getClickedBlock().getZ());
+
+        handlePointSelection(p, faction, e.getClickedBlock(), prof, 2);
+
+        Pillar pillar = this.plm.getPillar(prof, "second");
+        if (pillar != null) {
+          this.plm.getPillars().remove(pillar);
+          pillar.removePillar();
+        }
+        Pillar pillar1 = new Pillar(prof, Material.DIAMOND_BLOCK, (byte) 0, e.getClickedBlock().getLocation(), "second");
+        (new BukkitRunnable() {
+          public void run() {
+            Pillar pillar = ClaimListeners.this.plm.getPillar(prof, "second");
+            pillar.sendPillar();
+          }
+        }).runTaskLater(this.main, 1L);
+      }
+
     }
   }
 
@@ -509,7 +516,7 @@ public class ClaimListeners
         || block.getType().name().contains("LEVER");
   }
 
-  private void handlePointSelection(Player p, Faction faction, Block clickedBlock, ClaimProfile prof) {
+  private void handlePointSelection(Player p, Faction faction, Block clickedBlock, ClaimProfile prof, int claimNumber) {
     if (prof.getX2() != 0 && prof.getZ2() != 0) {
       Location loc1 = new Location(p.getWorld(), prof.getX1(), 0.0D, prof.getZ1());
       Location loc2 = new Location(p.getWorld(), prof.getX2(), 0.0D, prof.getZ2());
@@ -519,11 +526,19 @@ public class ClaimListeners
         return;
       }
 
-      p.sendMessage(this.lf.getString("WAND_MESSAGES.FIRST_POINT").replace("{x}", clickedBlock.getX() + "").replace("{z}", clickedBlock.getZ() + ""));
+      handleClaimMessage(p, clickedBlock, claimNumber);
 
       checkIsClaimAffordable(p, faction, loc1, loc2);
     } else {
+      handleClaimMessage(p, clickedBlock, claimNumber);
+    }
+  }
+
+  private void handleClaimMessage(Player p, Block clickedBlock, int claimNumber) {
+    if (claimNumber == 1) {
       p.sendMessage(this.lf.getString("WAND_MESSAGES.FIRST_POINT").replace("{x}", clickedBlock.getX() + "").replace("{z}", clickedBlock.getZ() + ""));
+    } else if (claimNumber == 2) {
+      p.sendMessage(this.lf.getString("WAND_MESSAGES.SECOND_POINT").replace("{x}", clickedBlock.getX() + "").replace("{z}", clickedBlock.getZ() + ""));
     }
   }
 

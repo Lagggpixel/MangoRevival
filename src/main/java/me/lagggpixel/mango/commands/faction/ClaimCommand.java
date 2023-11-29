@@ -32,6 +32,7 @@ public class ClaimCommand extends FactionSubCommand {
 
       return;
     }
+
     p.getInventory().remove(Mango.getInstance().getClaimManager().getWand());
     p.getInventory().addItem(Mango.getInstance().getClaimManager().getWand());
   }
