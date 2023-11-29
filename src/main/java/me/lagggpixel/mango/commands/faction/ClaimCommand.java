@@ -7,7 +7,6 @@ import me.lagggpixel.mango.config.LanguageFile;
 import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 
 public class ClaimCommand extends FactionSubCommand {
@@ -28,18 +27,12 @@ public class ClaimCommand extends FactionSubCommand {
 
       return;
     }
-    if (playerFaction instanceof PlayerFaction) {
-      PlayerFaction playerFaction1 = playerFaction;
+    if (playerFaction.getMembers().contains(p.getUniqueId())) {
+      p.sendMessage(this.lf.getString("FACTION_MUST_BE_OFFICER"));
 
-      if (playerFaction1.getMembers().contains(p.getUniqueId())) {
-        p.sendMessage(this.lf.getString("FACTION_MUST_BE_OFFICER"));
-
-        return;
-      }
-      p.getInventory().remove(Mango.getInstance().getClaimManager().getWand());
-      p.getInventory().addItem(Mango.getInstance().getClaimManager().getWand());
+      return;
     }
+    p.getInventory().remove(Mango.getInstance().getClaimManager().getWand());
+    p.getInventory().addItem(Mango.getInstance().getClaimManager().getWand());
   }
 }
-
-

@@ -10,6 +10,7 @@ import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.claims.ClaimManager;
 import me.lagggpixel.mango.factions.pillars.PillarManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
+import me.lagggpixel.mango.impl.bstats.Metrics;
 import me.lagggpixel.mango.impl.glaedr.Glaedr;
 import me.lagggpixel.mango.listeners.ChatListeners;
 import me.lagggpixel.mango.listeners.ClaimListeners;
@@ -92,6 +93,8 @@ public class Mango extends JavaPlugin {
     if (attemptEconomyHook()) {
 
       instance = this;
+
+      Metrics metrics = new Metrics(this, 20415);
 
       this.languageFile = new LanguageFile();
 
