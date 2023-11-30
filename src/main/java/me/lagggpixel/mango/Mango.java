@@ -89,48 +89,51 @@ public class Mango extends JavaPlugin {
 
 
   public void onEnable() {
-
-    if (attemptEconomyHook()) {
-
-      instance = this;
-
-      new Metrics(this, 20415);
-
-      this.languageFile = new LanguageFile();
-
-      this.configFile = new ConfigFile();
-
-      this.factionManager = new FactionManager();
-
-      this.claimManager = new ClaimManager();
-
-      this.pillarManager = new PillarManager();
-
-
-      this.glaedr = new Glaedr(this, this.configFile.getString("SCOREBOARD_TITLE"));
-
-      setupDirectories();
-
-
-      attemptChatHook();
-
-
-      registerCommands();
-
-      registerListeners();
-
-
-      this.factionManager.load();
-
-      autoSaveRunnable.runTaskTimerAsynchronously(this, 20 * 60 * 5, 20 * 60 * 5);
+    if (!attemptEconomyHook()) {
+      Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "Mango: No economy hook found, disabling plugin.");
+      this.onDisable();
+      throw new RuntimeException("Failed to hook into economy!");
     }
 
+    instance = this;
+
+    new Metrics(this, 20415);
+
+    this.languageFile = new LanguageFile();
+
+    this.configFile = new ConfigFile();
+
+    this.factionManager = new FactionManager();
+
+    this.claimManager = new ClaimManager();
+
+    this.pillarManager = new PillarManager();
+
+
+    this.glaedr = new Glaedr(this, this.configFile.getString("SCOREBOARD_TITLE"));
+
+    setupDirectories();
+
+
+    attemptChatHook();
+
+
+    registerCommands();
+
+    registerListeners();
+
+
+    this.factionManager.load();
+
+    autoSaveRunnable.runTaskTimerAsynchronously(this, 20 * 60 * 5, 20 * 60 * 5);
   }
 
 
   public void onDisable() {
 
-    if (this.pillarManager != null) this.pillarManager.removeAll();
+    if (this.pillarManager != null) {
+      this.pillarManager.removeAll();
+    }
 
     if (this.factionManager != null && !this.factionManager.getFactions().isEmpty()) {
 

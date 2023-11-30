@@ -78,7 +78,8 @@ public class PlayerListeners
         }
         PlayerFaction playerFaction = this.fm.getFaction(p);
         PlayerFaction damageFaction = this.fm.getFaction(d);
-        if (playerFaction.getAllies().contains(damageFaction) || damageFaction.getAllies().contains(playerFaction)) {
+        if ((playerFaction != null && damageFaction != null) &&
+            (playerFaction.getAllies().contains(damageFaction) || damageFaction.getAllies().contains(playerFaction))) {
           d.sendMessage(this.lf.getString("FACTION_ALLY_DAMAGE").replace("{player}", p.getName()));
           e.setCancelled(true);
         }
@@ -102,7 +103,7 @@ public class PlayerListeners
   }
 
   @EventHandler
-  public void onInteractEnderchest(PlayerInteractEvent e) {
+  public void onInteractEnderChest(PlayerInteractEvent e) {
     if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getType() == Material.ENDER_CHEST) {
       e.setCancelled(true);
     }
