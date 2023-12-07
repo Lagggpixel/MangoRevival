@@ -8,7 +8,6 @@ import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.math.NumberUtils;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -33,50 +32,48 @@ public class WithdrawCommand extends FactionSubCommand {
 
       return;
     }
-    if (faction instanceof PlayerFaction) {
 
-      if (!faction.isOfficer(p) && !faction.isLeader(p.getUniqueId())) {
-        p.sendMessage(this.lf.getString("FACTION_MUST_BE_OFFICER"));
+    if (!faction.isOfficer(p) && !faction.isLeader(p.getUniqueId())) {
+      p.sendMessage(this.lf.getString("FACTION_MUST_BE_OFFICER"));
 
-        return;
-      }
-      if (args.length == 0) {
-        p.sendMessage(this.lf.getString("FACTION_TOO_FEW_ARGS.WITHDRAW"));
+      return;
+    }
+    if (args.length == 0) {
+      p.sendMessage(this.lf.getString("FACTION_TOO_FEW_ARGS.WITHDRAW"));
 
-        return;
-      }
-      if (!NumberUtils.isNumber(args[0])) {
-        if (args[0].equalsIgnoreCase("all")) {
+      return;
+    }
+    if (!NumberUtils.isNumber(args[0])) {
+      if (args[0].equalsIgnoreCase("all")) {
 
-          if (faction.getBalance() <= 0) {
-            p.sendMessage(this.lf.getString("FACTION_BROKE_ECONOMY"));
+        if (faction.getBalance() <= 0) {
+          p.sendMessage(this.lf.getString("FACTION_BROKE_ECONOMY"));
 
-            return;
-          }
-          faction.sendMessage(this.lf.getString("FACTION_MONEY_WITHDRAWN").replace("{player}", p.getName()).replace("{amount}", faction.getBalance() + ""));
-          this.econ.depositPlayer(p, faction.getBalance());
-          faction.setBalance(0);
           return;
         }
-        p.sendMessage(this.lf.getString("FACTION_INVALID_ECONOMY_AMOUNT"));
-
+        faction.sendMessage(this.lf.getString("FACTION_MONEY_WITHDRAWN").replace("{player}", p.getName()).replace("{amount}", faction.getBalance() + ""));
+        this.econ.depositPlayer(p, faction.getBalance());
+        faction.setBalance(0);
         return;
       }
-      int amount = Integer.valueOf(args[0]);
-      if (amount <= 0) {
-        p.sendMessage(this.lf.getString("FACTION_INVALID_ECONOMY_AMOUNT"));
+      p.sendMessage(this.lf.getString("FACTION_INVALID_ECONOMY_AMOUNT"));
 
-        return;
-      }
-      if (faction.getBalance() < amount) {
-        p.sendMessage(this.lf.getString("FACTION_NOT_ENOUGH_BALANCE_ECONOMY"));
-
-        return;
-      }
-      this.econ.depositPlayer(p, amount);
-      faction.sendMessage(this.lf.getString("FACTION_MONEY_WITHDRAWN").replace("{player}", p.getName()).replace("{amount}", amount + ""));
-      faction.setBalance(faction.getBalance() - amount);
+      return;
     }
+    int amount = Integer.valueOf(args[0]);
+    if (amount <= 0) {
+      p.sendMessage(this.lf.getString("FACTION_INVALID_ECONOMY_AMOUNT"));
+
+      return;
+    }
+    if (faction.getBalance() < amount) {
+      p.sendMessage(this.lf.getString("FACTION_NOT_ENOUGH_BALANCE_ECONOMY"));
+
+      return;
+    }
+    this.econ.depositPlayer(p, amount);
+    faction.sendMessage(this.lf.getString("FACTION_MONEY_WITHDRAWN").replace("{player}", p.getName()).replace("{amount}", amount + ""));
+    faction.setBalance(faction.getBalance() - amount);
   }
 }
 
