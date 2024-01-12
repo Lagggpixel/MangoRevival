@@ -35,6 +35,13 @@ public class ConfigFile {
     return 0;
   }
 
+  public int getInt(String path, int def) {
+    if (this.configuration.contains(path)) {
+      return this.configuration.getInt(path, def);
+    }
+    return def;
+  }
+
   public boolean getBoolean(String path) {
     if (this.configuration.contains(path)) {
       return this.configuration.getBoolean(path);
@@ -47,6 +54,10 @@ public class ConfigFile {
       return ChatColor.translateAlternateColorCodes('&', this.configuration.getString(path));
     }
     return "ERROR: STRING NOT FOUND";
+  }
+
+  public boolean contains(String path) {
+    return this.configuration.contains(path);
   }
 
   public List<String> getStringList(String path) {

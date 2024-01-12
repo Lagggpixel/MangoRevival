@@ -26,7 +26,7 @@ public class UnclaimallCommand extends FactionSubCommand {
       p.sendMessage(this.lf.getString("FACTION_NOT_IN"));
       return;
     }
-    if (faction.getOfficers().contains(p.getUniqueId()) || faction.isLeader(p.getUniqueId()) || p.hasPermission(this.cf.getString("ROOT_NODE") + ".unclaimall")) {
+    if (faction.getOfficers().contains(p.getUniqueId()) || faction.isLeader(p.getUniqueId()) || p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".unclaimall")) {
       if (faction.getClaims().isEmpty()) {
         p.sendMessage(this.lf.getString("FACTION_NO_CLAIMS"));
         return;

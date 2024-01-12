@@ -191,49 +191,49 @@ public class Claim {
 
     if (getWorld() == (new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).getWorld()) {
 
-      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(0.0D, 0.0D, this.cf.getInt("CLAIM_BUFFER")), false)) {
+      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(0.0D, 0.0D, this.cf.getInt("Claim.Buffer")), false)) {
 
         return true;
 
       }
 
-      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(this.cf.getInt("CLAIM_BUFFER"), 0.0D, 0.0D), false)) {
+      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(this.cf.getInt("Claim.Buffer"), 0.0D, 0.0D), false)) {
 
         return true;
 
       }
 
-      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(0.0D, 0.0D, -this.cf.getInt("CLAIM_BUFFER")), true)) {
+      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(0.0D, 0.0D, -this.cf.getInt("Claim.Buffer")), true)) {
 
         return true;
 
       }
 
-      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(-this.cf.getInt("CLAIM_BUFFER"), 0.0D, 0.0D), true)) {
+      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(-this.cf.getInt("Claim.Buffer"), 0.0D, 0.0D), true)) {
 
         return true;
 
       }
 
-      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(-this.cf.getInt("CLAIM_BUFFER"), 0.0D, this.cf.getInt("CLAIM_BUFFER")), false)) {
+      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(-this.cf.getInt("Claim.Buffer"), 0.0D, this.cf.getInt("Claim.Buffer")), false)) {
 
         return true;
 
       }
 
-      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(this.cf.getInt("CLAIM_BUFFER"), 0.0D, -this.cf.getInt("CLAIM_BUFFER")), false)) {
+      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(this.cf.getInt("Claim.Buffer"), 0.0D, -this.cf.getInt("Claim.Buffer")), false)) {
 
         return true;
 
       }
 
-      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(-this.cf.getInt("CLAIM_BUFFER"), 0.0D, -this.cf.getInt("CLAIM_BUFFER")), false)) {
+      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(-this.cf.getInt("Claim.Buffer"), 0.0D, -this.cf.getInt("Claim.Buffer")), false)) {
 
         return true;
 
       }
 
-      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(this.cf.getInt("CLAIM_BUFFER"), 0.0D, this.cf.getInt("CLAIM_BUFFER")), false)) {
+      if (isInside((new Location(l.getWorld(), l.getX(), l.getY(), l.getZ())).add(this.cf.getInt("Claim.Buffer"), 0.0D, this.cf.getInt("Claim.Buffer")), false)) {
 
         return true;
 

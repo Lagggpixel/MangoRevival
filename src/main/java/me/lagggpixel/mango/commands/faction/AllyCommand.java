@@ -29,7 +29,7 @@ public class AllyCommand extends FactionSubCommand {
       }
       if (this.fm.getFaction(p) != null) {
         final PlayerFaction faction = this.fm.getFaction(p);
-        if (faction.getOfficers().contains(p.getUniqueId()) || faction.isLeader(p.getUniqueId()) || p.hasPermission(this.cf.getString("ROOT_NODE") + ".ally")) {
+        if (faction.getOfficers().contains(p.getUniqueId()) || faction.isLeader(p.getUniqueId()) || p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".ally")) {
           StringBuilder sb = new StringBuilder();
           for (String arg : args) {
             sb.append(arg).append(" ");
@@ -42,7 +42,7 @@ public class AllyCommand extends FactionSubCommand {
 
             return;
           }
-          if (faction.getAllies().size() >= this.cf.getInt("MAX_ALLIES")) {
+          if (faction.getAllies().size() >= this.cf.getInt("Faction.Max-Allies")) {
             p.sendMessage(this.lf.getString("FACTION_TOO_MANY_ALLIES"));
 
             return;
@@ -79,7 +79,7 @@ public class AllyCommand extends FactionSubCommand {
               public void run() {
                 faction.getRequestedAllies().remove(allyFaction);
               }
-            }).runTaskLater(this.main, (long) (this.cf.getDouble("ALLY_REQUEST_TIMEOUT") * 20.0D));
+            }).runTaskLater(this.main, (long) (this.cf.getDouble("Faction.Ally-Request-Timeout") * 20.0D));
           }
 
 
@@ -114,7 +114,7 @@ public class AllyCommand extends FactionSubCommand {
               public void run() {
                 faction.getRequestedAllies().remove(allyFaction);
               }
-            }).runTaskLater(this.main, (long) (this.cf.getDouble("ALLY_REQUEST_TIMEOUT") * 20.0D));
+            }).runTaskLater(this.main, (long) (this.cf.getDouble("Faction.Ally-Request-Timeout") * 20.0D));
 
           }
 

@@ -36,7 +36,7 @@ public class InviteCommand extends FactionSubCommand {
       }
       if (this.fm.getFaction(p) != null) {
         PlayerFaction faction = this.fm.getFaction(p);
-        if (faction.getOfficers().contains(p.getUniqueId()) || faction.isLeader(p.getUniqueId()) || p.hasPermission(this.cf.getString("ROOT_NODE") + ".invite")) {
+        if (faction.getOfficers().contains(p.getUniqueId()) || faction.isLeader(p.getUniqueId()) || p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".invite")) {
 
           StringBuilder sb = new StringBuilder();
           for (String arg : args) {

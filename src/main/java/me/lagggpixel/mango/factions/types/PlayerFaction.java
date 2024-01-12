@@ -11,7 +11,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
@@ -68,8 +67,8 @@ public class PlayerFaction
     this.requestedAllies = new HashSet<>();
     this.officers = new ArrayList<>();
     this.members = new ArrayList<>();
-    this.dtr = BigDecimal.valueOf(this.configFile.getDouble("DTR_PER_PLAYER"));
-    this.balance = this.configFile.getInt("START_BALANCE");
+    this.dtr = BigDecimal.valueOf(this.configFile.getDouble("Faction.Dtr-Per-Player"));
+    this.balance = this.configFile.getInt("Faction.Starting-Balance");
     checkRegen();
     checkDTR();
   }
@@ -280,11 +279,11 @@ public class PlayerFaction
 
   public double getMaxDtr() {
     BigDecimal currentDtr = BigDecimal.valueOf(0L);
-    double perPlayer = this.configFile.getDouble("DTR_PER_PLAYER");
+    double perPlayer = this.configFile.getDouble("Faction.Dtr-Per-Player");
     for (int i = 0; i < getPlayers().size(); i++) {
       currentDtr = currentDtr.add(BigDecimal.valueOf(perPlayer));
     }
-    return Math.min(currentDtr.doubleValue(), this.configFile.getDouble("MAX_DTR"));
+    return Math.min(currentDtr.doubleValue(), this.configFile.getDouble("Faction.Max-Dtr"));
   }
 
   public int[] getFreezeLength() {
@@ -384,7 +383,7 @@ public class PlayerFaction
 
         }
       }
-    }).runTaskTimerAsynchronously(this.main, Mango.getInstance().getConfigFile().getInt("DTR_SPEED"), (20L * Mango.getInstance().getConfigFile().getInt("DTR_SPEED")));
+    }).runTaskTimerAsynchronously(this.main, Mango.getInstance().getConfigFile().getInt("Faction.Dtr-Regen-Speed"), (20L * Mango.getInstance().getConfigFile().getInt("Faction.Dtr-Regen-Speed")));
   }
 
   public boolean isOfficer(Player player) {

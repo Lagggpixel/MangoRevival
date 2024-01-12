@@ -22,7 +22,7 @@ public class RenameFactionCommand extends FactionSubCommand {
 
 
   public void execute(Player p, String[] args) {
-    if (p.hasPermission(this.cf.getString("ROOT_NODE") + ".rename")) {
+    if (p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".rename")) {
       if (args.length >= 2) {
         StringBuilder sb = new StringBuilder();
         for (int i = 1; i < args.length; i++) {
@@ -35,13 +35,13 @@ public class RenameFactionCommand extends FactionSubCommand {
 
           return;
         }
-        if (name.length() > Math.round(this.cf.getDouble("MAX_NAME_LENGTH"))) {
-          p.sendMessage(this.lf.getString("FACTION_TAG_EXCEED_LENGTH").replace("{length}", Math.round(this.cf.getDouble("MAX_NAME_LENGTH")) + ""));
+        if (name.length() > Math.round(this.cf.getDouble("Faction.Max-Name-Length"))) {
+          p.sendMessage(this.lf.getString("FACTION_TAG_EXCEED_LENGTH").replace("{length}", Math.round(this.cf.getDouble("Faction.Max-Name-Length")) + ""));
 
           return;
         }
-        if (name.length() < Math.round(this.cf.getDouble("MIN_NAME_LENGTH"))) {
-          p.sendMessage(this.lf.getString("FACTION_TAG_MUST_EXCEED_LENGTH").replace("{length}", Math.round(this.cf.getDouble("MIN_NAME_LENGTH")) + ""));
+        if (name.length() < Math.round(this.cf.getDouble("Faction.Min-Name-Length"))) {
+          p.sendMessage(this.lf.getString("FACTION_TAG_MUST_EXCEED_LENGTH").replace("{length}", Math.round(this.cf.getDouble("Faction.Min-Name-Length")) + ""));
 
           return;
         }

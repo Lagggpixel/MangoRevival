@@ -15,7 +15,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -59,8 +58,8 @@ public class StuckCommand extends FactionSubCommand implements Listener {
         location = p.getLocation().add(newX, newY, newZ);
       }
       location = location.getWorld().getHighestBlockAt(location).getLocation();
-      waiting.put(p.getName(), new Warmup(p, location, (new Entry("stuck", scoreboard)).setText(this.cf.getString("FACTION_STUCK")).setTime(60.0D).setCountdown(true).send()));
-      waiting.get(p.getName()).runTaskLater(Mango.getInstance(), (this.cf.getInt("TELEPORT_COOLDOWN.STUCK") * 20L));
+      waiting.put(p.getName(), new Warmup(p, location, (new Entry("stuck", scoreboard)).setText(this.cf.getString("Scoreboard.Faction-Stuck")).setTime(60.0D).setCountdown(true).send()));
+      waiting.get(p.getName()).runTaskLater(Mango.getInstance(), (this.cf.getInt("Teleport-Cooldown.Stuck") * 20L));
     }
   }
 

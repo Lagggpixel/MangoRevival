@@ -8,7 +8,6 @@ import me.lagggpixel.mango.factions.Faction;
 import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.claims.ClaimManager;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 
 public class ClaimFactionCommand extends FactionSubCommand {
@@ -23,7 +22,7 @@ public class ClaimFactionCommand extends FactionSubCommand {
 
 
   public void execute(Player p, String[] args) {
-    if (p.hasPermission(this.cf.getString("ROOT_NODE") + ".claimfaction")) {
+    if (p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".claimfaction")) {
       if (args.length >= 1) {
         StringBuilder sb = new StringBuilder();
         for (String arg : args) {

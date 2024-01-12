@@ -83,18 +83,18 @@ public class ShowCommand extends FactionSubCommand {
           Player of = Bukkit.getPlayer(ofs);
           if (of != null) {
             if (officers == null) {
-              officers = this.cf.getString("ONLINE_COLOR") + of.getName();
+              officers = this.cf.getString("Colors.Online") + of.getName();
               continue;
             }
-            officers = addTo(officers, this.cf.getString("ONLINE_COLOR") + of.getName());
+            officers = addTo(officers, this.cf.getString("Colors.Online") + of.getName());
             continue;
           }
           OfflinePlayer oof = Bukkit.getOfflinePlayer(ofs);
           if (officers == null) {
-            officers = this.cf.getString("OFFLINE_COLOR") + oof.getName();
+            officers = this.cf.getString("Colors.Offline") + oof.getName();
             continue;
           }
-          officers = addTo(officers, this.cf.getString("OFFLINE_COLOR") + oof.getName());
+          officers = addTo(officers, this.cf.getString("Colors.Offline") + oof.getName());
         }
 
 
@@ -104,18 +104,18 @@ public class ShowCommand extends FactionSubCommand {
           Player mem = Bukkit.getPlayer(mems);
           if (mem != null) {
             if (members == null) {
-              members = this.cf.getString("ONLINE_COLOR") + mem.getName();
+              members = this.cf.getString("Colors.Online") + mem.getName();
               continue;
             }
-            members = addTo(members, this.cf.getString("ONLINE_COLOR") + mem.getName());
+            members = addTo(members, this.cf.getString("Colors.Online") + mem.getName());
             continue;
           }
           OfflinePlayer omem = Bukkit.getOfflinePlayer(mems);
           if (members == null) {
-            members = this.cf.getString("OFFLINE_COLOR") + omem.getName();
+            members = this.cf.getString("Colors.Offline") + omem.getName();
             continue;
           }
-          members = addTo(members, this.cf.getString("OFFLINE_COLOR") + omem.getName());
+          members = addTo(members, this.cf.getString("Colors.Offline") + omem.getName());
         }
 
 
@@ -131,22 +131,22 @@ public class ShowCommand extends FactionSubCommand {
         msg = msg.replace("{balance}", ((PlayerFaction) faction).getBalance() + "");
 
         if (((PlayerFaction) faction).getDtr() < 0.0D) {
-          msg = msg.replace("{dtr}", this.cf.getString("RAIDABLE_COLOR") + ((PlayerFaction) faction).getDtr() + this.cf.getString("RAIDABLE_SYMBOL"));
+          msg = msg.replace("{dtr}", this.cf.getString("Colors.Raidable.Color") + ((PlayerFaction) faction).getDtr() + this.cf.getString("Colors.Raidable.Symbol"));
         } else if (((PlayerFaction) faction).isFrozen()) {
-          msg = msg.replace("{dtr}", this.cf.getString("FROZEN_COLOR") + ((PlayerFaction) faction).getDtr() + this.cf.getString("FROZEN_SYMBOL"));
+          msg = msg.replace("{dtr}", this.cf.getString("Colors.Frozen.Color") + ((PlayerFaction) faction).getDtr() + this.cf.getString("Colors.Frozen.Symbol"));
         } else if (((PlayerFaction) faction).getDtr() < ((PlayerFaction) faction).getMaxDtr()) {
-          msg = msg.replace("{dtr}", this.cf.getString("REGEN_COLOR") + ((PlayerFaction) faction).getDtr() + this.cf.getString("REGEN_SYMBOL"));
+          msg = msg.replace("{dtr}", this.cf.getString("Colors.Regen.Color") + ((PlayerFaction) faction).getDtr() + this.cf.getString("Colors.Raidable.Symbol"));
         } else {
-          msg = msg.replace("{dtr}", this.cf.getString("NOT_RAIDABLE_COLOR") + ((PlayerFaction) faction).getDtr() + this.cf.getString("NOT_RAIDABLE_SYMBOL"));
+          msg = msg.replace("{dtr}", this.cf.getString("Colors.Not-Raidable.Color") + ((PlayerFaction) faction).getDtr() + this.cf.getString("Colors.Not-Raidable.Symbol"));
         }
 
 
         Player leader = Bukkit.getPlayer(((PlayerFaction) faction).getLeader());
         if (leader == null) {
           OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(((PlayerFaction) faction).getLeader());
-          msg = msg.replace("{leader}", this.cf.getString("OFFLINE_COLOR") + offlinePlayer.getName());
+          msg = msg.replace("{leader}", this.cf.getString("Colors.Offline") + offlinePlayer.getName());
         } else {
-          msg = msg.replace("{leader}", this.cf.getString("ONLINE_COLOR") + leader.getName());
+          msg = msg.replace("{leader}", this.cf.getString("Colors.Online") + leader.getName());
         }
 
 

@@ -25,9 +25,10 @@ public class DisbandCommand extends FactionSubCommand {
     if (args.length == 0) {
       if (this.fm.getFaction(p) == null) {
         p.sendMessage(this.lf.getString("FACTION_NOT_IN"));
-      } else if (this.fm.getFaction(p) instanceof PlayerFaction) {
+      } else if (this.fm.getFaction(p) != null) {
         PlayerFaction faction = this.fm.getFaction(p);
-        if (!faction.isLeader(p.getUniqueId()) && !p.hasPermission(this.cf.getString("ROOT_NODE") + ".disband")) {
+        assert faction != null;
+        if (!faction.isLeader(p.getUniqueId()) && !p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".disband")) {
           p.sendMessage(this.lf.getString("FACTION_MUST_BE_LEADER"));
         } else {
           Bukkit.broadcastMessage(this.lf.getString("FACTION_DISBANDED").replace("{player}", p.getName()).replace("{faction}", faction.getName()));

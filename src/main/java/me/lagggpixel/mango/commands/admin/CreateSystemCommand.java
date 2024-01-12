@@ -23,7 +23,7 @@ public class CreateSystemCommand extends FactionSubCommand {
 
 
   public void execute(Player p, String[] args) {
-    if (p.hasPermission(this.cf.getString("ROOT_NODE") + ".createsystem")) {
+    if (p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".createsystem")) {
       if (args.length >= 1) {
 
         StringBuilder sb = new StringBuilder();
@@ -32,13 +32,13 @@ public class CreateSystemCommand extends FactionSubCommand {
         }
         String name = sb.toString().trim().replace(" ", "");
 
-        if (name.length() > Math.round(this.cf.getDouble("MAX_NAME_LENGTH"))) {
-          p.sendMessage(this.lf.getString("FACTION_TAG_EXCEED_LENGTH").replace("{length}", Math.round(this.cf.getDouble("MAX_NAME_LENGTH")) + ""));
+        if (name.length() > Math.round(this.cf.getDouble("Faction.Max-Name-Length"))) {
+          p.sendMessage(this.lf.getString("FACTION_TAG_EXCEED_LENGTH").replace("{length}", Math.round(this.cf.getDouble("Faction.Max-Name-Length")) + ""));
 
           return;
         }
-        if (name.length() < Math.round(this.cf.getDouble("MIN_NAME_LENGTH"))) {
-          p.sendMessage(this.lf.getString("FACTION_TAG_MUST_EXCEED_LENGTH").replace("{length}", Math.round(this.cf.getDouble("MIN_NAME_LENGTH")) + ""));
+        if (name.length() < Math.round(this.cf.getDouble("Faction.Min-Name-Length"))) {
+          p.sendMessage(this.lf.getString("FACTION_TAG_MUST_EXCEED_LENGTH").replace("{length}", Math.round(this.cf.getDouble("Faction.Min-Name-Length")) + ""));
 
           return;
         }

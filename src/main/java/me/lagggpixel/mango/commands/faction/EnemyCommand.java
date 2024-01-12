@@ -8,7 +8,7 @@ import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
+import java.util.List;
 
 
 public class EnemyCommand extends FactionSubCommand {
@@ -18,7 +18,7 @@ public class EnemyCommand extends FactionSubCommand {
   private final ConfigFile cf = this.main.getConfigFile();
 
   public EnemyCommand() {
-    super("enemy", Arrays.asList("unally"));
+    super("enemy", List.of("unally"));
   }
 
 
@@ -28,9 +28,10 @@ public class EnemyCommand extends FactionSubCommand {
         p.sendMessage(this.lf.getString("FACTION_NOT_IN"));
         return;
       }
-      if (this.fm.getFaction(p) instanceof PlayerFaction) {
+      if (this.fm.getFaction(p) != null) {
         PlayerFaction faction = this.fm.getFaction(p);
-        if (faction.getOfficers().contains(p.getUniqueId()) || faction.isLeader(p.getUniqueId()) || p.hasPermission(this.cf.getString("ROOT_NODE") + ".enemy")) {
+        assert faction != null;
+        if (faction.getOfficers().contains(p.getUniqueId()) || faction.isLeader(p.getUniqueId()) || p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".enemy")) {
           StringBuilder sb = new StringBuilder();
           for (String arg : args) {
             sb.append(arg).append(" ");
@@ -49,8 +50,7 @@ public class EnemyCommand extends FactionSubCommand {
             return;
           }
 
-          if (this.fm.getFactionByName(name) instanceof PlayerFaction) {
-            PlayerFaction allyFaction = (PlayerFaction) this.fm.getFactionByName(name);
+          if (this.fm.getFactionByName(name) instanceof PlayerFaction allyFaction) {
 
             if (!allyFaction.getAllies().contains(faction) && !faction.getAllies().contains(allyFaction)) {
               p.sendMessage(this.lf.getString("FACTION_ALREADY_RELATION").replace("{faction}", allyFaction.getName()));

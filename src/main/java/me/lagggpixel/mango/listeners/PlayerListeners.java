@@ -39,7 +39,7 @@ public class PlayerListeners
     Player p = e.getEntity();
     PlayerFaction playerFaction = this.fm.getFaction(p);
     if (playerFaction != null) {
-      playerFaction.freeze(this.cf.getInt("FREEZE_DURATION"));
+      playerFaction.freeze(this.cf.getInt("Faction.Freeze-Duration"));
       playerFaction.setDtr(playerFaction.getDtrDecimal().subtract(BigDecimal.valueOf(1L)));
       playerFaction.sendMessage(this.lf.getString("PLAYER_EVENTS.DEATH").replace("{player}", p.getName()).replace("{dtr}", playerFaction.getDtrDecimal() + "").replace("{maxdtr}", playerFaction.getMaxDtr() + ""));
     }

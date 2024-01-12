@@ -6,7 +6,7 @@
 
   <groupId>me.lagggpixe</groupId>
   <artifactId>mango</artifactId>
-  <version>1.0-SNAPSHOT5</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
 
   <name>Mango-Revival</name>
@@ -71,7 +71,7 @@
       <dependency>
           <groupId>org.spigotmc</groupId>
           <artifactId>spigot-api</artifactId>
-          <version>1.20.3-R0.1-SNAPSHOT</version>
+          <version>1.20.4-R0.1-SNAPSHOT</version>
           <scope>provided</scope>
       </dependency>
       <dependency>

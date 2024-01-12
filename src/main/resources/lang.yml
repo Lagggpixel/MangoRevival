@@ -86,6 +86,7 @@ FACTION_SET_HOME: "&7{player}&e has set the faction home to &7X: {x}&6, &7Y: {y}
 FACTION_NOT_FROZEN: "&cThat faction is not frozen!"
 FACTION_THAWED: "&eYour faction has been thawed by &a{player}&e!"
 FACTION_THAWED_PLAYER: "&eYou have thawed &7{faction}&e!"
+FACTION_HOME_CAN_NOT_TELEPORT_FROM_WORLD: "&cFaction home can not be used in this world!"
 FACTION_HOME_NOT_SET: "&cYour faction does not have a home!"
 FACTION_TELEPORT_CANCELLED: "&cTeleport cancelled!"
 FACTION_INVALID_COLOR: "Please specify a valid color!"

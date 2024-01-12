@@ -31,7 +31,7 @@ public class UnclaimCommand extends FactionSubCommand {
         }
         if (faction instanceof PlayerFaction) {
           PlayerFaction playerFaction = (PlayerFaction) faction;
-          if (!playerFaction.getOfficers().contains(p.getUniqueId()) && !playerFaction.isLeader(p.getUniqueId()) && !p.hasPermission(this.cf.getString("ROOT_NODE") + ".unclaim")) {
+          if (!playerFaction.getOfficers().contains(p.getUniqueId()) && !playerFaction.isLeader(p.getUniqueId()) && !p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".unclaim")) {
             p.sendMessage(this.lf.getString("FACTION_MUST_BE_OFFICER"));
 
             return;

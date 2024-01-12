@@ -52,13 +52,13 @@ public class ClaimManager {
 
   public ItemStack getWand() {
 
-    ItemStack stack = new ItemStack(Material.valueOf(this.cf.getString("CLAIMING_WAND.ITEM")));
+    ItemStack stack = new ItemStack(Material.valueOf(this.cf.getString("Claiming-Wand.Item")));
 
     ItemMeta meta = stack.getItemMeta();
 
-    meta.setDisplayName(this.cf.getString("CLAIMING_WAND.NAME"));
+    meta.setDisplayName(this.cf.getString("Claiming-Wand.Name"));
 
-    meta.setLore(this.cf.getStringList("CLAIMING_WAND.LORE"));
+    meta.setLore(this.cf.getStringList("Claiming-Wand.Lore"));
 
     stack.setItemMeta(meta);
 

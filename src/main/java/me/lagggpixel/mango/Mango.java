@@ -38,8 +38,6 @@ public class Mango extends JavaPlugin {
   @Getter
   private static Mango instance;
   @Getter
-  boolean verified = true;
-  @Getter
   private LanguageFile languageFile;
   @Getter
   private ConfigFile configFile;
@@ -79,7 +77,7 @@ public class Mango extends JavaPlugin {
         }
       }
       for (Player player : PlayerUtility.getOnlinePlayers()) {
-        if (player.hasPermission(configFile.getString("ROOT_NODE") + ".save")) {
+        if (player.hasPermission(Mango.getInstance().getRootPermissionNode() + ".save")) {
           player.sendMessage(languageFile.getString("SAVED.PLAYER").replace("{amount}", players + ""));
           player.sendMessage(languageFile.getString("SAVED.SYSTEM").replace("{amount}", systems + ""));
         }
@@ -110,7 +108,7 @@ public class Mango extends JavaPlugin {
     this.pillarManager = new PillarManager();
 
 
-    this.glaedr = new Glaedr(this, this.configFile.getString("SCOREBOARD_TITLE"));
+    this.glaedr = new Glaedr(this, this.configFile.getString("Scoreboard.Title"));
 
     setupDirectories();
 
@@ -255,6 +253,10 @@ public class Mango extends JavaPlugin {
 
     return false;
 
+  }
+
+  public String getRootPermissionNode() {
+    return this.configFile.getString("Root-Permission-Node");
   }
 
 }

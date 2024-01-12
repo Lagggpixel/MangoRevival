@@ -23,7 +23,7 @@ public class SaveCommand extends FactionSubCommand {
   }
 
   public void execute(Player p, String[] args) {
-    if (p.hasPermission(this.cf.getString("ROOT_NODE") + ".save")) {
+    if (p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".save")) {
       int systems = 0, players = 0;
       for (Faction faction : this.fm.getFactions()) {
         try {
@@ -38,7 +38,7 @@ public class SaveCommand extends FactionSubCommand {
         }
       }
       for (Player player : PlayerUtility.getOnlinePlayers()) {
-        if (player.hasPermission(this.cf.getString("ROOT_NODE") + ".save")) {
+        if (player.hasPermission(Mango.getInstance().getRootPermissionNode() + ".save")) {
           player.sendMessage(this.lf.getString("SAVED.PLAYER").replace("{amount}", players + ""));
           player.sendMessage(this.lf.getString("SAVED.SYSTEM").replace("{amount}", systems + ""));
         }

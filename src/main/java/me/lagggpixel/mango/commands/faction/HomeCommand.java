@@ -16,7 +16,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collections;
@@ -63,20 +62,22 @@ public class HomeCommand extends FactionSubCommand implements Listener {
 
         return;
       }
-      if (p.getWorld().getName().equalsIgnoreCase("world_nether")) {
-        Warmup warmup = new Warmup(p, playerFaction1.getHome(), (new Entry("stuck", scoreboard)).setText(this.cf.getString("FACTION_HOME")).setCountdown(true).setTime(25.0D).send());
-        warmup.runTaskLater(Mango.getInstance(), 500L);
-        waiting.put(p.getName(), warmup);
-        p.sendMessage(ChatColor.RED + "You will be teleported to your faction home in 25 seconds!");
-      } else if (p.getWorld().getName().equalsIgnoreCase("world")) {
-        Warmup warmup = new Warmup(p, playerFaction1.getHome(), (new Entry("stuck", scoreboard)).setText(this.cf.getString("FACTION_HOME")).setCountdown(true).setTime(10.0D).send());
-        warmup.runTaskLater(Mango.getInstance(), 200L);
-        waiting.put(p.getName(), warmup);
-        p.sendMessage(ChatColor.RED + "You will be teleported to your faction home in 10 seconds!");
-      } else {
-        p.sendMessage(ChatColor.RED + "You cannot teleport to your faction home in the end!");
+      String worldName = p.getWorld().getName();
+      int seconds;
+      if (!this.cf.contains("Teleport-Cooldown.Home." + worldName)) {
+        seconds = this.cf.getInt("Teleport-Cooldown.Home.Default", 10);
+      }
+      else {
+        seconds = this.cf.getInt("Teleport-Cooldown.Home." + worldName, 10);
+      }
+      if (seconds == -1) {
+        p.sendMessage(this.lf.getString("FACTION_HOME_CAN_NOT_TELEPORT_FROM_WORLD"));
         return;
       }
+      Warmup warmup = new Warmup(p, playerFaction1.getHome(), (new Entry("stuck", scoreboard)).setText(this.cf.getString("Scoreboard.Faction-Home")).setCountdown(true).setTime(seconds).send());
+      warmup.runTaskLater(Mango.getInstance(), seconds * 20L);
+      waiting.put(p.getName(), warmup);
+      p.sendMessage(ChatColor.RED + "You will be teleported to your faction home in " + seconds + " seconds!");
     }
   }
 

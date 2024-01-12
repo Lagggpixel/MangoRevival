@@ -41,7 +41,7 @@ public class ClaimListeners
   private final Mango main = Mango.getInstance();
   private final LanguageFile lf = this.main.getLanguageFile();
   private final ConfigFile cf = this.main.getConfigFile();
-  private final List<String> worlds = this.cf.getStringList("CLAIM_WORLDS");
+  private final List<String> worlds = this.cf.getStringList("Claim.Worlds");
   private final ClaimManager cm = this.main.getClaimManager();
   private final FactionManager fm = this.main.getFactionManager();
   private final HashSet<ClaimProfile> profiles = new HashSet<>();
@@ -218,7 +218,7 @@ public class ClaimListeners
         if (claim.isInside(e.getTo(), true) && claim.getWorld() == p.getWorld()) {
           if (profile.getLastInside() == null) {
             profile.setLastInside(claim);
-            p.sendMessage(this.lf.getString("FACTION_CLAIM_MESSAGES.LEAVING.SYSTEM").replace("%S{faction}", this.cf.getString("WILDERNESS.NAME")).replace("{deathban}", "Deathban"));
+            p.sendMessage(this.lf.getString("FACTION_CLAIM_MESSAGES.LEAVING.SYSTEM").replace("%S{faction}", this.cf.getString("Wilderness.Name")).replace("{deathban}", "Deathban"));
             sendClaimChange(p, claim.getOwner(), true);
 
             return;
@@ -236,7 +236,7 @@ public class ClaimListeners
             public void run() {
               if (profile.getLastInside() != null && profile.getLastInside() == claim) {
                 ClaimListeners.this.sendClaimChange(p, claim.getOwner(), false);
-                p.sendMessage(ClaimListeners.this.lf.getString("FACTION_CLAIM_MESSAGES.ENTERING.SYSTEM").replace("%S{faction}", ClaimListeners.this.cf.getString("WILDERNESS.NAME")).replace("{deathban}", "Deathban"));
+                p.sendMessage(ClaimListeners.this.lf.getString("FACTION_CLAIM_MESSAGES.ENTERING.SYSTEM").replace("%S{faction}", ClaimListeners.this.cf.getString("Wilderness.Name")).replace("{deathban}", "Deathban"));
                 profile.setLastInside(null);
               }
             }
@@ -329,7 +329,7 @@ public class ClaimListeners
           Location loc1 = new Location(p.getWorld(), prof.getX1(), 0.0D, prof.getZ1());
           Location loc2 = new Location(p.getWorld(), prof.getX2(), 0.0D, prof.getZ2());
 
-          int price = (int) Math.round(loc1.distance(loc2) * this.cf.getInt("CLAIM_PRICE_MULTIPLER"));
+          int price = (int) Math.round(loc1.distance(loc2) * this.cf.getInt("Claim.Price-Multiplier"));
 
           if (faction instanceof PlayerFaction playerFaction1) {
 
@@ -452,7 +452,7 @@ public class ClaimListeners
    * @param loc2    the second location
    */
   private void checkIsClaimAffordable(Player p, Faction faction, Location loc1, Location loc2) {
-    int price = (int) Math.round(loc1.distance(loc2) * this.cf.getInt("CLAIM_PRICE_MULTIPLER"));
+    int price = (int) Math.round(loc1.distance(loc2) * this.cf.getInt("Claim.Price-Multiplier"));
 
     if (faction instanceof PlayerFaction playerFaction) {
       if (playerFaction.getBalance() < price) {
@@ -521,7 +521,7 @@ public class ClaimListeners
       Location loc1 = new Location(p.getWorld(), prof.getX1(), 0.0D, prof.getZ1());
       Location loc2 = new Location(p.getWorld(), prof.getX2(), 0.0D, prof.getZ2());
 
-      if (loc1.distance(loc2) < this.cf.getInt("CLAIM_MINIMUM")) {
+      if (loc1.distance(loc2) < this.cf.getInt("Claim.Minimum-Size")) {
         p.sendMessage(this.lf.getString("WAND_MESSAGES.TOO_SMALL"));
         return;
       }

@@ -8,7 +8,7 @@ import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
+import java.util.List;
 
 
 public class JoinCommand extends FactionSubCommand {
@@ -17,7 +17,7 @@ public class JoinCommand extends FactionSubCommand {
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
   public JoinCommand() {
-    super("join", Arrays.asList("accept"));
+    super("join", List.of("accept"));
   }
 
 
@@ -37,13 +37,12 @@ public class JoinCommand extends FactionSubCommand {
 
       try {
         if (this.fm.getFactionByName(name) == null) {
-          if (this.fm.getFactionByPlayerName(name) != null && this.fm.getFactionByPlayerName(name) instanceof PlayerFaction) {
-            PlayerFaction faction = (PlayerFaction) this.fm.getFactionByPlayerName(name);
-            if (faction.getPlayers().size() >= this.cf.getInt("MAX_PLAYERS") && !p.hasPermission(this.cf.getString("ROOT_NODE") + ".join")) {
+          if (this.fm.getFactionByPlayerName(name) != null && this.fm.getFactionByPlayerName(name) instanceof PlayerFaction faction) {
+            if (faction.getPlayers().size() >= this.cf.getInt("Faction.Max-Players") && !p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".join")) {
               p.sendMessage(this.lf.getString("FACTION_TOO_MANY_PLAYERS"));
               return;
             }
-            if (faction.getInvitedPlayers().contains(p.getUniqueId()) || p.hasPermission(this.cf.getString("ROOT_NODE") + ".join")) {
+            if (faction.getInvitedPlayers().contains(p.getUniqueId()) || p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".join")) {
               p.sendMessage(this.lf.getString("FACTION_JOINED_PLAYER").replace("{faction}", faction.getName()));
               faction.sendMessage(this.lf.getString("FACTION_JOINED_FACTION").replace("{player}", p.getName()));
               faction.getMembers().add(p.getUniqueId());
@@ -54,11 +53,11 @@ public class JoinCommand extends FactionSubCommand {
           }
         } else {
           PlayerFaction faction = (PlayerFaction) this.fm.getFactionByName(name);
-          if (faction.getPlayers().size() >= this.cf.getInt("MAX_PLAYERS") && !p.hasPermission(this.cf.getString("ROOT_NODE") + ".join")) {
+          if (faction.getPlayers().size() >= this.cf.getInt("Faction.Max-Players") && !p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".join")) {
             p.sendMessage(this.lf.getString("FACTION_TOO_MANY_PLAYERS"));
             return;
           }
-          if (faction.getInvitedPlayers().contains(p.getUniqueId()) || p.hasPermission(this.cf.getString("ROOT_NODE") + ".join")) {
+          if (faction.getInvitedPlayers().contains(p.getUniqueId()) || p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".join")) {
             p.sendMessage(this.lf.getString("FACTION_JOINED_PLAYER").replace("{faction}", faction.getName()));
             faction.sendMessage(this.lf.getString("FACTION_JOINED_FACTION").replace("{player}", p.getName()));
             faction.getInvitedPlayers().remove(p.getUniqueId());
@@ -67,11 +66,12 @@ public class JoinCommand extends FactionSubCommand {
           }
           if (this.fm.getFactionByPlayerName(name) != null && this.fm.getFactionByPlayerName(name) instanceof PlayerFaction) {
             faction = (PlayerFaction) this.fm.getFactionByPlayerName(name);
-            if (faction.getPlayers().size() >= this.cf.getInt("MAX_PLAYERS") && !p.hasPermission(this.cf.getString("ROOT_NODE") + ".join")) {
+            assert faction != null;
+            if (faction.getPlayers().size() >= this.cf.getInt("Faction.Max-Players") && !p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".join")) {
               p.sendMessage(this.lf.getString("FACTION_TOO_MANY_PLAYERS"));
               return;
             }
-            if (faction.getInvitedPlayers().contains(p.getUniqueId()) || p.hasPermission(this.cf.getString("ROOT_NODE") + ".join")) {
+            if (faction.getInvitedPlayers().contains(p.getUniqueId()) || p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".join")) {
               p.sendMessage(this.lf.getString("FACTION_JOINED_PLAYER").replace("{faction}", faction.getName()));
               faction.sendMessage(this.lf.getString("FACTION_JOINED_FACTION").replace("{player}", p.getName()));
               faction.getMembers().add(p.getUniqueId());

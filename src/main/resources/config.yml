@@ -1,50 +1,124 @@
-SCOREBOARD_TITLE: "&6Mango Revival&7(Map 1)"
-FACTION_STUCK: "&cStuck Teleport &8»&7"
-FACTION_HOME: "&cHome Teleport &8»&7"
-ROOT_NODE: "mango" #nodes will be like mango.setdtr, or whatever you said root_node to be
-ALLY_REQUEST_TIMEOUT: 30
-DTR_SPEED: 60 #This is how long it will take (in seconds) for a faction to regen 0.1 dtr
-MAX_ALLIES: 1
-DTR_PER_PLAYER: 1.1
-MAX_DTR: 5.5
-START_BALANCE: 0
-MAX_PLAYERS: 30
-MAX_NAME_LENGTH: 12
-MIN_NAME_LENGTH: 3
-OFFLINE_COLOR: "&c"
-ONLINE_COLOR: "&a"
-RAIDABLE_COLOR: "&c"
-RAIDABLE_SYMBOL: " &c"
-NOT_RAIDABLE_COLOR: "&a"
-NOT_RAIDABLE_SYMBOL: "&a"
-REGEN_COLOR: "&a"
-REGEN_SYMBOL: "&a"
-FROZEN_COLOR: "&e"
-FROZEN_SYMBOL: "&e"
-FREEZE_DURATION: 3600 #in seconds, default is one hour.
-TELEPORT_COOLDOWN:
-  HOME: 10
-  STUCK: 60
-CHAT_PREFIX:
-  ENABLED: true
-  NO_FACTION: "&e[&c-&e] &r"
-  FRIENDLY_FACTION: "&e[&a{faction}&e]&r "
-  ALLY_FACTION: "&e[&d{faction}&e] &r"
-  ENEMY_FACTION: "&e[&c{faction}&e] &r"
-WILDERNESS:
-  NAME: "&7Wilderness"
-CLAIM_PRICE_MULTIPLER: 7 #The price of a claim would be the distance from one bottom corner, to the opposite top corner multiplied by this number. The default value would make a 5 x 5 claim cost $40 (around there)
-CLAIM_BUFFER: 10 #blocks
-CLAIM_MINIMUM: 5 #minimum claim would be 5x5 blocks
-CLAIM_WORLDS: #players w/o admin perms can only claim in the worlds listed below
-  - "world"
-CLAIMING_WAND:
-  ITEM: "GOLDEN_HOE"
-  NAME: "&aClaiming Wand"
-  LORE:
+#            Mango-Revival configuration file
+#
+#    You can edit here the basic things of Mango-Revival
+#          Please read everything CAREFULLY!
+#       You don't want to break anything, do you?
+#
+
+# The following section will contain all the configuration options for your scoreboard
+Scoreboard:
+  # The title of the scoreboard
+  Title: "&6Mango Revival&7(Map 1)"
+  # What will be displayed on scoreboard when a player does /f stuck
+  Faction-Stuck: "&cStuck Teleport &8»&7"
+  # What will be displayed on scoreboard when a player does /f home
+  Faction-Home: "&cHome Teleport &8»&7"
+
+# What the root permission node will be for mango
+# e.g. "mango" will make permissions look like "mango.setdtr"
+Root-Permission-Node: "mango"
+
+# The following section will contain all the configuration options for your faction values
+Faction:
+  # The amount of time for ally request to timeout in seconds
+  Ally-Request-Timeout: 30
+  # The amount of time for a faction to regen 0.1 dtr in seconds
+  Dtr-Regen-Speed: 60
+  # The maximum number of ally factions a faction can have
+  Max-Allies: 1
+  # The amount of dtr a player will increase the dtr cap of a faction
+  Dtr-Per-Player: 1.1
+  # The maximum dtr a faction can have
+  Max-Dtr: 5.5
+  # The starting balance of a faction
+  Starting-Balance: 0
+  # The maximum number of players a faction can have
+  Max-Players: 30
+  # The maximum name length of a faction
+  Max-Name-Length: 12
+  # The minimum name length of a faction
+  Min-Name-Length: 3
+  # The dtr freeze duration in seconds
+  Freeze-Duration: 3600
+
+# The following section will contain all the configuration options for display colours in tab and chat
+Colors:
+  # Player in the faction is offline
+  Offline: "&c"
+  # Player in the faction is online
+  Online: "&a"
+  # Faction is raidable
+  Raidable:
+    Color: "&c"
+    Symbol: " &c"
+  # Faction is not raidable
+  Not-Raidable:
+    Color: "&a"
+    Symbol: "&a"
+  # Faction is on dtr regen
+  Regen:
+    Color: "&a"
+    Symbol: "&a"
+  # Faction is on dtr freeze
+  Frozen:
+    Color: "&e"
+    Symbol: "&e"
+
+# The following section will contain all the configuration options for your teleportation timers
+Teleport-Cooldown:
+  # The amount of time in seconds for a player to teleport to faction home
+  # Note that the exact world names should be placed and there should always be a Default
+  # Set to -1 to disable faction home in that world
+  Home:
+    world: 10
+    world_nether: 25
+    world_the_end: -1
+    Default: 10
+  # The amount of time in seconds for a player to wait for faction stuck
+  Stuck: 60
+
+# The following section will contain all the configuration options for your chat
+Chat-Prefix:
+  # Should this feature be enabled or not
+  Enabled: true
+  # The color of the prefix when the player is not in a faction
+  No-Faction: "&e[&c-&e] &r"
+  # The color of the prefix when the player is in the same faction
+  Friendly-Faction: "&e[&a{faction}&e]&r "
+  # The color of the prefix when the player is in an ally faction
+  Ally-Faction: "&e[&d{faction}&e] &r"
+  # The color of the prefix when the player is in an enemy faction
+  Enemy-Faction: "&e[&c{faction}&e] &r"
+
+# What the name of wilderness should be
+Wilderness:
+  Name: "&7Wilderness"
+
+# The following section will contain all the configuration options for your claims
+Claim:
+  # The price of a claim would be the distance from one bottom corner,
+  # to the opposite top corner multiplied by this number
+  # The default value would make a 5 x 5 claim cost around $40
+  Price-Multiplier: 7
+  # The amount of blocks from another faction's claim a player can claim
+  Buffer: 10
+  # The side length of a claim a player is allowed to claim
+  Minimum-Size: 5
+  # The worlds in which the claims are allowed without admin permissions
+  # Note that admins can claim in any world
+  Worlds:
+    - "world"
+
+# The following section will contain all the configuration options for your wand
+Claiming-Wand:
+  # The item that will be used to claim land
+  Item: "GOLDEN_HOE"
+  # The name of the item that will be used to claim land
+  Name: "&aClaiming Wand"
+  # The lore of the item that will be used to claim land
+  Lore:
     - "&7This is the claiming wand."
     - "&aLeft-click the ground&7 to set the first position."
     - "&aRight-click the ground&7 to set the second position."
     - "&aShift and left-click&7 to claim land after setting points."
     - "&aRight-click the air twice&7 to clear your selection."
-

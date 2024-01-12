@@ -22,7 +22,7 @@ public class ColorCommand extends FactionSubCommand {
 
 
   public void execute(Player p, String[] args) {
-    if (p.hasPermission(this.cf.getString("ROOT_NODE") + ".color")) {
+    if (p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".color")) {
       if (args.length >= 2) {
         StringBuilder sb = new StringBuilder();
         for (int i = 1; i < args.length; i++) {

@@ -20,7 +20,7 @@ public class ThawCommand extends FactionSubCommand {
   }
 
   public void execute(Player p, String[] args) {
-    if (p.hasPermission(this.cf.getString("ROOT_NODE") + ".thaw")) {
+    if (p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".thaw")) {
       if (args.length >= 1) {
         StringBuilder sb = new StringBuilder();
         for (String arg : args) {

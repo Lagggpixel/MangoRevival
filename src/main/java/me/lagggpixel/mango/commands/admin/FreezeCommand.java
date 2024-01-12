@@ -24,7 +24,7 @@ public class FreezeCommand extends FactionSubCommand {
 
 
   public void execute(Player p, String[] args) {
-    if (p.hasPermission(this.cf.getString("ROOT_NODE") + ".freeze")) {
+    if (p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".freeze")) {
       if (args.length >= 2) {
         Faction faction = this.fm.getFactionByName(args[0]);
         if (faction == null) {
