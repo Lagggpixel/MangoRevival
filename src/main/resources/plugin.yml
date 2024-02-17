@@ -3,7 +3,7 @@ version: '${project.version}'
 description: An extensive faction plugin for use on hardcore faction servers.
 main: me.lagggpixel.mango.Mango
 api-version: '1.20'
-softdepend: [Vault]
+softdepend: [Vault, PlaceholderAPI]
 authors:
   - Alexandeh(Original plugin)
   - Alexander Maxwell(Scoreboard)

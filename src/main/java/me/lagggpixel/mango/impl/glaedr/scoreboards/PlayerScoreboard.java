@@ -2,12 +2,14 @@ package me.lagggpixel.mango.impl.glaedr.scoreboards;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.lagggpixel.mango.config.ConfigFile;
 import me.lagggpixel.mango.impl.glaedr.Glaedr;
 import me.lagggpixel.mango.impl.glaedr.events.EntryCancelEvent;
 import me.lagggpixel.mango.impl.glaedr.events.EntryFinishEvent;
 import me.lagggpixel.mango.impl.glaedr.events.EntryTickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -41,7 +43,7 @@ public class PlayerScoreboard {
   private final List<Entry> entries;
   private final List<Wrapper> wrappers;
   private BukkitTask task;
-  private boolean countup = false;
+  private final boolean countup;
 
   public PlayerScoreboard(Glaedr main, Player player) {
     this.player = player;
@@ -68,6 +70,14 @@ public class PlayerScoreboard {
     run();
 
     scoreboards.add(this);
+
+    ConfigurationSection linesSection = ConfigFile.getInstance().getConfiguration().getConfigurationSection("Scoreboard.Lines");
+    if (linesSection == null) {
+      return;
+    }
+    linesSection.getKeys(false).forEach(key -> {
+      new Entry(key, this).setText(linesSection.getString(key)).setCountdown(false).send();
+    });
   }
 
   public static PlayerScoreboard getScoreboard(Player player) {
@@ -79,7 +89,7 @@ public class PlayerScoreboard {
     return null;
   }
 
-    public String getAssignedKey(Entry entry) {
+  public String getAssignedKey(Entry entry) {
     if (keys.containsKey(entry)) {
       return keys.get(entry);
     }
@@ -104,8 +114,7 @@ public class PlayerScoreboard {
     int start = 15 - getTopWrappers().size();
     int goal = 0;
 
-    if (entry instanceof Wrapper) {
-      Wrapper wrapper = (Wrapper) entry;
+    if (entry instanceof Wrapper wrapper) {
       if (wrapper.getType() == Wrapper.WrapperType.TOP) {
         goal = start;
         start = 15;
@@ -182,7 +191,7 @@ public class PlayerScoreboard {
             objective.setDisplayName(title);
           }
         } else {
-          objective = scoreboard.registerNewObjective(player.getName(), Criteria.DUMMY,  "dummy");
+          objective = scoreboard.registerNewObjective(player.getName(), Criteria.DUMMY, "dummy");
           objective.setDisplaySlot(DisplaySlot.SIDEBAR);
           objective.setDisplayName(title);
         }
@@ -202,8 +211,6 @@ public class PlayerScoreboard {
 
         Iterator<Entry> entryIterator = getEntries().iterator();
         while (entryIterator.hasNext()) {
-
-
           Entry entry = entryIterator.next();
 
           if (entry.isCancelled()) {
@@ -217,7 +224,6 @@ public class PlayerScoreboard {
             }
             continue;
           }
-
 
           for (Wrapper wrapper : getWrappers()) {
             if (getEntries().isEmpty()) {

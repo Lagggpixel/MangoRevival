@@ -33,14 +33,8 @@ public class KickCommand extends FactionSubCommand {
 
         return;
       }
-      if (!(playerFaction instanceof PlayerFaction)) {
-        p.sendMessage(this.lf.getString("FACTION_NOT_IN_PLAYERFACTION"));
 
-        return;
-      }
-      PlayerFaction playerFaction1 = playerFaction;
-
-      if (!playerFaction1.isLeader(p.getUniqueId()) && !playerFaction1.getOfficers().contains(p.getUniqueId())) {
+      if (!playerFaction.isLeader(p.getUniqueId()) && !playerFaction.getOfficers().contains(p.getUniqueId())) {
         p.sendMessage(this.lf.getString("FACTION_MUST_BE_LEADER_OR_OFFICER"));
 
         return;
@@ -51,34 +45,34 @@ public class KickCommand extends FactionSubCommand {
       }
       String name = sb.toString().trim().replace(" ", "");
 
-      if (playerFaction1.getPlayer(name) == null) {
+      if (playerFaction.getPlayer(name) == null) {
         p.sendMessage(this.lf.getString("FACTION_TARGET_NOT_IN_FACTION").replace("{player}", name));
 
         return;
       }
-      UUID uuid = playerFaction1.getPlayer(name).getUniqueId();
+      UUID uuid = playerFaction.getPlayer(name).getUniqueId();
 
-      if (playerFaction1.getOfficers().contains(uuid) && playerFaction1.getOfficers().contains(p.getUniqueId())) {
+      if (playerFaction.getOfficers().contains(uuid) && playerFaction.getOfficers().contains(p.getUniqueId())) {
         p.sendMessage(this.lf.getString("FACTION_CANNOT_KICK_OTHER_OFFICERS"));
 
         return;
       }
-      if (playerFaction1.isLeader(uuid)) {
+      if (playerFaction.isLeader(uuid)) {
         p.sendMessage(this.lf.getString("FACTION_CANNOT_KICK_LEADER"));
 
         return;
       }
-      if (playerFaction1.isFrozen() && !p.hasPermission(this.cf.getString("ADMIN_NODE"))) {
+      if (playerFaction.isFrozen() && !p.hasPermission(this.cf.getString("ADMIN_NODE"))) {
         p.sendMessage(this.lf.getString("FACTION_KICK_FROZEN"));
 
         return;
       }
-      playerFaction1.sendMessage(this.lf.getString("FACTION_PLAYER_KICKED").replace("{player}", Bukkit.getOfflinePlayer(uuid).getName()));
+      playerFaction.sendMessage(this.lf.getString("FACTION_PLAYER_KICKED").replace("{player}", Bukkit.getOfflinePlayer(uuid).getName()));
 
-      if (playerFaction1.getOfficers().contains(uuid)) {
-        playerFaction1.getOfficers().remove(uuid);
+      if (playerFaction.getOfficers().contains(uuid)) {
+        playerFaction.getOfficers().remove(uuid);
       } else {
-        playerFaction1.getMembers().remove(uuid);
+        playerFaction.getMembers().remove(uuid);
       }
       return;
     }

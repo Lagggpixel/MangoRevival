@@ -13,6 +13,19 @@ Scoreboard:
   Faction-Stuck: "&cStuck Teleport &8»&7"
   # What will be displayed on scoreboard when a player does /f home
   Faction-Home: "&cHome Teleport &8»&7"
+  # Scoreboard lines, note that any countdown will be added just to the bottom of this list
+  # Note, these changes will not apply until the server is restarted
+  # If these placeholders are not working, make sure you have done the follow commands
+  # /papi ecloud download Player
+  # /papi ecloud download Server
+  # /papi reload
+  # The numbers in front have no particular meaning, the order the scoreboard follows is the
+  # order the lines are placed here into the config file
+  Lines:
+    1: '&aPlayer name: %player_name%'
+    2: '&aTPS: %server_tps%'
+    3: '&aServer uptime: %server_uptime%'
+    4: ' '
 
 # What the root permission node will be for mango
 # e.g. "mango" will make permissions look like "mango.setdtr"
@@ -122,3 +135,9 @@ Claiming-Wand:
     - "&aRight-click the ground&7 to set the second position."
     - "&aShift and left-click&7 to claim land after setting points."
     - "&aRight-click the air twice&7 to clear your selection."
+
+# Hooks
+# Note, these changes will not apply until the server is restarted
+Hooks:
+  # Should we use PlaceholderAPI
+  PlaceholderAPI: true

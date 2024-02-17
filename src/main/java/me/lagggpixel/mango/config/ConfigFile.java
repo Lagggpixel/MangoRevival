@@ -1,21 +1,28 @@
 package me.lagggpixel.mango.config;
 
+import lombok.Getter;
 import me.lagggpixel.mango.Mango;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 
 public class ConfigFile {
   private final Mango main = Mango.getInstance();
   private final File file;
+  @Getter
   private final YamlConfiguration configuration;
 
+  @Getter
+  private static ConfigFile instance;
+
   public ConfigFile() {
+    instance = this;
     this.main.saveDefaultConfig();
     this.file = new File(this.main.getDataFolder(), "config.yml");
     this.configuration = YamlConfiguration.loadConfiguration(this.file);
@@ -51,7 +58,8 @@ public class ConfigFile {
 
   public String getString(String path) {
     if (this.configuration.contains(path)) {
-      return ChatColor.translateAlternateColorCodes('&', this.configuration.getString(path));
+      return ChatColor.translateAlternateColorCodes('&',
+          Objects.requireNonNull(this.configuration.getString(path)));
     }
     return "ERROR: STRING NOT FOUND";
   }
@@ -68,7 +76,7 @@ public class ConfigFile {
       }
       return strings;
     }
-    return Arrays.asList("ERROR: STRING LIST NOT FOUND!");
+    return Collections.singletonList("ERROR: STRING LIST NOT FOUND!");
   }
 }
 

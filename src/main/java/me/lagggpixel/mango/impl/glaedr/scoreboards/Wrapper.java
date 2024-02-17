@@ -24,6 +24,6 @@ public class Wrapper extends Entry {
 
   public enum WrapperType {
     TOP,
-    BOTTOM
+    BOTTOM,
   }
 }

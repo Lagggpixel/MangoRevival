@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 
 
 public class Mango extends JavaPlugin {
@@ -59,6 +60,8 @@ public class Mango extends JavaPlugin {
   private final String symbol = "»";
   @Getter
   private final List<Player> vanishedPlayers = new ArrayList<>();
+  @Getter
+  private boolean isPlaceholderEnabled;
 
   private final BukkitRunnable autoSaveRunnable = new BukkitRunnable() {
     @Override
@@ -88,7 +91,7 @@ public class Mango extends JavaPlugin {
 
   public void onEnable() {
     if (!attemptEconomyHook()) {
-      Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "Mango: No economy hook found, disabling plugin.");
+      this.getLogger().log(Level.SEVERE, "No economy hook found, disabling plugin.");
       this.onDisable();
       throw new RuntimeException("Failed to hook into economy!");
     }
@@ -101,6 +104,11 @@ public class Mango extends JavaPlugin {
 
     this.configFile = new ConfigFile();
 
+    if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null && configFile.getBoolean("Hooks.PlaceholderAPI")) {
+      this.getLogger().log(Level.INFO, ChatColor.YELLOW + "Successfully hooked into PlaceholderAPI, enabling placeholders.");
+      isPlaceholderEnabled = true;
+    }
+
     this.factionManager = new FactionManager();
 
     this.claimManager = new ClaimManager();
@@ -109,17 +117,14 @@ public class Mango extends JavaPlugin {
 
 
     this.glaedr = new Glaedr(this, this.configFile.getString("Scoreboard.Title"));
+    this.glaedr.registerPlayers();
 
     setupDirectories();
 
-
     attemptChatHook();
 
-
     registerCommands();
-
     registerListeners();
-
 
     this.factionManager.load();
 

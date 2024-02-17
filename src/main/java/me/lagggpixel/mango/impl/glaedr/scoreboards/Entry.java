@@ -3,6 +3,8 @@ package me.lagggpixel.mango.impl.glaedr.scoreboards;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.lagggpixel.mango.Mango;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
@@ -54,6 +56,12 @@ public class Entry {
 
   public void sendScoreboardUpdate(String text) {
     Objective objective = playerScoreboard.getObjective();
+
+    if (Mango.getInstance().isPlaceholderEnabled()) {
+      text = PlaceholderAPI.setPlaceholders(playerScoreboard.getPlayer(), text);
+    }
+
+    text = ChatColor.translateAlternateColorCodes('&', text);
 
     if (text.length() > 16) {
       team.setPrefix(text.substring(0, 16));
