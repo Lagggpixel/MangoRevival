@@ -62,6 +62,8 @@ public class Mango extends JavaPlugin {
   private final List<Player> vanishedPlayers = new ArrayList<>();
   @Getter
   private boolean isPlaceholderEnabled;
+  @Getter
+  private boolean debug;
 
   private final BukkitRunnable autoSaveRunnable = new BukkitRunnable() {
     @Override

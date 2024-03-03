@@ -1,6 +1,7 @@
 package me.lagggpixel.mango.impl.glaedr;
 
 import lombok.Getter;
+import me.lagggpixel.mango.Mango;
 import me.lagggpixel.mango.impl.glaedr.scoreboards.Entry;
 import me.lagggpixel.mango.impl.glaedr.scoreboards.PlayerScoreboard;
 import me.lagggpixel.mango.impl.glaedr.scoreboards.Wrapper;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -53,7 +55,9 @@ public class Glaedr implements Listener {
     for (Player player : Bukkit.getOnlinePlayers()) {
       long oldTime = System.currentTimeMillis();
       new PlayerScoreboard(this, player);
-      player.sendMessage(ChatColor.BLUE + "Scoreboard created in " + (System.currentTimeMillis() - oldTime) + "ms.");
+      if (Mango.getInstance().isDebug()) {
+        Mango.getInstance().getLogger().info("Debug: Scoreboard for " + player.getName() + " created in " + (System.currentTimeMillis() - oldTime) + "ms.");
+      }
     }
   }
 
@@ -64,7 +68,9 @@ public class Glaedr implements Listener {
     if (playerScoreboard == null) {
       long oldTime = System.currentTimeMillis();
       new PlayerScoreboard(this, player);
-      player.sendMessage(ChatColor.BLUE + "Scoreboard created in " + (System.currentTimeMillis() - oldTime) + "ms.");
+      if (Mango.getInstance().isDebug()) {
+        Mango.getInstance().getLogger().info("Debug: Scoreboard for " + player.getName() + " created in " + (System.currentTimeMillis() - oldTime) + "ms.");
+      }
     } else {
       if (player.getScoreboard() != playerScoreboard.getScoreboard()) {
         if (player.getScoreboard().getObjective(DisplaySlot.SIDEBAR) != null) {
@@ -86,6 +92,16 @@ public class Glaedr implements Listener {
       }
 
       player.setScoreboard(playerScoreboard.getScoreboard());
+    }
+  }
+
+  @EventHandler
+  public void onLeave(PlayerQuitEvent event) {
+    Player player = event.getPlayer();
+    PlayerScoreboard playerScoreboard = PlayerScoreboard.getScoreboard(player);
+    if (playerScoreboard != null) {
+      playerScoreboard.kill();
+      PlayerScoreboard.getScoreboards().remove(playerScoreboard);
     }
   }
 }

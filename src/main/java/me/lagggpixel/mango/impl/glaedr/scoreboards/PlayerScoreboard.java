@@ -340,4 +340,9 @@ public class PlayerScoreboard {
     }.runTaskTimer(Glaedr.getPlugin(), 2L, 2L);
   }
 
+  public void kill() {
+    if (task != null) {
+      task.cancel();
+    }
+  }
 }
