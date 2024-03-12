@@ -60,7 +60,7 @@ public class ClassesRunnable extends BukkitRunnable implements Listener {
     Bukkit.getServer().getPluginManager().callEvent(new PlayerClassChangeEvent(player, previousClass, newClass));
   }
 
-  private Classes getPlayerClass(Player player) {
+  public Classes getPlayerClass(Player player) {
     if (!playerClasses.containsKey(player)) {
       return null;
     }

@@ -36,8 +36,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class ClaimListeners
-    implements Listener {
+public class ClaimListeners implements Listener {
   private final Mango main = Mango.getInstance();
   private final LanguageFile lf = this.main.getLanguageFile();
   private final ConfigFile cf = this.main.getConfigFile();

@@ -15,8 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 
-public class ChatListeners
-    implements Listener {
+public class ChatListeners implements Listener {
   private final LanguageFile lf = Mango.getInstance().getLanguageFile();
   private final ConfigFile cf = Mango.getInstance().getConfigFile();
   private final FactionManager fm = Mango.getInstance().getFactionManager();
@@ -28,8 +27,7 @@ public class ChatListeners
 
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onChat(AsyncPlayerChatEvent e) {
-    if (!e.isCancelled() &&
-        this.cf.getBoolean("Chat-Prefix.Enabled")) {
+    if (!e.isCancelled() && this.cf.getBoolean("Chat-Prefix.Enabled")) {
       Player p = e.getPlayer();
       e.setCancelled(true);
 

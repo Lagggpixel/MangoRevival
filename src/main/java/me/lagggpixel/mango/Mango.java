@@ -14,7 +14,9 @@ import me.lagggpixel.mango.impl.bstats.Metrics;
 import me.lagggpixel.mango.impl.glaedr.Glaedr;
 import me.lagggpixel.mango.listeners.ChatListeners;
 import me.lagggpixel.mango.listeners.ClaimListeners;
+import me.lagggpixel.mango.listeners.ClassesListeners;
 import me.lagggpixel.mango.listeners.PlayerListeners;
+import me.lagggpixel.mango.runnable.ArcherTagRunnable;
 import me.lagggpixel.mango.runnable.ClassesRunnable;
 import me.lagggpixel.mango.utils.PlayerUtility;
 import me.lagggpixel.mango.utils.command.Register;
@@ -90,7 +92,9 @@ public class Mango extends JavaPlugin {
       }
     }
   };
+  @Getter
   private final ClassesRunnable classesRunnable = new ClassesRunnable();
+  private final ArcherTagRunnable archerTagRunnable = new ArcherTagRunnable();
 
 
   public void onEnable() {
@@ -134,6 +138,7 @@ public class Mango extends JavaPlugin {
 
     autoSaveRunnable.runTaskTimerAsynchronously(this, 20L * 60 * 5, 20L * 60 * 5);
     classesRunnable.runTaskTimer(this, 20L, 20L);
+    archerTagRunnable.runTaskTimerAsynchronously(this, 0L, 20L);
   }
 
 
@@ -207,6 +212,8 @@ public class Mango extends JavaPlugin {
     new ChatListeners();
 
     new ClaimListeners();
+
+    new ClassesListeners();
 
     new PlayerListeners();
 

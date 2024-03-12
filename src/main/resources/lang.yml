@@ -51,22 +51,22 @@ FACTION_STUCK_ALREADY_WAITING: "&cYou're already trying to /f stuck!"
 FACTION_SET_COLOR: "&eYou have set &7{faction}&e's color to {color}&e!"
 FACTION_SHOW_SPLITTER: "&7,"
 SYSTEM_SHOW:
-    - "&8&m-----------------------------------------------------" #home-coords will just become "None" if they do not have a home set
-    - "&6{faction} &3- &eHome: &f{home-coords}"
-    - "&eType: {deathban}"
-    - "&7This is a system faction, it cannot go raidable and cannot contain members."
-    - "&8&m-----------------------------------------------------" #home-coords will just become "None" if they do not have a home set
+  - "&8&m-----------------------------------------------------" #home-coords will just become "None" if they do not have a home set
+  - "&6{faction} &3- &eHome: &f{home-coords}"
+  - "&eType: {deathban}"
+  - "&7This is a system faction, it cannot go raidable and cannot contain members."
+  - "&8&m-----------------------------------------------------" #home-coords will just become "None" if they do not have a home set
 FACTION_SHOW:
-    - "&8&m-----------------------------------------------------" #home-coords will just become "None" if they do not have a home set
-    - "&6{faction} &7[{online}/{total}] &3- &eHome: &f{home-coords}"
-    - "&eLeader: {leader}" #You do not need to specify a color, you can change the online colors and offline colors in the config.yml, this is applicable to the members and officers too
-    - "&eOfficers: {officers}"
-    - "&eMembers: {members}"
-    - "&eBalance: &9${balance}"
-    - "&eAllies: &d{allies}"
-    - "&eDeaths until Raidable: {dtr}" #You can set the default colors in the config.yml, default is red = raidable, green = not raidable
-    - "&eTime Until Regen: &9{time}" #This will only be displayed if the faction is frozen.
-    - "&8&m-----------------------------------------------------"
+  - "&8&m-----------------------------------------------------" #home-coords will just become "None" if they do not have a home set
+  - "&6{faction} &7[{online}/{total}] &3- &eHome: &f{home-coords}"
+  - "&eLeader: {leader}" #You do not need to specify a color, you can change the online colors and offline colors in the config.yml, this is applicable to the members and officers too
+  - "&eOfficers: {officers}"
+  - "&eMembers: {members}"
+  - "&eBalance: &9${balance}"
+  - "&eAllies: &d{allies}"
+  - "&eDeaths until Raidable: {dtr}" #You can set the default colors in the config.yml, default is red = raidable, green = not raidable
+  - "&eTime Until Regen: &9{time}" #This will only be displayed if the faction is frozen.
+  - "&8&m-----------------------------------------------------"
 FACTION_CREATED: "&e{player}&c has created a new faction named &e{faction}&c."
 SYSTEM_CREATED: "&e{player}&c has created a new system faction named &e{faction}&c."
 FACTION_DISBANDED: "&e{player}&c has disbanded the faction named &e{faction}&c."
@@ -165,52 +165,52 @@ FACTION_CLAIM_MESSAGES:
     ENEMY: "&eNow Leaving &c{faction}&e (&cDeathban&e)"
     SYSTEM: "&eNow Leaving %S{faction}&e (&c{deathban}&e)" #%S represents system color. You can set the color of each system faction in game.
 FACTION_HELP:
-    4:
-      - "&8&m-----------------------------------------------------"
-      - "&6Faction Help &e(Page 4/4)"
-      - "&a/f withdraw > &7Withdraws money from the faction balance."
-      - "&6You are currently on &fPage 4/4."
-      - "&6To view other pages, use &e/f help <page#>."
-      - "&8&m-----------------------------------------------------"
-    3:
-      - "&8&m-----------------------------------------------------"
-      - "&6Faction Help &e(Page 3/4)"
-      - "&a/f rename > &7Change the name of your faction."
-      - "&a/f promote > &7Promotes a player to a captain."
-      - "&a/f sethome > &7Sets the faction home location."
-      - "&a/f show > &7Get details about a faction."
-      -  "&a/f unclaim > &7Unclaims land from your faction."
-      - "&a/f uninvite > &7Revoke an invitation to a player."
-      - "&6You are currently on &fPage 3/4."
-      - "&6To view other pages, use &e/f help <page#>."
-      - "&8&m-----------------------------------------------------"
-    2:
-      - "&8&m-----------------------------------------------------"
-      - "&6Faction Help &e(Page 2/4)"
-      - "&a/f disband > &7Disband your faction."
-      - "&a/f home > &7Teleport to the faction home."
-      - "&a/f invite > &7Invite a player to the faction."
-      - "&a/f kick > &7Kick a player from the faction."
-      - "&a/f leader > &7Sets the new leader for your faction."
-      - "&a/f leave > &7Leave your current faction."
-      - "&a/f list > &7See a list of all factions."
-      - "&a/f map > &7View all claims around your location."
-      - "&a/f msg > &7Sends a message to your faction."
-      - "&6You are currently on &fPage 2/4."
-      - "&6To view other pages, use &e/f help <page#>."
-      - "&8&m-----------------------------------------------------"
-    1:
-      - "&8&m-----------------------------------------------------"
-      - "&6Faction Help &e(Page 1/4)"
-      - "&a/f accept > &7Accept a join request from an existing faction."
-      - "&a/f chat > &7Toggle faction chat only mode on or off."
-      - "&a/f claim > &7Claim land in the Wilderness."
-      - "&a/f create > &7Create a faction."
-      - "&a/f demote > &7Demotes a player to a member."
-      - "&a/f deposit > &7Deposits money to the faction balance."
-      - "&6You are currently on &fPage 1/4."
-      - "&6To view other pages, use &e/f help <page#>"
-      - "&8&m-----------------------------------------------------"
+  4:
+    - "&8&m-----------------------------------------------------"
+    - "&6Faction Help &e(Page 4/4)"
+    - "&a/f withdraw > &7Withdraws money from the faction balance."
+    - "&6You are currently on &fPage 4/4."
+    - "&6To view other pages, use &e/f help <page#>."
+    - "&8&m-----------------------------------------------------"
+  3:
+    - "&8&m-----------------------------------------------------"
+    - "&6Faction Help &e(Page 3/4)"
+    - "&a/f rename > &7Change the name of your faction."
+    - "&a/f promote > &7Promotes a player to a captain."
+    - "&a/f sethome > &7Sets the faction home location."
+    - "&a/f show > &7Get details about a faction."
+    - "&a/f unclaim > &7Unclaims land from your faction."
+    - "&a/f uninvite > &7Revoke an invitation to a player."
+    - "&6You are currently on &fPage 3/4."
+    - "&6To view other pages, use &e/f help <page#>."
+    - "&8&m-----------------------------------------------------"
+  2:
+    - "&8&m-----------------------------------------------------"
+    - "&6Faction Help &e(Page 2/4)"
+    - "&a/f disband > &7Disband your faction."
+    - "&a/f home > &7Teleport to the faction home."
+    - "&a/f invite > &7Invite a player to the faction."
+    - "&a/f kick > &7Kick a player from the faction."
+    - "&a/f leader > &7Sets the new leader for your faction."
+    - "&a/f leave > &7Leave your current faction."
+    - "&a/f list > &7See a list of all factions."
+    - "&a/f map > &7View all claims around your location."
+    - "&a/f msg > &7Sends a message to your faction."
+    - "&6You are currently on &fPage 2/4."
+    - "&6To view other pages, use &e/f help <page#>."
+    - "&8&m-----------------------------------------------------"
+  1:
+    - "&8&m-----------------------------------------------------"
+    - "&6Faction Help &e(Page 1/4)"
+    - "&a/f accept > &7Accept a join request from an existing faction."
+    - "&a/f chat > &7Toggle faction chat only mode on or off."
+    - "&a/f claim > &7Claim land in the Wilderness."
+    - "&a/f create > &7Create a faction."
+    - "&a/f demote > &7Demotes a player to a member."
+    - "&a/f deposit > &7Deposits money to the faction balance."
+    - "&6You are currently on &fPage 1/4."
+    - "&6To view other pages, use &e/f help <page#>"
+    - "&8&m-----------------------------------------------------"
 WAND_MESSAGES:
   CLEAR: "&cRight-click the wand again to clear your selection!"
   CLEARED: "&aYou have successfully cleared your wand selection!"
@@ -230,3 +230,7 @@ PLAYER_EVENTS:
   DEATH: "&c{player}&e has died! DTR&7:{dtr}/{maxdtr}"
   JOIN: "&eFaction member &a{player}&e has logged on!"
   QUIT: "&eFaction member &a{player}&e has logged quit!"
+CLASSES:
+  ARCHER_TAG:
+    ARCHER: "You have tagged {player} and dealt 2 damage."
+    DIAMOND: "You have been tagged by {player} for 10 seconds."

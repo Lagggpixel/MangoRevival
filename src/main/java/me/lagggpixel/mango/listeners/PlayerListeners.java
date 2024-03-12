@@ -24,8 +24,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.math.BigDecimal;
 
 
-public class PlayerListeners
-    implements Listener {
+public class PlayerListeners implements Listener {
   private final LanguageFile lf = Mango.getInstance().getLanguageFile();
   private final ConfigFile cf = Mango.getInstance().getConfigFile();
   private final FactionManager fm = Mango.getInstance().getFactionManager();
@@ -58,9 +57,7 @@ public class PlayerListeners
   public void onDamage(EntityDamageEvent e) {
     if (e.getEntity() instanceof Player p) {
       for (Claim claim : Mango.getInstance().getClaimManager().getClaims()) {
-        if (claim.isInside(p.getLocation(), true) &&
-            claim.getOwner() instanceof SystemFaction &&
-            !((SystemFaction) claim.getOwner()).isDeathbanBoolean()) {
+        if (claim.isInside(p.getLocation(), true) && claim.getOwner() instanceof SystemFaction && !((SystemFaction) claim.getOwner()).isDeathbanBoolean()) {
           e.setCancelled(true);
         }
       }
@@ -78,8 +75,7 @@ public class PlayerListeners
         }
         PlayerFaction playerFaction = this.fm.getFaction(p);
         PlayerFaction damageFaction = this.fm.getFaction(d);
-        if ((playerFaction != null && damageFaction != null) &&
-            (playerFaction.getAllies().contains(damageFaction) || damageFaction.getAllies().contains(playerFaction))) {
+        if ((playerFaction != null && damageFaction != null) && (playerFaction.getAllies().contains(damageFaction) || damageFaction.getAllies().contains(playerFaction))) {
           d.sendMessage(this.lf.getString("FACTION_ALLY_DAMAGE").replace("{player}", p.getName()));
           e.setCancelled(true);
         }
