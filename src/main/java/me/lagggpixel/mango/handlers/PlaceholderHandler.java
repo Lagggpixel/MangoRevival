@@ -79,11 +79,7 @@ public class PlaceholderHandler extends PlaceholderExpansion {
         return String.valueOf(faction.getDtr());
       }
       if (args.length == 2) {
-        Player player = Mango.getInstance().getServer().getPlayer(args[1]);
-        if (player == null) {
-          return "Player Not Online";
-        }
-        PlayerFaction faction = Mango.getInstance().getFactionManager().getFaction(player);
+        PlayerFaction faction = Mango.getInstance().getFactionManager().getFaction(offlinePlayer);
         if (faction == null) {
           return "Not In Faction";
         }

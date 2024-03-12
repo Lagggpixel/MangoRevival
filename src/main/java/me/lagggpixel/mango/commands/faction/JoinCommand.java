@@ -37,7 +37,8 @@ public class JoinCommand extends FactionSubCommand {
 
       try {
         if (this.fm.getFactionByName(name) == null) {
-          if (this.fm.getFactionByPlayerName(name) != null && this.fm.getFactionByPlayerName(name) instanceof PlayerFaction faction) {
+          if (this.fm.getFactionByPlayerName(name) != null) {
+            PlayerFaction faction = this.fm.getFactionByPlayerName(name);
             if (faction.getPlayers().size() >= this.cf.getInt("Faction.Max-Players") && !p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".join")) {
               p.sendMessage(this.lf.getString("FACTION_TOO_MANY_PLAYERS"));
               return;

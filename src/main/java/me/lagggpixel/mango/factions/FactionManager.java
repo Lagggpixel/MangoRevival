@@ -15,7 +15,10 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
 
 
 @Getter
@@ -167,12 +170,10 @@ public class FactionManager {
 
   public void checkDoubles() {
     for (Faction faction : getFactions()) {
-      if (faction instanceof PlayerFaction) {
-        PlayerFaction playerFaction = (PlayerFaction) faction;
+      if (faction instanceof PlayerFaction playerFaction) {
         for (OfflinePlayer player : playerFaction.getPlayers()) {
           for (Faction faction1 : getFactions()) {
-            if (faction1 instanceof PlayerFaction) {
-              PlayerFaction playerFaction1 = (PlayerFaction) faction1;
+            if (faction1 instanceof PlayerFaction playerFaction1) {
               if (playerFaction1 != playerFaction && playerFaction1.getPlayers().contains(player)) {
                 if (playerFaction1.isLeader(player.getUniqueId())) {
                   playerFaction1.delete();
@@ -231,13 +232,13 @@ public class FactionManager {
     return null;
   }
 
-  public @Nullable Faction getFactionByPlayerName(String name) {
+  public @Nullable PlayerFaction getFactionByPlayerName(String name) {
     for (Faction faction : getFactions()) {
       if (faction instanceof PlayerFaction) {
         for (OfflinePlayer offlinePlayer : ((PlayerFaction) faction).getPlayers()) {
           if (offlinePlayer != null && offlinePlayer.getName() != null &&
               offlinePlayer.getName().equalsIgnoreCase(name)) {
-            return faction;
+            return (PlayerFaction) faction;
           }
         }
       }
@@ -259,7 +260,35 @@ public class FactionManager {
 
 
   public @Nullable PlayerFaction getFaction(Player p) {
-    return (PlayerFaction) getFactionByPlayerName(p.getName());
+    return getFactionByPlayerName(p.getName());
+  }
+
+  public @Nullable Faction getFaction(UUID uuid) {
+    for (Faction faction : getFactions()) {
+      if (faction instanceof PlayerFaction) {
+        for (OfflinePlayer offlinePlayer : ((PlayerFaction) faction).getPlayers()) {
+          if (offlinePlayer != null && offlinePlayer.getName() != null &&
+              offlinePlayer.getUniqueId() == uuid) {
+            return faction;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  public @Nullable PlayerFaction getFaction(OfflinePlayer player) {
+    for (Faction faction : getFactions()) {
+      if (faction instanceof PlayerFaction) {
+        for (OfflinePlayer offlinePlayer : ((PlayerFaction) faction).getPlayers()) {
+          if (offlinePlayer != null && offlinePlayer.getName() != null &&
+              offlinePlayer.getUniqueId() == player.getUniqueId()) {
+            return (PlayerFaction) faction;
+          }
+        }
+      }
+    }
+    return null;
   }
 }
 
