@@ -10,6 +10,7 @@ import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.claims.ClaimManager;
 import me.lagggpixel.mango.factions.pillars.PillarManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
+import me.lagggpixel.mango.handlers.PlaceholderHandler;
 import me.lagggpixel.mango.impl.bstats.Metrics;
 import me.lagggpixel.mango.impl.glaedr.Glaedr;
 import me.lagggpixel.mango.listeners.ChatListeners;
@@ -115,6 +116,7 @@ public class Mango extends JavaPlugin {
     if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null && configFile.getBoolean("Hooks.PlaceholderAPI")) {
       this.getLogger().log(Level.INFO, ChatColor.YELLOW + "Successfully hooked into PlaceholderAPI, enabling placeholders.");
       isPlaceholderEnabled = true;
+      new PlaceholderHandler().register();
     }
 
     this.factionManager = new FactionManager();
