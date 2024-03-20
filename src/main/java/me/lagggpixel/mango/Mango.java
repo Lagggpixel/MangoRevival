@@ -16,7 +16,6 @@ import me.lagggpixel.mango.impl.bstats.Metrics;
 import me.lagggpixel.mango.impl.glaedr.Glaedr;
 import me.lagggpixel.mango.listeners.ChatListeners;
 import me.lagggpixel.mango.listeners.ClaimListeners;
-import me.lagggpixel.mango.listeners.ClassesListeners;
 import me.lagggpixel.mango.listeners.PlayerListeners;
 import me.lagggpixel.mango.utils.PlayerUtility;
 import me.lagggpixel.mango.utils.command.Register;
@@ -210,8 +209,6 @@ public class Mango extends JavaPlugin {
     new ChatListeners();
 
     new ClaimListeners();
-
-    new ClassesListeners();
 
     new PlayerListeners();
 
