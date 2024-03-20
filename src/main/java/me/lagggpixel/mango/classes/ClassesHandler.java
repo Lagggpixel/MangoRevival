@@ -2,12 +2,17 @@ package me.lagggpixel.mango.classes;
 
 import lombok.Getter;
 import me.lagggpixel.mango.Mango;
+import me.lagggpixel.mango.config.ConfigFile;
 import me.lagggpixel.mango.config.LanguageFile;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
+import me.lagggpixel.mango.impl.glaedr.scoreboards.Entry;
+import me.lagggpixel.mango.impl.glaedr.scoreboards.PlayerScoreboard;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -27,10 +32,12 @@ public class ClassesHandler implements Listener {
 
   private static final Map<Player, cPlayer> playerData = new HashMap<>();
   private final LanguageFile lf;
+  private final ConfigFile cf;
 
   public ClassesHandler() {
     Mango.getInstance().getServer().getPluginManager().registerEvents(this, Mango.getInstance());
     lf = Mango.getInstance().getLanguageFile();
+    cf = Mango.getInstance().getConfigFile();
     new BukkitRunnable() {
       @Override
       public void run() {
@@ -222,5 +229,56 @@ public class ClassesHandler implements Listener {
     }
     cPlayer.removeEnergy(energy);
     applyBardEffect(player, effect, amplifier);
+  }
+
+  /**
+   * A method that triggers when a player's arrow hits another entity
+   *
+   * @param event the EntityDamageByEntityEvent triggered when the player's arrow hits another entity
+   */
+  @EventHandler
+  public void onPlayerHitByArrow(EntityDamageByEntityEvent event) {
+
+    if (!(event.getEntity() instanceof Player victim)) {
+      return;
+    }
+
+    if (!(event.getDamager() instanceof Arrow arrow)) {
+      return;
+    }
+
+    if (!(arrow.getShooter() instanceof Player damager)) {
+      return;
+    }
+
+
+    if (playerData.get(damager).getClasses() != Classes.ARCHER) {
+      return;
+    }
+
+    if (playerData.get(victim).getClasses() != Classes.DIAMOND) {
+      victim.damage(4, damager);
+      return;
+    }
+
+    if (!playerData.get(victim).isArcherTagged()) {
+      playerData.get(victim).setArcherTagged(true);
+      playerData.get(victim).setArcherTagTimer(5 * 20L);
+      PlayerScoreboard scoreboard = PlayerScoreboard.getScoreboard(victim);
+      new Entry("stuck", scoreboard).setText(this.cf.getString("Scoreboard.Archer-Tagged")).setCountdown(true).setTime(this.cf.getInt("Classes.Archer-Tag-Time", 5)).send();
+    }
+  }
+
+  public void onPlayerHitWhenTagged(EntityDamageByEntityEvent event) {
+
+    if (!(event.getEntity() instanceof Player victim)) {
+      return;
+    }
+
+    if (!playerData.get(victim).isArcherTagged()) {
+      return;
+    }
+
+    event.setDamage(event.getDamage() * 1.25);
   }
 }

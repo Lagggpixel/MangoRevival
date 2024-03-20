@@ -13,6 +13,8 @@ Scoreboard:
   Faction-Stuck: "&cStuck Teleport &8»&7"
   # What will be displayed on scoreboard when a player does /f home
   Faction-Home: "&cHome Teleport &8»&7"
+  # What will be displayed on scoreboard when a player gets archer tagged
+  Archer-Tagged: "&cArcher Tag &8»&7"
   # Scoreboard lines, note that any countdown will be added just to the bottom of this list
   # Note, these changes will not apply until the server is restarted
   # If these placeholders are not working, make sure you have done the follow commands
@@ -141,3 +143,8 @@ Claiming-Wand:
 Hooks:
   # Should we use PlaceholderAPI
   PlaceholderAPI: true
+
+# Classes
+Classes:
+  # Time in seconds a player will be archer tagged for
+  Archer-Tag-Time: 5

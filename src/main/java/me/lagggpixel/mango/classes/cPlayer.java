@@ -10,7 +10,7 @@ public class cPlayer {
   private Classes classes;
   private double classEnergy;
   private boolean isArcherTagged;
-  private double archerTagTimer;
+  private long archerTagTimer;
 
   public cPlayer(Player player) {
     this.player = player;

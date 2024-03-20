@@ -233,5 +233,6 @@ PLAYER_EVENTS:
 CLASSES:
   NOT_ENOUGH_ENERGY: "&cYou do not have enough energy, you need {amount}!"
   ARCHER_TAG:
+    CANNOT_TAG: "You cannot tag players not in diamond!"
     ARCHER: "You have tagged {player} and dealt 2 damage."
-    DIAMOND: "You have been tagged by {player} for 10 seconds."
+    DIAMOND: "You have been tagged by {player} for 10 seconds, all damage dealt will be increased by 25%."
