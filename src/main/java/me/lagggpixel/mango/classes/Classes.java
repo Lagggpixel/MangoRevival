@@ -1,4 +1,4 @@
-package me.lagggpixel.mango.enums;
+package me.lagggpixel.mango.classes;
 
 import lombok.Getter;
 import org.bukkit.Material;
@@ -10,10 +10,10 @@ import java.util.Map;
 @Getter
 public enum Classes {
   DIAMOND(Map.of()),
-  BARD(Map.of(PotionEffectType.SPEED, 2, PotionEffectType.REGENERATION, 1, PotionEffectType.DAMAGE_RESISTANCE, 1)),
+  BARD(Map.of(PotionEffectType.SPEED, 2, PotionEffectType.REGENERATION, 2, PotionEffectType.DAMAGE_RESISTANCE, 2)),
   ARCHER(Map.of(PotionEffectType.SPEED, 3)),
-  ROUGE(Map.of(PotionEffectType.SPEED, 2, PotionEffectType.REGENERATION, 1, PotionEffectType.DAMAGE_RESISTANCE, 1)),
-  MINER(Map.of(PotionEffectType.FAST_DIGGING, 2, PotionEffectType.REGENERATION, 1, PotionEffectType.DAMAGE_RESISTANCE, 1, PotionEffectType.FIRE_RESISTANCE, 1));
+  ROUGE(Map.of(PotionEffectType.SPEED, 4, PotionEffectType.JUMP, 4)),
+  MINER(Map.of(PotionEffectType.FAST_DIGGING, 2, PotionEffectType.NIGHT_VISION, 1, PotionEffectType.FIRE_RESISTANCE, 1));
 
   private final Map<PotionEffectType, Integer> classEffects;
 

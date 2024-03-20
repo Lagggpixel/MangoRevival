@@ -2,6 +2,7 @@ package me.lagggpixel.mango;
 
 
 import lombok.Getter;
+import me.lagggpixel.mango.classes.ClassesHandler;
 import me.lagggpixel.mango.commands.FactionCommand;
 import me.lagggpixel.mango.config.ConfigFile;
 import me.lagggpixel.mango.config.LanguageFile;
@@ -17,8 +18,6 @@ import me.lagggpixel.mango.listeners.ChatListeners;
 import me.lagggpixel.mango.listeners.ClaimListeners;
 import me.lagggpixel.mango.listeners.ClassesListeners;
 import me.lagggpixel.mango.listeners.PlayerListeners;
-import me.lagggpixel.mango.runnable.ArcherTagRunnable;
-import me.lagggpixel.mango.runnable.ClassesRunnable;
 import me.lagggpixel.mango.utils.PlayerUtility;
 import me.lagggpixel.mango.utils.command.Register;
 import net.milkbowl.vault.chat.Chat;
@@ -93,9 +92,6 @@ public class Mango extends JavaPlugin {
       }
     }
   };
-  @Getter
-  private final ClassesRunnable classesRunnable = new ClassesRunnable();
-  private final ArcherTagRunnable archerTagRunnable = new ArcherTagRunnable();
 
 
   public void onEnable() {
@@ -139,8 +135,8 @@ public class Mango extends JavaPlugin {
     this.factionManager.load();
 
     autoSaveRunnable.runTaskTimerAsynchronously(this, 20L * 60 * 5, 20L * 60 * 5);
-    classesRunnable.runTaskTimer(this, 20L, 20L);
-    archerTagRunnable.runTaskTimerAsynchronously(this, 0L, 20L);
+
+    new ClassesHandler();
   }
 
 

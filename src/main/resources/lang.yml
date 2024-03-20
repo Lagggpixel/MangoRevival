@@ -231,6 +231,7 @@ PLAYER_EVENTS:
   JOIN: "&eFaction member &a{player}&e has logged on!"
   QUIT: "&eFaction member &a{player}&e has logged quit!"
 CLASSES:
+  NOT_ENOUGH_ENERGY: "&cYou do not have enough energy, you need {amount}!"
   ARCHER_TAG:
     ARCHER: "You have tagged {player} and dealt 2 damage."
     DIAMOND: "You have been tagged by {player} for 10 seconds."
