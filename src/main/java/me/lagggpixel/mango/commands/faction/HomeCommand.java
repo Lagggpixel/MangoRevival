@@ -38,14 +38,13 @@ public class HomeCommand extends FactionSubCommand implements Listener {
   public void execute(Player p, String[] args) {
     PlayerScoreboard scoreboard = PlayerScoreboard.getScoreboard(p);
     if (scoreboard != null) {
-      PlayerFaction playerFaction1 = this.fm.getFaction(p);
+      PlayerFaction playerFaction = this.fm.getFaction(p);
 
-      if (playerFaction1 == null) {
+      if (playerFaction == null) {
         p.sendMessage(this.lf.getString("FACTION_NOT_IN"));
 
         return;
       }
-      PlayerFaction playerFaction = playerFaction1;
 
       if (waiting.containsKey(p.getName())) {
         p.sendMessage(ChatColor.RED + "You're already teleporting to your faction home!");
@@ -74,7 +73,7 @@ public class HomeCommand extends FactionSubCommand implements Listener {
         p.sendMessage(this.lf.getString("FACTION_HOME_CAN_NOT_TELEPORT_FROM_WORLD"));
         return;
       }
-      Warmup warmup = new Warmup(p, playerFaction1.getHome(), (new Entry("stuck", scoreboard)).setText(this.cf.getString("Scoreboard.Faction-Home")).setCountdown(true).setTime(seconds).send());
+      Warmup warmup = new Warmup(p, playerFaction.getHome(), (new Entry("stuck", scoreboard)).setText(this.cf.getString("Scoreboard.Faction-Home")).setCountdown(true).setTime(seconds).send());
       warmup.runTaskLater(Mango.getInstance(), seconds * 20L);
       waiting.put(p.getName(), warmup);
       p.sendMessage(ChatColor.RED + "You will be teleported to your faction home in " + seconds + " seconds!");
@@ -92,6 +91,10 @@ public class HomeCommand extends FactionSubCommand implements Listener {
       return;
     }
 
+    if (to == null) {
+      throw new NullPointerException("PlayerMoveEvent location \"TO\" cannot be null");
+    }
+
     if (from.getBlockX() != to.getBlockX() || from.getBlockY() != to.getBlockY() || from.getBlockZ() != to.getBlockZ()) {
       p.sendMessage(this.lf.getString("FACTION_TELEPORT_CANCELLED"));
       waiting.get(p.getName()).cancel();
@@ -102,11 +105,9 @@ public class HomeCommand extends FactionSubCommand implements Listener {
 
   @EventHandler
   public void onDamage(EntityDamageEvent event) {
-    if (!(event.getEntity() instanceof Player)) {
+    if (!(event.getEntity() instanceof Player p)) {
       return;
     }
-
-    Player p = (Player) event.getEntity();
 
     if (!waiting.containsKey(p.getName())) {
       return;
