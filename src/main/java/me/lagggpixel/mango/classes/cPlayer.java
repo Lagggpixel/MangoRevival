@@ -24,14 +24,8 @@ public class cPlayer {
       this.classes = newClasses;
       this.classEnergy = 0;
     }
-    if (this.classes == Classes.BARD) {
-      this.classEnergy += 0.25;
-    }
-    if (this.classes == Classes.ROUGE) {
-      this.classEnergy += 0.25;
-    }
-    if (this.classes == Classes.ROUGE) {
-      this.classEnergy += 0.25;
+    if (this.classes == Classes.BARD || this.classes == Classes.ROUGE || this.classes == Classes.ARCHER) {
+      this.classEnergy += 0.05;
     }
     if (this.isArcherTagged) {
       this.archerTagTimer -= 1;
@@ -52,5 +46,9 @@ public class cPlayer {
       this.classEnergy = 0;
       throw new IllegalArgumentException("Class energy cannot be negative");
     }
+  }
+
+  public double getEnergyRounded() {
+    return Math.round(this.classEnergy * 100.0) / 100.0;
   }
 }

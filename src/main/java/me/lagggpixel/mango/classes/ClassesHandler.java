@@ -49,17 +49,23 @@ public class ClassesHandler implements Listener {
       @Override
       public void run() {
         playerData.forEach((player, cPlayer) -> {
+          if (cPlayer.getClasses() != null) {
+            cPlayer.getClasses().getClassEffects().forEach((k, v) -> {
+              player.addPotionEffect(new PotionEffect(k, 40, v));
+            });
+          }
+
           Classes classes = cPlayer.getClasses();
           if (classes == Classes.BARD) {
             ItemStack itemStack = player.getInventory().getItemInMainHand();
             switch (itemStack.getType()) {
-              case MAGMA_CREAM -> applyBardEffect(player, PotionEffectType.FIRE_RESISTANCE, 1);
-              case GOLDEN_CARROT -> applyBardEffect(player, PotionEffectType.NIGHT_VISION, 1);
-              case SUGAR -> applyBardEffect(player, PotionEffectType.SPEED, 2);
-              case BLAZE_POWDER -> applyBardEffect(player, PotionEffectType.INCREASE_DAMAGE, 1);
-              case GHAST_TEAR -> applyBardEffect(player, PotionEffectType.REGENERATION, 1);
-              case FEATHER -> applyBardEffect(player, PotionEffectType.JUMP, 2);
-              case IRON_INGOT -> applyBardEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 1);
+              case MAGMA_CREAM -> applyTeamEffect(player, PotionEffectType.FIRE_RESISTANCE, 1);
+              case GOLDEN_CARROT -> applyTeamEffect(player, PotionEffectType.NIGHT_VISION, 1);
+              case SUGAR -> applyTeamEffect(player, PotionEffectType.SPEED, 2);
+              case BLAZE_POWDER -> applyTeamEffect(player, PotionEffectType.INCREASE_DAMAGE, 1);
+              case GHAST_TEAR -> applyTeamEffect(player, PotionEffectType.REGENERATION, 1);
+              case FEATHER -> applyTeamEffect(player, PotionEffectType.JUMP, 2);
+              case IRON_INGOT -> applyTeamEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 1);
             }
           }
         });
@@ -68,42 +74,38 @@ public class ClassesHandler implements Listener {
   }
 
   /**
-   * Apply a Bard effect to the player and nearby faction members for 40 ticks
+   * Apply an effect to the player and nearby faction members for 40 ticks
    *
    * @param p         the player to apply the effect to
    * @param effect    the type of potion effect to apply
    * @param amplifier the strength of the potion effect
    */
-  public void applyBardEffect(Player p, PotionEffectType effect, int amplifier) {
-    applyBardEffect(p, effect, amplifier, 40);
+  public void applyTeamEffect(Player p, PotionEffectType effect, int amplifier) {
+    applyTeamEffect(p, effect, amplifier, 40);
   }
 
   /**
-   * Applies a Bard effect to the given player and their faction members.
+   * Applies an effect to the given player and their faction members.
    *
    * @param p         the player to apply the effect to
    * @param effect    the potion effect type to apply
    * @param amplifier the amplifier for the potion effect
    * @param ticks     the duration of the potion effect in ticks
    */
-  public void applyBardEffect(Player p, PotionEffectType effect, int amplifier, int ticks) {
-    PlayerFaction f = Mango.getInstance().getFactionManager().getFaction(p);
-    if (!(p.hasPotionEffect(effect)
-        || p.getPotionEffect(effect) == null
-        || Objects.requireNonNull(p.getPotionEffect(effect)).getAmplifier() >= amplifier)) {
-      p.addPotionEffect(new PotionEffect(effect, ticks, amplifier));
-    }
-    if (f == null) {
+  public void applyTeamEffect(Player p, PotionEffectType effect, int amplifier, int ticks) {
+    applySelfEffect(p, effect, amplifier, ticks);
+    PlayerFaction faction = Mango.getInstance().getFactionManager().getFaction(p);
+    if (faction == null) {
       return;
     }
-    for (Player factionPlayer : f.getOnlinePlayers()) {
+    for (Player factionPlayer : faction.getOnlinePlayers()) {
       double distance = p.getLocation().distance(factionPlayer.getLocation());
       if (distance > 15) {
         continue;
       }
       if (factionPlayer.hasPotionEffect(effect)
-          || factionPlayer.getPotionEffect(effect) == null
-          || Objects.requireNonNull(factionPlayer.getPotionEffect(effect)).getAmplifier() >= amplifier) {
+          && factionPlayer.getPotionEffect(effect) != null
+          && Objects.requireNonNull(factionPlayer.getPotionEffect(effect)).getAmplifier() > amplifier) {
         continue;
       }
       factionPlayer.addPotionEffect(new PotionEffect(effect, ticks, amplifier));
@@ -111,28 +113,28 @@ public class ClassesHandler implements Listener {
   }
 
   /**
-   * Applies a Archer effect to the given player for 40 ticks
+   * Applies a effect to the given player for 40 ticks
    *
    * @param p         the player to apply the effect to
    * @param effect    the type of potion effect to apply
    * @param amplifier the strength of the potion effect
    */
-  public void applyArcherEffect(Player p, PotionEffectType effect, int amplifier) {
-    applyArcherEffect(p, effect, amplifier, 40);
+  public void applySelfEffect(Player p, PotionEffectType effect, int amplifier) {
+    applySelfEffect(p, effect, amplifier, 40);
   }
 
   /**
-   * Applies a Archer effect to the given player
+   * Applies a effect to the given player
    *
    * @param p         the player to apply the effect to
    * @param effect    the potion effect type to apply
    * @param amplifier the amplifier for the potion effect
    * @param ticks     the duration of the potion effect in ticks
    */
-  public void applyArcherEffect(Player p, PotionEffectType effect, int amplifier, int ticks) {
+  public void applySelfEffect(Player p, PotionEffectType effect, int amplifier, int ticks) {
     if (p.hasPotionEffect(effect)
-        || p.getPotionEffect(effect) == null
-        || Objects.requireNonNull(p.getPotionEffect(effect)).getAmplifier() >= amplifier) {
+        && p.getPotionEffect(effect) != null
+        && Objects.requireNonNull(p.getPotionEffect(effect)).getAmplifier() > amplifier) {
       return;
     }
     p.addPotionEffect(new PotionEffect(effect, ticks, amplifier));
@@ -169,13 +171,13 @@ public class ClassesHandler implements Listener {
         return;
       }
       switch (itemStack.getType()) {
-        case MAGMA_CREAM -> applyBardEffect(player, PotionEffectType.FIRE_RESISTANCE, 1);
-        case GOLDEN_CARROT -> applyBardEffect(player, PotionEffectType.NIGHT_VISION, 1);
-        case SUGAR -> applyBardEffect(player, PotionEffectType.SPEED, 2);
-        case BLAZE_POWDER -> applyBardEffect(player, PotionEffectType.INCREASE_DAMAGE, 1);
-        case GHAST_TEAR -> applyBardEffect(player, PotionEffectType.REGENERATION, 1);
-        case FEATHER -> applyBardEffect(player, PotionEffectType.JUMP, 2);
-        case IRON_INGOT -> applyBardEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 1);
+        case MAGMA_CREAM -> applyTeamEffect(player, PotionEffectType.FIRE_RESISTANCE, 1);
+        case GOLDEN_CARROT -> applyTeamEffect(player, PotionEffectType.NIGHT_VISION, 1);
+        case SUGAR -> applyTeamEffect(player, PotionEffectType.SPEED, 2);
+        case BLAZE_POWDER -> applyTeamEffect(player, PotionEffectType.INCREASE_DAMAGE, 1);
+        case GHAST_TEAR -> applyTeamEffect(player, PotionEffectType.REGENERATION, 1);
+        case FEATHER -> applyTeamEffect(player, PotionEffectType.JUMP, 2);
+        case IRON_INGOT -> applyTeamEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 1);
       }
     }
   }
@@ -216,19 +218,21 @@ public class ClassesHandler implements Listener {
   private void forceApplyArcherEffect(Player player, PotionEffectType effect, int amplifier, int energy) {
     cPlayer cPlayer = playerData.get(player);
     if (!cPlayer.hasEnergy(energy)) {
-      player.sendMessage(lf.getString("NOT_ENOUGH_ENERGY").replace("{amount}", String.valueOf(energy)));
+      player.sendMessage(lf.getString("CLASSES.NOT_ENOUGH_ENERGY").replace("{amount_required}", String.valueOf(energy)).replace("{current_energy}", String.valueOf(cPlayer.getEnergyRounded())));
+      return;
     }
     cPlayer.removeEnergy(energy);
-    applyArcherEffect(player, effect, amplifier);
+    applySelfEffect(player, effect, amplifier, 20 * 5);
   }
 
   private void forceApplyBardEffect(Player player, PotionEffectType effect, int amplifier, int energy) {
     cPlayer cPlayer = playerData.get(player);
     if (!cPlayer.hasEnergy(energy)) {
-      player.sendMessage(lf.getString("NOT_ENOUGH_ENERGY").replace("{amount}", String.valueOf(energy)));
+      player.sendMessage(lf.getString("CLASSES.NOT_ENOUGH_ENERGY").replace("{amount_required}", String.valueOf(energy)).replace("{current_energy}", String.valueOf(cPlayer.getEnergyRounded())));
+      return;
     }
     cPlayer.removeEnergy(energy);
-    applyBardEffect(player, effect, amplifier);
+    applyTeamEffect(player, effect, amplifier, 20 * 5);
   }
 
   /**
@@ -269,6 +273,13 @@ public class ClassesHandler implements Listener {
     }
   }
 
+  /**
+   * A method that triggers when a player's gets hit by an entity
+   * Archer tagged players will have the damage increased by 1.25
+   *
+   * @param event the EntityDamageByEntityEvent triggered when the player's arrow hits another entity
+   */
+  @EventHandler
   public void onPlayerHitWhenTagged(EntityDamageByEntityEvent event) {
 
     if (!(event.getEntity() instanceof Player victim)) {
