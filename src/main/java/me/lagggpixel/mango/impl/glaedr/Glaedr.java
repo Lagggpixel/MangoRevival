@@ -76,7 +76,7 @@ public class Glaedr implements Listener {
         if (player.getScoreboard().getObjective(DisplaySlot.SIDEBAR) != null) {
           playerScoreboard.setObjective(player.getScoreboard().getObjective(DisplaySlot.SIDEBAR));
         } else {
-          Objective objective = player.getScoreboard().registerNewObjective(player.getName(), Criteria.DUMMY , "dummy");
+          Objective objective = player.getScoreboard().registerNewObjective(player.getName(), Criteria.DUMMY, "dummy");
           objective.setDisplaySlot(DisplaySlot.SIDEBAR);
           objective.setDisplayName(title);
           playerScoreboard.setObjective(objective);

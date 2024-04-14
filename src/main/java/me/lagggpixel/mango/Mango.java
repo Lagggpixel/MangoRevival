@@ -11,7 +11,7 @@ import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.claims.ClaimManager;
 import me.lagggpixel.mango.factions.pillars.PillarManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
-import me.lagggpixel.mango.handlers.PlaceholderHandler;
+import me.lagggpixel.mango.impl.placeholder.PlaceholderHandler;
 import me.lagggpixel.mango.impl.bstats.Metrics;
 import me.lagggpixel.mango.impl.glaedr.Glaedr;
 import me.lagggpixel.mango.listeners.ChatListeners;
@@ -41,6 +41,12 @@ public class Mango extends JavaPlugin {
   @Getter
   private static Mango instance;
   @Getter
+  private final HashMap<UUID, Faction> claiming = new HashMap<>();
+  @Getter
+  private final String symbol = "»";
+  @Getter
+  private final List<Player> vanishedPlayers = new ArrayList<>();
+  @Getter
   private LanguageFile languageFile;
   @Getter
   private ConfigFile configFile;
@@ -53,20 +59,11 @@ public class Mango extends JavaPlugin {
   @Getter
   private PillarManager pillarManager;
   @Getter
-  private final HashMap<UUID, Faction> claiming = new HashMap<>();
-  @Getter
   private Chat chat = null;
   @Getter
   private Glaedr glaedr;
   @Getter
-  private final String symbol = "»";
-  @Getter
-  private final List<Player> vanishedPlayers = new ArrayList<>();
-  @Getter
   private boolean isPlaceholderEnabled;
-  @Getter
-  private boolean debug;
-
   private final BukkitRunnable autoSaveRunnable = new BukkitRunnable() {
     @Override
     public void run() {
@@ -91,7 +88,8 @@ public class Mango extends JavaPlugin {
       }
     }
   };
-
+  @Getter
+  private boolean debug;
 
   public void onEnable() {
     if (!attemptEconomyHook()) {
@@ -119,7 +117,6 @@ public class Mango extends JavaPlugin {
     this.claimManager = new ClaimManager();
 
     this.pillarManager = new PillarManager();
-
 
     this.glaedr = new Glaedr(this, this.configFile.getString("Scoreboard.Title"));
     this.glaedr.registerPlayers();

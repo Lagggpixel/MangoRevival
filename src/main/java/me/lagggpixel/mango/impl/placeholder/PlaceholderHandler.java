@@ -1,7 +1,9 @@
-package me.lagggpixel.mango.handlers;
+package me.lagggpixel.mango.impl.placeholder;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.lagggpixel.mango.Mango;
+import me.lagggpixel.mango.commands.faction.HomeCommand;
+import me.lagggpixel.mango.commands.faction.StuckCommand;
 import me.lagggpixel.mango.factions.Faction;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
 import org.bukkit.OfflinePlayer;
@@ -86,6 +88,28 @@ public class PlaceholderHandler extends PlaceholderExpansion {
         return String.valueOf(faction.getDtr());
       }
       return null;
+    }
+
+    if (args[0].toLowerCase().startsWith("timer_")) {
+      String key = args[0].toLowerCase().replace("timer_", "");
+
+      switch (key) {
+        case "home":
+          HomeCommand.Warmup homeWarmup = HomeCommand.getWaiting().get(offlinePlayer.getName());
+          if (homeWarmup == null) {
+            return null;
+          }
+          return String.valueOf(homeWarmup.getSeconds());
+        case "stuck":
+          StuckCommand.Warmup stuckWarmup = StuckCommand.getWaiting().get(offlinePlayer.getName());
+          if (stuckWarmup == null) {
+            return null;
+          }
+          return String.valueOf(stuckWarmup.getSeconds());
+        default:
+          return null;
+      }
+
     }
 
     return null;

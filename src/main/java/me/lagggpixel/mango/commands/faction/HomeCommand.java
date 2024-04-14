@@ -1,5 +1,6 @@
 package me.lagggpixel.mango.commands.faction;
 
+import lombok.Getter;
 import me.lagggpixel.mango.Mango;
 import me.lagggpixel.mango.commands.FactionSubCommand;
 import me.lagggpixel.mango.config.ConfigFile;
@@ -18,12 +19,14 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class HomeCommand extends FactionSubCommand implements Listener {
+  @Getter
   private static final Map<String, Warmup> waiting = new HashMap<>();
   private final LanguageFile lf = Mango.getInstance().getLanguageFile();
   private final ConfigFile cf = Mango.getInstance().getConfigFile();
@@ -118,7 +121,7 @@ public class HomeCommand extends FactionSubCommand implements Listener {
     waiting.remove(p.getName());
   }
 
-  private static class Warmup extends BukkitRunnable {
+  public static class Warmup extends BukkitRunnable {
     private final Player player;
     private final Location location;
     private final Entry entry;
@@ -136,6 +139,10 @@ public class HomeCommand extends FactionSubCommand implements Listener {
     public void run() {
       HomeCommand.waiting.remove(this.player.getName());
       this.player.teleport(this.location);
+    }
+
+    public BigDecimal getSeconds() {
+      return this.entry.getTime();
     }
   }
 }
