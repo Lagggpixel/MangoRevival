@@ -6,10 +6,6 @@ import me.lagggpixel.mango.config.ConfigFile;
 import me.lagggpixel.mango.config.LanguageFile;
 import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
-import net.kyori.text.TextComponent;
-import net.kyori.text.event.ClickEvent;
-import net.kyori.text.event.HoverEvent;
-import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -63,13 +59,6 @@ public class InviteCommand extends FactionSubCommand {
 
             return;
           }
-
-          TextComponent component = LegacyComponentSerializer.INSTANCE
-              .deserialize(this.lf.getString("FACTION_PLAYER_INVITED_PLAYER").replace("{inviter}", p.getName()).replace("{faction}", faction.getName()), '&');
-          component.toBuilder()
-              .hoverEvent(HoverEvent.showText(LegacyComponentSerializer.INSTANCE.deserialize(this.lf.getString("FACTION_PLAYER_INVITED_PLAYER_TOOLTIP"), '&')))
-              .clickEvent(ClickEvent.runCommand("/f join " + faction.getName()))
-              .build();
 
           faction.sendMessage(this.lf.getString("FACTION_PLAYER_INVITED_FACTION").replace("{inviter}", p.getName()).replace("{invited}", inv.getName()));
           faction.getInvitedPlayers().add(inv.getUniqueId());

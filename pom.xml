@@ -6,10 +6,10 @@
 
   <groupId>me.lagggpixel</groupId>
   <artifactId>MangoRevival</artifactId>
-  <version>1.0.5-SNAPSHOT4</version>
+  <version>1.0.5-ALPHA5</version>
   <packaging>jar</packaging>
 
-  <name>Mango-Revival</name>
+  <name>MangoRevival</name>
 
   <properties>
     <java.version>8</java.version>
@@ -26,6 +26,22 @@
           <source>16</source>
           <target>16</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.5.3</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
     <resources>
@@ -73,16 +89,6 @@
       <artifactId>lombok</artifactId>
       <version>1.18.28</version>
       <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>net.kyori</groupId>
-      <artifactId>text-api</artifactId>
-      <version>3.0.3</version>
-    </dependency>
-    <dependency>
-      <groupId>net.kyori</groupId>
-      <artifactId>text-adapter-bukkit</artifactId>
-      <version>3.0.3</version>
     </dependency>
     <dependency>
       <groupId>me.clip</groupId>
