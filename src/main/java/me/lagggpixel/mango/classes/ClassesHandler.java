@@ -30,6 +30,7 @@ import java.util.Objects;
 @Getter
 public class ClassesHandler implements Listener {
 
+  @Getter
   private static final Map<Player, cPlayer> playerData = new HashMap<>();
   private final LanguageFile lf;
   private final ConfigFile cf;

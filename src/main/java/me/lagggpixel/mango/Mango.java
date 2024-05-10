@@ -11,9 +11,9 @@ import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.claims.ClaimManager;
 import me.lagggpixel.mango.factions.pillars.PillarManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
-import me.lagggpixel.mango.impl.placeholder.PlaceholderHandler;
 import me.lagggpixel.mango.impl.bstats.Metrics;
 import me.lagggpixel.mango.impl.glaedr.Glaedr;
+import me.lagggpixel.mango.impl.placeholder.PlaceholderHandler;
 import me.lagggpixel.mango.listeners.ChatListeners;
 import me.lagggpixel.mango.listeners.ClaimListeners;
 import me.lagggpixel.mango.listeners.PlayerListeners;
@@ -58,6 +58,8 @@ public class Mango extends JavaPlugin {
   private ClaimManager claimManager;
   @Getter
   private PillarManager pillarManager;
+  @Getter
+  private ClassesHandler classesHandler;
   @Getter
   private Chat chat = null;
   @Getter
@@ -132,7 +134,7 @@ public class Mango extends JavaPlugin {
 
     autoSaveRunnable.runTaskTimerAsynchronously(this, 20L * 60 * 5, 20L * 60 * 5);
 
-    new ClassesHandler();
+    classesHandler = new ClassesHandler();
   }
 
 
