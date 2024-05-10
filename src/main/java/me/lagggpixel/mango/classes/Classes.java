@@ -5,15 +5,30 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Getter
 public enum Classes {
-  DIAMOND(Map.of()),
-  BARD(Map.of(PotionEffectType.SPEED, 2, PotionEffectType.REGENERATION, 1, PotionEffectType.DAMAGE_RESISTANCE, 2)),
-  ARCHER(Map.of(PotionEffectType.SPEED, 3)),
-  ROUGE(Map.of(PotionEffectType.SPEED, 4, PotionEffectType.JUMP, 4)),
-  MINER(Map.of(PotionEffectType.FAST_DIGGING, 2, PotionEffectType.NIGHT_VISION, 1, PotionEffectType.FIRE_RESISTANCE, 1));
+  DIAMOND(new HashMap<>() {
+  }),
+  BARD(new HashMap<>() {{
+    put(PotionEffectType.SPEED, 2);
+    put(PotionEffectType.REGENERATION, 1);
+    put(PotionEffectType.DAMAGE_RESISTANCE, 2);
+  }}),
+  ARCHER(new HashMap<>() {{
+    put(PotionEffectType.SPEED, 3);
+  }}),
+  ROUGE(new HashMap<>() {{
+    put(PotionEffectType.SPEED, 4);
+    put(PotionEffectType.JUMP, 4);
+  }}),
+  MINER(new HashMap<>() {{
+    put(PotionEffectType.FAST_DIGGING, 2);
+    put(PotionEffectType.NIGHT_VISION, 1);
+    put(PotionEffectType.FIRE_RESISTANCE, 1);
+  }});
 
   private final Map<PotionEffectType, Integer> classEffects;
 
