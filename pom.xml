@@ -6,13 +6,13 @@
 
   <groupId>me.lagggpixel</groupId>
   <artifactId>MangoRevival</artifactId>
-  <version>1.0.5-ALPHA5</version>
+  <version>1.0.6</version>
   <packaging>jar</packaging>
 
   <name>MangoRevival</name>
 
   <properties>
-    <java.version>8</java.version>
+    <java.version>16</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 

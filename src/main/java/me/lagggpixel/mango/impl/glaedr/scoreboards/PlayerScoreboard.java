@@ -114,7 +114,8 @@ public class PlayerScoreboard {
     int start = 15 - getTopWrappers().size();
     int goal = 0;
 
-    if (entry instanceof Wrapper wrapper) {
+    if (entry instanceof Wrapper) {
+      Wrapper wrapper = (Wrapper) entry;
       if (wrapper.getType() == Wrapper.WrapperType.TOP) {
         goal = start;
         start = 15;

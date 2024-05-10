@@ -170,10 +170,12 @@ public class FactionManager {
 
   public void checkDoubles() {
     for (Faction faction : getFactions()) {
-      if (faction instanceof PlayerFaction playerFaction) {
+      if (faction instanceof PlayerFaction) {
+        PlayerFaction playerFaction = (PlayerFaction) faction;
         for (OfflinePlayer player : playerFaction.getPlayers()) {
           for (Faction faction1 : getFactions()) {
-            if (faction1 instanceof PlayerFaction playerFaction1) {
+            if (faction1 instanceof PlayerFaction) {
+              PlayerFaction playerFaction1 = (PlayerFaction) faction1;
               if (playerFaction1 != playerFaction && playerFaction1.getPlayers().contains(player)) {
                 if (playerFaction1.isLeader(player.getUniqueId())) {
                   playerFaction1.delete();

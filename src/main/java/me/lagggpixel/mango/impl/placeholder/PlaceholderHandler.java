@@ -52,9 +52,10 @@ public class PlaceholderHandler extends PlaceholderExpansion {
         switch (args[1].toLowerCase()) {
           case "name":
             if (args.length == 2) {
-              if (!(offlinePlayer instanceof Player player)) {
+              if (!(offlinePlayer instanceof Player) || offlinePlayer.getPlayer() == null) {
                 return null;
               }
+              Player player = offlinePlayer.getPlayer();
               PlayerFaction faction = Mango.getInstance().getFactionManager().getFaction(player);
               if (faction == null) {
                 return "No Faction";
@@ -73,9 +74,10 @@ public class PlaceholderHandler extends PlaceholderExpansion {
 
           case "dtr":
             if (args.length == 2) {
-              if (!(offlinePlayer instanceof Player player)) {
+              if (!(offlinePlayer instanceof Player) || offlinePlayer.getPlayer() == null) {
                 return null;
               }
+              Player player = offlinePlayer.getPlayer();
               PlayerFaction faction = Mango.getInstance().getFactionManager().getFaction(player);
               if (faction == null) {
                 return "Not In Faction";
@@ -93,9 +95,10 @@ public class PlaceholderHandler extends PlaceholderExpansion {
             return null;
           case "online":
             if (args.length == 2) {
-              if (!(offlinePlayer instanceof Player player)) {
+              if (!(offlinePlayer instanceof Player) || offlinePlayer.getPlayer() == null) {
                 return null;
               }
+              Player player = offlinePlayer.getPlayer();
               PlayerFaction faction = Mango.getInstance().getFactionManager().getFaction(player);
               if (faction == null) {
                 return "Not In Faction";
@@ -113,9 +116,10 @@ public class PlaceholderHandler extends PlaceholderExpansion {
             return null;
           case "playercount":
             if (args.length == 2) {
-              if (!(offlinePlayer instanceof Player player)) {
+              if (!(offlinePlayer instanceof Player) || offlinePlayer.getPlayer() == null) {
                 return null;
               }
+              Player player = offlinePlayer.getPlayer();
               PlayerFaction faction = Mango.getInstance().getFactionManager().getFaction(player);
               if (faction == null) {
                 return "Not In Faction";
@@ -139,43 +143,45 @@ public class PlaceholderHandler extends PlaceholderExpansion {
         if (args.length == 1) {
           return null;
         }
-        return switch (args[1].toLowerCase()) {
-          case "home" -> {
+        switch (args[1].toLowerCase()) {
+          case "home": {
             if (args.length == 2) {
               HomeCommand.Warmup homeWarmup = HomeCommand.getWaiting().get(offlinePlayer.getName());
               if (homeWarmup == null) {
-                yield "0";
+                return "0";
               }
-              yield String.valueOf(homeWarmup.getSeconds());
+              return String.valueOf(homeWarmup.getSeconds());
             } else if (args.length == 3) {
               OfflinePlayer player = Mango.getInstance().getServer().getOfflinePlayer(args[2]);
               HomeCommand.Warmup homeWarmup = HomeCommand.getWaiting().get(player.getName());
               if (homeWarmup == null) {
-                yield "0";
+                return "0";
               }
-              yield String.valueOf(homeWarmup.getSeconds());
+              return String.valueOf(homeWarmup.getSeconds());
             }
-            yield null;
+            return null;
           }
-          case "stuck" -> {
+          case "stuck": {
             if (args.length == 2) {
               StuckCommand.Warmup stuckWarmup = StuckCommand.getWaiting().get(offlinePlayer.getName());
               if (stuckWarmup == null) {
-                yield "0";
+                return "0";
               }
-              yield String.valueOf(stuckWarmup.getSeconds());
+              return String.valueOf(stuckWarmup.getSeconds());
             } else if (args.length == 3) {
               OfflinePlayer player = Mango.getInstance().getServer().getOfflinePlayer(args[2]);
               StuckCommand.Warmup stuckWarmup = StuckCommand.getWaiting().get(player.getName());
               if (stuckWarmup == null) {
-                yield "0";
+                return "0";
               }
-              yield String.valueOf(stuckWarmup.getSeconds());
+              return String.valueOf(stuckWarmup.getSeconds());
             }
-            yield null;
+            return null;
           }
-          default -> null;
-        };
+          default: {
+            return null;
+          }
+        }
     }
 
     return null;

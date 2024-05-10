@@ -52,13 +52,27 @@ public class ClassesHandler implements Listener {
           if (classes == Classes.BARD) {
             ItemStack itemStack = player.getInventory().getItemInMainHand();
             switch (itemStack.getType()) {
-              case MAGMA_CREAM -> applyTeamEffect(player, PotionEffectType.FIRE_RESISTANCE, 1);
-              case GOLDEN_CARROT -> applyTeamEffect(player, PotionEffectType.NIGHT_VISION, 1);
-              case SUGAR -> applyTeamEffect(player, PotionEffectType.SPEED, 2);
-              case BLAZE_POWDER -> applyTeamEffect(player, PotionEffectType.INCREASE_DAMAGE, 1);
-              case GHAST_TEAR -> applyTeamEffect(player, PotionEffectType.REGENERATION, 1);
-              case FEATHER -> applyTeamEffect(player, PotionEffectType.JUMP, 2);
-              case IRON_INGOT -> applyTeamEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 1);
+              case MAGMA_CREAM: {
+                applyTeamEffect(player, PotionEffectType.FIRE_RESISTANCE, 1);
+              }
+              case GOLDEN_CARROT: {
+                applyTeamEffect(player, PotionEffectType.NIGHT_VISION, 1);
+              }
+              case SUGAR: {
+                applyTeamEffect(player, PotionEffectType.SPEED, 2);
+              }
+              case BLAZE_POWDER: {
+                applyTeamEffect(player, PotionEffectType.INCREASE_DAMAGE, 1);
+              }
+              case GHAST_TEAR: {
+                applyTeamEffect(player, PotionEffectType.REGENERATION, 1);
+              }
+              case FEATHER: {
+                applyTeamEffect(player, PotionEffectType.JUMP, 2);
+              }
+              case IRON_INGOT: {
+                applyTeamEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 1);
+              }
             }
           }
         });

@@ -55,7 +55,8 @@ public class PlayerListeners implements Listener {
 
   @EventHandler(ignoreCancelled = true)
   public void onDamage(EntityDamageEvent e) {
-    if (e.getEntity() instanceof Player p) {
+    if (e.getEntity() instanceof Player) {
+      Player p = (Player) e.getEntity();
       for (Claim claim : Mango.getInstance().getClaimManager().getClaims()) {
         if (claim.isInside(p.getLocation(), true) && claim.getOwner() instanceof SystemFaction && !((SystemFaction) claim.getOwner()).isDeathbanBoolean()) {
           e.setCancelled(true);
@@ -67,7 +68,9 @@ public class PlayerListeners implements Listener {
 
   @EventHandler(ignoreCancelled = true)
   public void onDamage(EntityDamageByEntityEvent e) {
-    if (e.getEntity() instanceof Player p && e.getDamager() instanceof Player d) {
+    if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
+      Player p = (Player) e.getEntity();
+      Player d = (Player) e.getDamager();
       if (this.fm.getFaction(p) != null && this.fm.getFaction(d) != null) {
         if (this.fm.getFaction(p) == this.fm.getFaction(d) && d != p) {
           d.sendMessage(this.lf.getString("FACTION_FRIENDLY_DAMAGE").replace("{player}", p.getName()));
@@ -80,8 +83,11 @@ public class PlayerListeners implements Listener {
           e.setCancelled(true);
         }
       }
-    } else if (e.getEntity() instanceof Player p && e.getDamager() instanceof Projectile projectile) {
-      if (projectile.getShooter() instanceof Player d) {
+    } else if (e.getEntity() instanceof Player && e.getDamager() instanceof Projectile) {
+      Player p = (Player) e.getEntity();
+      Projectile projectile = (Projectile) e.getDamager();
+      if (projectile.getShooter() instanceof Player) {
+        Player d = (Player) projectile.getShooter();
         if (this.fm.getFaction(p) != null && this.fm.getFaction(d) != null) {
           if (this.fm.getFaction(p) == this.fm.getFaction(d) && d != p) {
             d.sendMessage(this.lf.getString("FACTION_FRIENDLY_DAMAGE").replace("{player}", p.getName()));

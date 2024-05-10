@@ -68,8 +68,7 @@ public class HomeCommand extends FactionSubCommand implements Listener {
       int seconds;
       if (!this.cf.contains("Teleport-Cooldown.Home." + worldName)) {
         seconds = this.cf.getInt("Teleport-Cooldown.Home.Default", 10);
-      }
-      else {
+      } else {
         seconds = this.cf.getInt("Teleport-Cooldown.Home." + worldName, 10);
       }
       if (seconds == -1) {
@@ -108,9 +107,10 @@ public class HomeCommand extends FactionSubCommand implements Listener {
 
   @EventHandler
   public void onDamage(EntityDamageEvent event) {
-    if (!(event.getEntity() instanceof Player p)) {
+    if (!(event.getEntity() instanceof Player)) {
       return;
     }
+    Player p = (Player) event.getEntity();
 
     if (!waiting.containsKey(p.getName())) {
       return;

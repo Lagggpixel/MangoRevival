@@ -330,8 +330,8 @@ public class ClaimListeners implements Listener {
 
           int price = (int) Math.round(loc1.distance(loc2) * this.cf.getInt("Claim.Price-Multiplier"));
 
-          if (faction instanceof PlayerFaction playerFaction1) {
-
+          if (faction instanceof PlayerFaction) {
+            PlayerFaction playerFaction1 = (PlayerFaction) faction;
             if (price > playerFaction1.getBalance() && !p.hasPermission(this.cf.getString("ADMIN_NODE"))) {
               p.sendMessage(this.lf.getString("WAND_MESSAGES.INVALID_FUNDS"));
               return;
@@ -434,7 +434,8 @@ public class ClaimListeners implements Listener {
   public void onEntitySpawn(EntitySpawnEvent e) {
     if (e.getEntity() instanceof org.bukkit.entity.Monster)
       for (Claim claim : this.cm.getClaims()) {
-        if (claim.getOwner() instanceof SystemFaction systemFaction) {
+        if (claim.getOwner() instanceof SystemFaction) {
+          SystemFaction systemFaction = (SystemFaction) claim.getOwner();
           if ((claim.isInside(e.getLocation(), true) || claim.isInside(e.getLocation(), false)) &&
               !systemFaction.isDeathbanBoolean())
             e.setCancelled(true);
@@ -453,7 +454,8 @@ public class ClaimListeners implements Listener {
   private void checkIsClaimAffordable(Player p, Faction faction, Location loc1, Location loc2) {
     int price = (int) Math.round(loc1.distance(loc2) * this.cf.getInt("Claim.Price-Multiplier"));
 
-    if (faction instanceof PlayerFaction playerFaction) {
+    if (faction instanceof PlayerFaction) {
+      PlayerFaction playerFaction = (PlayerFaction) faction;
       if (playerFaction.getBalance() < price) {
         p.sendMessage(this.lf.getString("WAND_MESSAGES.COST_TOO_MUCH").replace("{amount}", price + ""));
       } else {

@@ -8,7 +8,7 @@ import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
 import org.bukkit.entity.Player;
 
-import java.util.List;
+import java.util.ArrayList;
 
 
 public class EnemyCommand extends FactionSubCommand {
@@ -18,7 +18,9 @@ public class EnemyCommand extends FactionSubCommand {
   private final ConfigFile cf = this.main.getConfigFile();
 
   public EnemyCommand() {
-    super("enemy", List.of("unally"));
+    super("enemy", new ArrayList<String>() {{
+      add("unally");
+    }});
   }
 
 
@@ -50,7 +52,8 @@ public class EnemyCommand extends FactionSubCommand {
             return;
           }
 
-          if (this.fm.getFactionByName(name) instanceof PlayerFaction allyFaction) {
+          if (this.fm.getFactionByName(name) instanceof PlayerFaction) {
+            PlayerFaction allyFaction = (PlayerFaction) this.fm.getFactionByName(name);
 
             if (!allyFaction.getAllies().contains(faction) && !faction.getAllies().contains(allyFaction)) {
               p.sendMessage(this.lf.getString("FACTION_ALREADY_RELATION").replace("{faction}", allyFaction.getName()));
