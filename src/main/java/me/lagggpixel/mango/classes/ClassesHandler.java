@@ -5,19 +5,11 @@ import me.lagggpixel.mango.Mango;
 import me.lagggpixel.mango.config.ConfigFile;
 import me.lagggpixel.mango.config.LanguageFile;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
-import me.lagggpixel.mango.impl.glaedr.scoreboards.Entry;
-import me.lagggpixel.mango.impl.glaedr.scoreboards.PlayerScoreboard;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -81,7 +73,7 @@ public class ClassesHandler implements Listener {
    * @param effect    the type of potion effect to apply
    * @param amplifier the strength of the potion effect
    */
-  public void applyTeamEffect(Player p, PotionEffectType effect, int amplifier) {
+  public static void applyTeamEffect(Player p, PotionEffectType effect, int amplifier) {
     applyTeamEffect(p, effect, amplifier, 40);
   }
 
@@ -93,7 +85,7 @@ public class ClassesHandler implements Listener {
    * @param amplifier the amplifier for the potion effect
    * @param ticks     the duration of the potion effect in ticks
    */
-  public void applyTeamEffect(Player p, PotionEffectType effect, int amplifier, int ticks) {
+  public static void applyTeamEffect(Player p, PotionEffectType effect, int amplifier, int ticks) {
     applySelfEffect(p, effect, amplifier, ticks);
     PlayerFaction faction = Mango.getInstance().getFactionManager().getFaction(p);
     if (faction == null) {
@@ -120,7 +112,7 @@ public class ClassesHandler implements Listener {
    * @param effect    the type of potion effect to apply
    * @param amplifier the strength of the potion effect
    */
-  public void applySelfEffect(Player p, PotionEffectType effect, int amplifier) {
+  public static void applySelfEffect(Player p, PotionEffectType effect, int amplifier) {
     applySelfEffect(p, effect, amplifier, 40);
   }
 
@@ -132,7 +124,7 @@ public class ClassesHandler implements Listener {
    * @param amplifier the amplifier for the potion effect
    * @param ticks     the duration of the potion effect in ticks
    */
-  public void applySelfEffect(Player p, PotionEffectType effect, int amplifier, int ticks) {
+  public static void applySelfEffect(Player p, PotionEffectType effect, int amplifier, int ticks) {
     if (p.hasPotionEffect(effect)
         && p.getPotionEffect(effect) != null
         && Objects.requireNonNull(p.getPotionEffect(effect)).getAmplifier() > amplifier) {
@@ -157,140 +149,8 @@ public class ClassesHandler implements Listener {
     playerData.remove(event.getPlayer());
   }
 
-  /**
-   * A method that triggers when a player's held item changes, applying various bard effects based on the item held.
-   *
-   * @param event the PlayerItemHeldEvent triggered when the player's held item changes
-   */
-  @EventHandler
-  public void onPlayerItemInHandChange(PlayerItemHeldEvent event) {
-    Classes classes = playerData.get(event.getPlayer()).getClasses();
-    if (classes == Classes.BARD) {
-      Player player = event.getPlayer();
-      ItemStack itemStack = player.getInventory().getItem(event.getNewSlot());
-      if (itemStack == null) {
-        return;
-      }
-      switch (itemStack.getType()) {
-        case MAGMA_CREAM -> applyTeamEffect(player, PotionEffectType.FIRE_RESISTANCE, 1);
-        case GOLDEN_CARROT -> applyTeamEffect(player, PotionEffectType.NIGHT_VISION, 1);
-        case SUGAR -> applyTeamEffect(player, PotionEffectType.SPEED, 2);
-        case BLAZE_POWDER -> applyTeamEffect(player, PotionEffectType.INCREASE_DAMAGE, 1);
-        case GHAST_TEAR -> applyTeamEffect(player, PotionEffectType.REGENERATION, 1);
-        case FEATHER -> applyTeamEffect(player, PotionEffectType.JUMP, 2);
-        case IRON_INGOT -> applyTeamEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 1);
-      }
-    }
-  }
 
 
-  /**
-   * A method that triggers when a player right clicks with an item, applying various archer effects based on the item held.
-   *
-   * @param event the PlayerInteractEvent triggered when the player interacts
-   */
-  @EventHandler
-  public void onPlayerInteract(PlayerInteractEvent event) {
-    Player player = event.getPlayer();
-    Classes classes = playerData.get(player).getClasses();
-    if (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.RIGHT_CLICK_AIR) {
-      return;
-    }
-    if (event.getHand() != EquipmentSlot.HAND) {
-      return;
-    }
-    ItemStack itemStack = player.getInventory().getItemInMainHand();
-    if (classes == Classes.ARCHER) {
-      switch (itemStack.getType()) {
-        case SUGAR -> forceApplyArcherEffect(player, PotionEffectType.SPEED, 3, 50);
-        case FEATHER -> forceApplyArcherEffect(player, PotionEffectType.JUMP, 4, 40);
-      }
-    }
-    if (classes == Classes.BARD) {
-      switch (itemStack.getType()) {
-        case BLAZE_POWDER -> forceApplyBardEffect(player, PotionEffectType.INCREASE_DAMAGE, 2, 40);
-        case IRON_INGOT -> forceApplyBardEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 3, 40);
-        case FEATHER -> forceApplyBardEffect(player, PotionEffectType.JUMP, 4, 20);
-        case SUGAR -> forceApplyBardEffect(player, PotionEffectType.SPEED, 3, 30);
-      }
-    }
-  }
-
-  private void forceApplyArcherEffect(Player player, PotionEffectType effect, int amplifier, int energy) {
-    cPlayer cPlayer = playerData.get(player);
-    if (!cPlayer.hasEnergy(energy)) {
-      player.sendMessage(lf.getString("CLASSES.NOT_ENOUGH_ENERGY").replace("{amount_required}", String.valueOf(energy)).replace("{current_energy}", String.valueOf(cPlayer.getEnergyRounded())));
-      return;
-    }
-    cPlayer.removeEnergy(energy);
-    applySelfEffect(player, effect, amplifier, 20 * 5);
-  }
-
-  private void forceApplyBardEffect(Player player, PotionEffectType effect, int amplifier, int energy) {
-    cPlayer cPlayer = playerData.get(player);
-    if (!cPlayer.hasEnergy(energy)) {
-      player.sendMessage(lf.getString("CLASSES.NOT_ENOUGH_ENERGY").replace("{amount_required}", String.valueOf(energy)).replace("{current_energy}", String.valueOf(cPlayer.getEnergyRounded())));
-      return;
-    }
-    cPlayer.removeEnergy(energy);
-    applyTeamEffect(player, effect, amplifier, 20 * 5);
-  }
-
-  /**
-   * A method that triggers when a player's arrow hits another entity
-   *
-   * @param event the EntityDamageByEntityEvent triggered when the player's arrow hits another entity
-   */
-  @EventHandler
-  public void onPlayerHitByArrow(EntityDamageByEntityEvent event) {
-
-    if (!(event.getEntity() instanceof Player victim)) {
-      return;
-    }
-
-    if (!(event.getDamager() instanceof Arrow arrow)) {
-      return;
-    }
-
-    if (!(arrow.getShooter() instanceof Player damager)) {
-      return;
-    }
 
 
-    if (playerData.get(damager).getClasses() != Classes.ARCHER) {
-      return;
-    }
-
-    if (playerData.get(victim).getClasses() != Classes.DIAMOND) {
-      victim.damage(4, damager);
-      return;
-    }
-
-    if (!playerData.get(victim).isArcherTagged()) {
-      playerData.get(victim).setArcherTagged(true);
-      playerData.get(victim).setArcherTagTimer(5 * 20L);
-      PlayerScoreboard scoreboard = PlayerScoreboard.getScoreboard(victim);
-      new Entry("stuck", scoreboard).setText(this.cf.getString("Scoreboard.Archer-Tagged")).setCountdown(true).setTime(this.cf.getInt("Classes.Archer-Tag-Time", 5)).send();
-    }
-  }
-
-  /**
-   * A method that triggers when a player's gets hit by an entity
-   * Archer tagged players will have the damage increased by 1.25
-   *
-   * @param event the EntityDamageByEntityEvent triggered when the player's arrow hits another entity
-   */
-  @EventHandler
-  public void onPlayerHitWhenTagged(EntityDamageByEntityEvent event) {
-
-    if (!(event.getEntity() instanceof Player victim)) {
-      return;
-    }
-
-    if (!playerData.get(victim).isArcherTagged()) {
-      return;
-    }
-
-    event.setDamage(event.getDamage() * 1.25);
-  }
 }
