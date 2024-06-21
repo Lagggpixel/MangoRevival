@@ -19,7 +19,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
@@ -59,7 +58,7 @@ public class ClassListeners implements Listener {
     if (victimData.getClasses() != Classes.DIAMOND) {
       return;
     }
-    if (damager.getInventory().getItemInMainHand().getType() != Material.GOLDEN_SWORD) {
+    if (damager.getItemInHand().getType() != Material.GOLD_SWORD) {
       return;
     }
     float yaw1 = victim.getLocation().getYaw();
@@ -68,8 +67,8 @@ public class ClassListeners implements Listener {
       return;
     }
     event.setDamage(6);
-    damager.getInventory().setItemInMainHand(null);
-    damager.playSound(damager.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+    damager.setItemInHand(null);
+    damager.playSound(damager.getLocation(), Sound.ITEM_BREAK, 1, 1);
   }
 
   /**
@@ -147,10 +146,7 @@ public class ClassListeners implements Listener {
     if (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.RIGHT_CLICK_AIR) {
       return;
     }
-    if (event.getHand() != EquipmentSlot.HAND) {
-      return;
-    }
-    ItemStack itemStack = player.getInventory().getItemInMainHand();
+    ItemStack itemStack = player.getInventory().getItemInHand();
     if (classes == Classes.ARCHER) {
       switch (itemStack.getType()) {
         case SUGAR: {

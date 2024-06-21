@@ -4,10 +4,10 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.lagggpixel.mango.Mango;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -42,7 +42,7 @@ public class LanguageFile {
       }
       return strings;
     }
-    return List.of("ERROR: STRING LIST NOT FOUND!");
+    return Collections.singletonList("ERROR: STRING LIST NOT FOUND!");
   }
 }
 

@@ -13,7 +13,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -192,15 +191,15 @@ public class PlayerScoreboard {
             objective.setDisplayName(title);
           }
         } else {
-          objective = scoreboard.registerNewObjective(player.getName(), Criteria.DUMMY, "dummy");
+          objective = scoreboard.registerNewObjective(player.getName(), "dummy");
           objective.setDisplaySlot(DisplaySlot.SIDEBAR);
           objective.setDisplayName(title);
         }
         return;
       }
     }
-    scoreboard = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
-    objective = scoreboard.registerNewObjective(player.getName(), Criteria.DUMMY, "dummy");
+    scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+    objective = scoreboard.registerNewObjective(player.getName(), "dummy");
     objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     objective.setDisplayName(title);
   }

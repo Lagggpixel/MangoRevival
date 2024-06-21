@@ -8,7 +8,7 @@ import me.lagggpixel.mango.factions.FactionManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.List;
+import java.util.Collections;
 
 
 public class VersionCommand extends FactionSubCommand {
@@ -17,7 +17,7 @@ public class VersionCommand extends FactionSubCommand {
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
   public VersionCommand() {
-    super("version", List.of("ver"));
+    super("version", Collections.singletonList("ver"));
   }
 
 

@@ -8,7 +8,7 @@ import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
 import org.bukkit.entity.Player;
 
-import java.util.List;
+import java.util.Collections;
 
 
 public class JoinCommand extends FactionSubCommand {
@@ -17,7 +17,7 @@ public class JoinCommand extends FactionSubCommand {
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
   public JoinCommand() {
-    super("join", List.of("accept"));
+    super("join", Collections.singletonList("accept"));
   }
 
 
@@ -39,16 +39,8 @@ public class JoinCommand extends FactionSubCommand {
         if (this.fm.getFactionByName(name) == null) {
           if (this.fm.getFactionByPlayerName(name) != null) {
             PlayerFaction faction = this.fm.getFactionByPlayerName(name);
-            if (faction.getPlayers().size() >= this.cf.getInt("Faction.Max-Players") && !p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".join")) {
-              p.sendMessage(this.lf.getString("FACTION_TOO_MANY_PLAYERS"));
-              return;
-            }
-            if (faction.getInvitedPlayers().contains(p.getUniqueId()) || p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".join")) {
-              p.sendMessage(this.lf.getString("FACTION_JOINED_PLAYER").replace("{faction}", faction.getName()));
-              faction.sendMessage(this.lf.getString("FACTION_JOINED_FACTION").replace("{player}", p.getName()));
-              faction.getMembers().add(p.getUniqueId());
-              faction.getInvitedPlayers().remove(p.getUniqueId());
-
+            assert faction != null;
+            if (checkJoin(p, faction)) {
               return;
             }
           }
@@ -65,21 +57,10 @@ public class JoinCommand extends FactionSubCommand {
             faction.getMembers().add(p.getUniqueId());
             return;
           }
-          if (this.fm.getFactionByPlayerName(name) != null && this.fm.getFactionByPlayerName(name) instanceof PlayerFaction) {
-            faction = (PlayerFaction) this.fm.getFactionByPlayerName(name);
+          if (this.fm.getFactionByPlayerName(name) != null && this.fm.getFactionByPlayerName(name) != null) {
+            faction = this.fm.getFactionByPlayerName(name);
             assert faction != null;
-            if (faction.getPlayers().size() >= this.cf.getInt("Faction.Max-Players") && !p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".join")) {
-              p.sendMessage(this.lf.getString("FACTION_TOO_MANY_PLAYERS"));
-              return;
-            }
-            if (faction.getInvitedPlayers().contains(p.getUniqueId()) || p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".join")) {
-              p.sendMessage(this.lf.getString("FACTION_JOINED_PLAYER").replace("{faction}", faction.getName()));
-              faction.sendMessage(this.lf.getString("FACTION_JOINED_FACTION").replace("{player}", p.getName()));
-              faction.getMembers().add(p.getUniqueId());
-              faction.getInvitedPlayers().remove(p.getUniqueId());
-
-              return;
-            }
+            if (checkJoin(p, faction)) return;
           }
         }
       } catch (Exception e) {
@@ -92,6 +73,23 @@ public class JoinCommand extends FactionSubCommand {
       return;
     }
     p.sendMessage(this.lf.getString("FACTION_TOO_FEW_ARGS.JOIN"));
+  }
+
+  private boolean checkJoin(Player p, PlayerFaction faction) {
+    assert faction != null;
+    if (faction.getPlayers().size() >= this.cf.getInt("Faction.Max-Players") && !p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".join")) {
+      p.sendMessage(this.lf.getString("FACTION_TOO_MANY_PLAYERS"));
+      return true;
+    }
+    if (faction.getInvitedPlayers().contains(p.getUniqueId()) || p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".join")) {
+      p.sendMessage(this.lf.getString("FACTION_JOINED_PLAYER").replace("{faction}", faction.getName()));
+      faction.sendMessage(this.lf.getString("FACTION_JOINED_FACTION").replace("{player}", p.getName()));
+      faction.getMembers().add(p.getUniqueId());
+      faction.getInvitedPlayers().remove(p.getUniqueId());
+
+      return true;
+    }
+    return false;
   }
 }
 

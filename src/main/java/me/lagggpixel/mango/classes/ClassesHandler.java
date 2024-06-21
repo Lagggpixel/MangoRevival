@@ -1,5 +1,6 @@
 package me.lagggpixel.mango.classes;
 
+import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import me.lagggpixel.mango.Mango;
 import me.lagggpixel.mango.config.ConfigFile;
@@ -17,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Getter
 public class ClassesHandler implements Listener {
@@ -49,32 +50,17 @@ public class ClassesHandler implements Listener {
           }
 
           Classes classes = cPlayer.getClasses();
-          if (classes == Classes.BARD) {
-            ItemStack itemStack = player.getInventory().getItemInMainHand();
-            switch (itemStack.getType()) {
-              case MAGMA_CREAM: {
-                applyTeamEffect(player, PotionEffectType.FIRE_RESISTANCE, 1);
+          if (classes != null) {
+            switch (classes) {
+              case BARD: {
+                checkBard(player);
               }
-              case GOLDEN_CARROT: {
-                applyTeamEffect(player, PotionEffectType.NIGHT_VISION, 1);
-              }
-              case SUGAR: {
-                applyTeamEffect(player, PotionEffectType.SPEED, 2);
-              }
-              case BLAZE_POWDER: {
-                applyTeamEffect(player, PotionEffectType.INCREASE_DAMAGE, 1);
-              }
-              case GHAST_TEAR: {
-                applyTeamEffect(player, PotionEffectType.REGENERATION, 1);
-              }
-              case FEATHER: {
-                applyTeamEffect(player, PotionEffectType.JUMP, 2);
-              }
-              case IRON_INGOT: {
-                applyTeamEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 1);
+              case ARCHER: {
+                checkArcher(player);
               }
             }
           }
+
         });
       }
     }.runTaskTimer(Mango.getInstance(), 20, 20);
@@ -111,8 +97,10 @@ public class ClassesHandler implements Listener {
         continue;
       }
       if (factionPlayer.hasPotionEffect(effect)
-          && factionPlayer.getPotionEffect(effect) != null
-          && Objects.requireNonNull(factionPlayer.getPotionEffect(effect)).getAmplifier() > amplifier) {
+          && factionPlayer.getActivePotionEffects().stream().anyMatch(potionEffect ->
+          potionEffect.getType() == effect)
+          && factionPlayer.getActivePotionEffects().stream().filter(potionEffect ->
+          potionEffect.getType() == effect).collect(Collectors.toList()).get(0).getAmplifier() > amplifier) {
         continue;
       }
       factionPlayer.addPotionEffect(new PotionEffect(effect, ticks, amplifier));
@@ -140,11 +128,57 @@ public class ClassesHandler implements Listener {
    */
   public static void applySelfEffect(Player p, PotionEffectType effect, int amplifier, int ticks) {
     if (p.hasPotionEffect(effect)
-        && p.getPotionEffect(effect) != null
-        && Objects.requireNonNull(p.getPotionEffect(effect)).getAmplifier() > amplifier) {
+        && p.getActivePotionEffects().stream().anyMatch(potionEffect ->
+        potionEffect.getType() == effect)
+        && p.getActivePotionEffects().stream().filter(potionEffect ->
+        potionEffect.getType() == effect).collect(Collectors.toList()).get(0).getAmplifier() > amplifier) {
       return;
     }
     p.addPotionEffect(new PotionEffect(effect, ticks, amplifier));
+  }
+
+  private void checkBard(Player player) {
+    ItemStack itemStack = player.getInventory().getItemInHand();
+    switch (XMaterial.matchXMaterial(itemStack.getType())) {
+      case MAGMA_CREAM: {
+        applyTeamEffect(player, PotionEffectType.FIRE_RESISTANCE, 1);
+        break;
+      }
+      case GOLDEN_CARROT: {
+        applyTeamEffect(player, PotionEffectType.NIGHT_VISION, 1);
+        break;
+      }
+      case SUGAR: {
+        applyTeamEffect(player, PotionEffectType.SPEED, 2);
+        break;
+      }
+      case BLAZE_POWDER: {
+        applyTeamEffect(player, PotionEffectType.INCREASE_DAMAGE, 1);
+        break;
+      }
+      case GHAST_TEAR: {
+        applyTeamEffect(player, PotionEffectType.REGENERATION, 1);
+        break;
+      }
+      case FEATHER: {
+        applyTeamEffect(player, PotionEffectType.JUMP, 2);
+        break;
+      }
+      case IRON_INGOT: {
+        applyTeamEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 1);
+        break;
+      }
+    }
+  }
+
+  private void checkArcher(Player player) {
+    ItemStack itemStack = player.getInventory().getItemInHand();
+    switch (XMaterial.matchXMaterial(itemStack.getType())) {
+      case FEATHER: {
+        applyTeamEffect(player, PotionEffectType.JUMP, 2);
+        break;
+      }
+    }
   }
 
   /**
@@ -162,9 +196,6 @@ public class ClassesHandler implements Listener {
   public void onPlayerLeave(PlayerQuitEvent event) {
     playerData.remove(event.getPlayer());
   }
-
-
-
 
 
 }

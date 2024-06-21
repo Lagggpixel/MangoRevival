@@ -13,7 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 
@@ -76,7 +75,7 @@ public class Glaedr implements Listener {
         if (player.getScoreboard().getObjective(DisplaySlot.SIDEBAR) != null) {
           playerScoreboard.setObjective(player.getScoreboard().getObjective(DisplaySlot.SIDEBAR));
         } else {
-          Objective objective = player.getScoreboard().registerNewObjective(player.getName(), Criteria.DUMMY, "dummy");
+          Objective objective = player.getScoreboard().registerNewObjective(player.getName(), "dummy");
           objective.setDisplaySlot(DisplaySlot.SIDEBAR);
           objective.setDisplayName(title);
           playerScoreboard.setObjective(objective);

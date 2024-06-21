@@ -1,7 +1,7 @@
 package me.lagggpixel.mango.classes;
 
+import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
@@ -10,21 +10,21 @@ import java.util.Map;
 
 @Getter
 public enum Classes {
-  DIAMOND(new HashMap<>() {
+  DIAMOND(new HashMap<PotionEffectType, Integer>() {
   }),
-  BARD(new HashMap<>() {{
+  BARD(new HashMap<PotionEffectType, Integer>() {{
     put(PotionEffectType.SPEED, 2);
     put(PotionEffectType.REGENERATION, 1);
     put(PotionEffectType.DAMAGE_RESISTANCE, 2);
   }}),
-  ARCHER(new HashMap<>() {{
+  ARCHER(new HashMap<PotionEffectType, Integer>() {{
     put(PotionEffectType.SPEED, 3);
   }}),
-  ROUGE(new HashMap<>() {{
+  ROUGE(new HashMap<PotionEffectType, Integer>() {{
     put(PotionEffectType.SPEED, 4);
     put(PotionEffectType.JUMP, 4);
   }}),
-  MINER(new HashMap<>() {{
+  MINER(new HashMap<PotionEffectType, Integer>() {{
     put(PotionEffectType.FAST_DIGGING, 2);
     put(PotionEffectType.NIGHT_VISION, 1);
     put(PotionEffectType.FIRE_RESISTANCE, 1);
@@ -55,19 +55,19 @@ public enum Classes {
     if (helmet == null || chestplate == null || leggings == null || boots == null) {
       return null;
     }
-    Material helmetMaterial = helmet.getType();
-    Material chestplateMaterial = chestplate.getType();
-    Material leggingsMaterial = leggings.getType();
-    Material bootsMaterial = boots.getType();
-    if (helmetMaterial == Material.LEATHER_HELMET && chestplateMaterial == Material.LEATHER_CHESTPLATE && leggingsMaterial == Material.LEATHER_LEGGINGS && bootsMaterial == Material.LEATHER_BOOTS) {
+    XMaterial helmetMaterial = XMaterial.matchXMaterial(helmet.getType());
+    XMaterial chestplateMaterial = XMaterial.matchXMaterial(chestplate.getType());
+    XMaterial leggingsMaterial = XMaterial.matchXMaterial(leggings.getType());
+    XMaterial bootsMaterial =XMaterial.matchXMaterial( boots.getType());
+    if (helmetMaterial == XMaterial.LEATHER_HELMET && chestplateMaterial == XMaterial.LEATHER_CHESTPLATE && leggingsMaterial == XMaterial.LEATHER_LEGGINGS && bootsMaterial == XMaterial.LEATHER_BOOTS) {
       return Classes.ARCHER;
-    } else if (helmetMaterial == Material.IRON_HELMET && chestplateMaterial == Material.IRON_CHESTPLATE && leggingsMaterial == Material.IRON_LEGGINGS && bootsMaterial == Material.IRON_BOOTS) {
+    } else if (helmetMaterial == XMaterial.IRON_HELMET && chestplateMaterial == XMaterial.IRON_CHESTPLATE && leggingsMaterial == XMaterial.IRON_LEGGINGS && bootsMaterial == XMaterial.IRON_BOOTS) {
       return Classes.MINER;
-    } else if (helmetMaterial == Material.GOLDEN_HELMET && chestplateMaterial == Material.GOLDEN_CHESTPLATE && leggingsMaterial == Material.GOLDEN_LEGGINGS && bootsMaterial == Material.GOLDEN_BOOTS) {
+    } else if (helmetMaterial == XMaterial.GOLDEN_HELMET && chestplateMaterial == XMaterial.GOLDEN_CHESTPLATE && leggingsMaterial == XMaterial.GOLDEN_LEGGINGS && bootsMaterial == XMaterial.GOLDEN_BOOTS) {
       return Classes.BARD;
-    } else if (helmetMaterial == Material.DIAMOND_HELMET && chestplateMaterial == Material.DIAMOND_CHESTPLATE && leggingsMaterial == Material.DIAMOND_LEGGINGS && bootsMaterial == Material.DIAMOND_BOOTS) {
+    } else if (helmetMaterial == XMaterial.DIAMOND_HELMET && chestplateMaterial == XMaterial.DIAMOND_CHESTPLATE && leggingsMaterial == XMaterial.DIAMOND_LEGGINGS && bootsMaterial == XMaterial.DIAMOND_BOOTS) {
       return Classes.DIAMOND;
-    } else if (helmetMaterial == Material.GOLDEN_HELMET && chestplateMaterial == Material.CHAINMAIL_CHESTPLATE && leggingsMaterial == Material.CHAINMAIL_LEGGINGS && bootsMaterial == Material.GOLDEN_BOOTS) {
+    } else if (helmetMaterial == XMaterial.GOLDEN_HELMET && chestplateMaterial == XMaterial.CHAINMAIL_CHESTPLATE && leggingsMaterial == XMaterial.CHAINMAIL_LEGGINGS && bootsMaterial == XMaterial.GOLDEN_BOOTS) {
       return Classes.ROUGE;
     }
 

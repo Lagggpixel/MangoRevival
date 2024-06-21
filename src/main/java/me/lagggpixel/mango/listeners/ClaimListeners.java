@@ -1,5 +1,6 @@
 package me.lagggpixel.mango.listeners;
 
+import com.cryptomorin.xseries.XMaterial;
 import me.lagggpixel.mango.Mango;
 import me.lagggpixel.mango.config.ConfigFile;
 import me.lagggpixel.mango.config.LanguageFile;
@@ -72,7 +73,7 @@ public class ClaimListeners implements Listener {
         if (claim.isInside(e.getClickedBlock().getLocation(), false)) {
           PlayerFaction playerFaction = this.fm.getFaction(e.getPlayer());
           if (claim.getOwner() instanceof SystemFaction) {
-            if (e.getClickedBlock().getType() == Material.FARMLAND) {
+            if (XMaterial.matchXMaterial(e.getClickedBlock().getType()) == XMaterial.FARMLAND) {
               e.setCancelled(true);
             }
             return;
@@ -87,9 +88,9 @@ public class ClaimListeners implements Listener {
       if (e.getClickedBlock() == null) {
         return;
       }
-      if ((p.getInventory().getItemInMainHand().getType() == Material.WATER_BUCKET
-          || p.getInventory().getItemInMainHand().getType() == Material.LAVA_BUCKET
-          || p.getInventory().getItemInMainHand().getType() == Material.FLINT_AND_STEEL)
+      if ((XMaterial.matchXMaterial(p.getInventory().getItemInHand().getType()) == XMaterial.WATER_BUCKET
+          || XMaterial.matchXMaterial(p.getInventory().getItemInHand().getType()) == XMaterial.LAVA_BUCKET
+          || XMaterial.matchXMaterial(p.getInventory().getItemInHand().getType()) == XMaterial.FLINT_AND_STEEL)
           && (isInteractiveBlock(e.getClickedBlock()))) {
         for (Claim claim : this.cm.getClaims()) {
           if (claim.isInside(e.getClickedBlock().getLocation(), false)) {
@@ -359,7 +360,7 @@ public class ClaimListeners implements Listener {
           prof.setZ1(0);
           prof.setZ2(0);
           prof.setX2(0);
-          p.getInventory().remove(p.getInventory().getItemInMainHand());
+          p.getInventory().remove(p.getInventory().getItemInHand());
 
           return;
         }
@@ -418,7 +419,7 @@ public class ClaimListeners implements Listener {
           this.plm.getPillars().remove(pillar);
           pillar.removePillar();
         }
-        Pillar pillar1 = new Pillar(prof, Material.DIAMOND_BLOCK, (byte) 0, e.getClickedBlock().getLocation(), "second");
+        Pillar pillar1 = new Pillar(prof, XMaterial.DIAMOND_BLOCK.parseMaterial(), (byte) 0, e.getClickedBlock().getLocation(), "second");
         (new BukkitRunnable() {
           public void run() {
             Pillar pillar = ClaimListeners.this.plm.getPillar(prof, "second");
