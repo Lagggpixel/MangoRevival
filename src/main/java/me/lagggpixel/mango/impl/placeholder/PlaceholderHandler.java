@@ -2,9 +2,11 @@ package me.lagggpixel.mango.impl.placeholder;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.lagggpixel.mango.Mango;
+import me.lagggpixel.mango.classes.ClassesHandler;
 import me.lagggpixel.mango.commands.faction.HomeCommand;
 import me.lagggpixel.mango.commands.faction.StuckCommand;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +47,7 @@ public class PlaceholderHandler extends PlaceholderExpansion {
     }
 
     switch (args[0].toLowerCase()) {
-      case "faction":
+      case "faction": {
         if (args.length == 1) {
           return null;
         }
@@ -138,8 +140,9 @@ public class PlaceholderHandler extends PlaceholderExpansion {
           default:
             return null;
         }
+      }
 
-      case "timer":
+      case "timer": {
         if (args.length == 1) {
           return null;
         }
@@ -182,6 +185,27 @@ public class PlaceholderHandler extends PlaceholderExpansion {
             return null;
           }
         }
+      }
+
+      case "energy": {
+        if (args.length > 2) {
+          return null;
+        }
+        if (args .length == 1) {
+          Player player = offlinePlayer.getPlayer();
+          if (player == null) {
+            return null;
+          }
+
+          return String.valueOf(ClassesHandler.getPlayerData().get(player).getEnergyRounded());
+        }
+
+        Player player = Bukkit.getPlayer(args[1]);
+        if (player == null) {
+          return null;
+        }
+        return String.valueOf(ClassesHandler.getPlayerData().get(player).getEnergyRounded());
+      }
     }
 
     return null;
