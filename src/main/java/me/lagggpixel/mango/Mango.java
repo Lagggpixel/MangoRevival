@@ -90,8 +90,6 @@ public class Mango extends JavaPlugin {
       }
     }
   };
-  @Getter
-  private boolean debug;
 
   public void onEnable() {
     if (!attemptEconomyHook()) {

@@ -30,6 +30,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -52,7 +53,7 @@ public class ClaimListeners implements Listener {
     Bukkit.getPluginManager().registerEvents(this, this.main);
   }
 
-  private ClaimProfile getProfile(UUID id) {
+  private @NotNull ClaimProfile getProfile(UUID id) {
     for (ClaimProfile profile : this.profiles) {
       if (profile.getUuid() == id) {
         return profile;
@@ -64,7 +65,7 @@ public class ClaimListeners implements Listener {
   }
 
   @EventHandler(priority = EventPriority.HIGHEST)
-  public void onClaimInteract(PlayerInteractEvent e) {
+  public void onClaimInteract(@NotNull PlayerInteractEvent e) {
     if (e.getAction() == Action.PHYSICAL) {
       for (Claim claim : this.cm.getClaims()) {
         if (e.getClickedBlock() == null) {
@@ -207,7 +208,7 @@ public class ClaimListeners implements Listener {
   }
 
   @EventHandler
-  public void onMove(PlayerMoveEvent e) {
+  public void onMove(@NotNull PlayerMoveEvent e) {
     if (e.getTo() == null) {
       return;
     }
@@ -248,7 +249,7 @@ public class ClaimListeners implements Listener {
 
 
   @EventHandler
-  public void onDrop(PlayerDropItemEvent e) {
+  public void onDrop(@NotNull PlayerDropItemEvent e) {
     if (this.cm.isWand(e.getItemDrop().getItemStack())) {
       e.getItemDrop().remove();
     }
@@ -263,7 +264,7 @@ public class ClaimListeners implements Listener {
   }
 
   @EventHandler
-  public void onInteract(PlayerInteractEvent e) {
+  public void onInteract(@NotNull PlayerInteractEvent e) {
     if (this.cm.isWand(e.getItem())) {
       Player p = e.getPlayer();
       final ClaimProfile prof = getProfile(p.getUniqueId());
@@ -432,7 +433,7 @@ public class ClaimListeners implements Listener {
   }
 
   @EventHandler
-  public void onEntitySpawn(EntitySpawnEvent e) {
+  public void onEntitySpawn(@NotNull EntitySpawnEvent e) {
     if (e.getEntity() instanceof org.bukkit.entity.Monster)
       for (Claim claim : this.cm.getClaims()) {
         if (claim.getOwner() instanceof SystemFaction) {
@@ -452,7 +453,7 @@ public class ClaimListeners implements Listener {
    * @param loc1    the first location
    * @param loc2    the second location
    */
-  private void checkIsClaimAffordable(Player p, Faction faction, Location loc1, Location loc2) {
+  private void checkIsClaimAffordable(Player p, Faction faction, @NotNull Location loc1, Location loc2) {
     int price = (int) Math.round(loc1.distance(loc2) * this.cf.getInt("Claim.Price-Multiplier"));
 
     if (faction instanceof PlayerFaction) {
@@ -475,7 +476,7 @@ public class ClaimListeners implements Listener {
    * @param faction the faction the player belongs to
    * @return true if the player can claim the block, false otherwise
    */
-  private boolean checkIfPlayerCanClaim(PlayerInteractEvent e, Player p, Faction faction) {
+  private boolean checkIfPlayerCanClaim(@NotNull PlayerInteractEvent e, Player p, Faction faction) {
     if (e.getClickedBlock() == null) {
       return true;
     }
@@ -508,7 +509,7 @@ public class ClaimListeners implements Listener {
    * @param block the block to check
    * @return true if the block is an interactive block, false otherwise
    */
-  private boolean isInteractiveBlock(Block block) {
+  private boolean isInteractiveBlock(@NotNull Block block) {
     return block.getState() instanceof org.bukkit.inventory.InventoryHolder || block instanceof org.bukkit.inventory.InventoryHolder
         || block.getType().name().contains("CHEST")
         || block.getType().name().contains("FURNACE")
@@ -518,7 +519,7 @@ public class ClaimListeners implements Listener {
         || block.getType().name().contains("LEVER");
   }
 
-  private void handlePointSelection(Player p, Faction faction, Block clickedBlock, ClaimProfile prof, int claimNumber) {
+  private void handlePointSelection(Player p, Faction faction, Block clickedBlock, @NotNull ClaimProfile prof, int claimNumber) {
     if (prof.getX2() != 0 && prof.getZ2() != 0) {
       Location loc1 = new Location(p.getWorld(), prof.getX1(), 0.0D, prof.getZ1());
       Location loc2 = new Location(p.getWorld(), prof.getX2(), 0.0D, prof.getZ2());
@@ -544,7 +545,7 @@ public class ClaimListeners implements Listener {
     }
   }
 
-  private void handleClaimInteract(BlockBreakEvent blockBreakEvent) {
+  private void handleClaimInteract(@NotNull BlockBreakEvent blockBreakEvent) {
     Player player = blockBreakEvent.getPlayer();
     for (Claim claim : this.cm.getClaims()) {
       if (claim.isInside(blockBreakEvent.getBlock().getLocation(), false)) {
@@ -561,7 +562,7 @@ public class ClaimListeners implements Listener {
     }
   }
 
-  private void handleClaimInteract(BlockPlaceEvent blockPlaceEvent) {
+  private void handleClaimInteract(@NotNull BlockPlaceEvent blockPlaceEvent) {
     Player player = blockPlaceEvent.getPlayer();
     for (Claim claim : this.cm.getClaims()) {
       if (claim.isInside(blockPlaceEvent.getBlock().getLocation(), false)) {

@@ -13,8 +13,6 @@ import java.util.Objects;
 
 
 public class ConfigFile {
-  private final Mango main = Mango.getInstance();
-  private final File file;
   @Getter
   private final YamlConfiguration configuration;
 
@@ -23,9 +21,9 @@ public class ConfigFile {
 
   public ConfigFile() {
     instance = this;
-    this.main.saveDefaultConfig();
-    this.file = new File(this.main.getDataFolder(), "config.yml");
-    this.configuration = YamlConfiguration.loadConfiguration(this.file);
+    Mango.getInstance().saveDefaultConfig();
+    File file = new File(Mango.getInstance().getDataFolder(), "config.yml");
+    this.configuration = YamlConfiguration.loadConfiguration(file);
   }
 
   public double getDouble(String path) {

@@ -12,14 +12,12 @@ import java.util.List;
 
 
 public class LanguageFile {
-  private final Mango main = Mango.getInstance();
-  private final File file;
   private final YamlConfiguration configuration;
 
   public LanguageFile() {
-    this.main.saveResource("lang.yml", false);
-    this.file = new File(this.main.getDataFolder(), "lang.yml");
-    this.configuration = YamlConfiguration.loadConfiguration(this.file);
+    Mango.getInstance().saveResource("lang.yml", false);
+    File file = new File(Mango.getInstance().getDataFolder(), "lang.yml");
+    this.configuration = YamlConfiguration.loadConfiguration(file);
   }
 
   public String getString(String path) {
