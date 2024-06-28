@@ -1,7 +1,6 @@
 package me.lagggpixel.mango.impl.glaedr;
 
 import lombok.Getter;
-import me.lagggpixel.mango.Mango;
 import me.lagggpixel.mango.impl.glaedr.scoreboards.Entry;
 import me.lagggpixel.mango.impl.glaedr.scoreboards.PlayerScoreboard;
 import me.lagggpixel.mango.impl.glaedr.scoreboards.Wrapper;
@@ -52,11 +51,7 @@ public class Glaedr implements Listener {
 
   public void registerPlayers() {
     for (Player player : Bukkit.getOnlinePlayers()) {
-      long oldTime = System.currentTimeMillis();
       new PlayerScoreboard(this, player);
-      if (Mango.getInstance().isDebug()) {
-        Mango.getInstance().getLogger().info("Debug: Scoreboard for " + player.getName() + " created in " + (System.currentTimeMillis() - oldTime) + "ms.");
-      }
     }
   }
 
@@ -65,11 +60,7 @@ public class Glaedr implements Listener {
     Player player = event.getPlayer();
     PlayerScoreboard playerScoreboard = PlayerScoreboard.getScoreboard(player);
     if (playerScoreboard == null) {
-      long oldTime = System.currentTimeMillis();
       new PlayerScoreboard(this, player);
-      if (Mango.getInstance().isDebug()) {
-        Mango.getInstance().getLogger().info("Debug: Scoreboard for " + player.getName() + " created in " + (System.currentTimeMillis() - oldTime) + "ms.");
-      }
     } else {
       if (player.getScoreboard() != playerScoreboard.getScoreboard()) {
         if (player.getScoreboard().getObjective(DisplaySlot.SIDEBAR) != null) {
