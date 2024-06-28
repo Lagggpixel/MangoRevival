@@ -37,18 +37,26 @@ public enum Classes {
   }
 
   public static Classes getByName(String name) {
-    if (name.equalsIgnoreCase("DIAMOND")) {
-      return DIAMOND;
-    } else if (name.equalsIgnoreCase("BARD")) {
-      return BARD;
-    } else if (name.equalsIgnoreCase("ARCHER")) {
-      return ARCHER;
-    } else if (name.equalsIgnoreCase("ROUGE")) {
-      return ROUGE;
-    } else if (name.equalsIgnoreCase("MINER")) {
-      return MINER;
+    switch (name.toLowerCase()) {
+      case "diamond": {
+        return DIAMOND;
+      }
+      case "bard": {
+        return BARD;
+      }
+      case "archer": {
+        return ARCHER;
+      }
+      case "rouge": {
+        return ROUGE;
+      }
+      case "miner": {
+        return MINER;
+      }
+      default: {
+        return null;
+      }
     }
-    return null;
   }
 
   public static Classes getClassByArmourSet(ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots) {
