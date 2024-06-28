@@ -147,30 +147,51 @@ public class ClassListeners implements Listener {
       return;
     }
     ItemStack itemStack = player.getInventory().getItemInHand();
-    if (classes == Classes.ARCHER) {
-      switch (itemStack.getType()) {
-        case SUGAR: {
-          forceApplyArcherEffect(player, PotionEffectType.SPEED, 3, 50);
+
+    switch (classes) {
+      case BARD: {
+        switch (itemStack.getType()) {
+          case BLAZE_POWDER: {
+            forceApplyBardEffect(player, PotionEffectType.INCREASE_DAMAGE, 2, 40);
+            break;
+          }
+          case IRON_INGOT: {
+            forceApplyBardEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 3, 40);
+            break;
+          }
+          case FEATHER: {
+            forceApplyBardEffect(player, PotionEffectType.JUMP, 4, 20);
+            break;
+          }
+          case SUGAR: {
+            forceApplyBardEffect(player, PotionEffectType.SPEED, 3, 30);
+            break;
+          }
+          default: {
+            return;
+          }
         }
-        case FEATHER: {
-          forceApplyArcherEffect(player, PotionEffectType.JUMP, 4, 40);
-        }
+
+        itemStack.setAmount(itemStack.getAmount() - 1);
+        break;
       }
-    }
-    if (classes == Classes.BARD) {
-      switch (itemStack.getType()) {
-        case BLAZE_POWDER:{
-          forceApplyBardEffect(player, PotionEffectType.INCREASE_DAMAGE, 2, 40);
+
+      case ARCHER: {
+        switch (itemStack.getType()) {
+          case SUGAR: {
+            forceApplyArcherEffect(player, PotionEffectType.SPEED, 4, 50);
+            break;
+          }
+          case FEATHER: {
+            forceApplyArcherEffect(player, PotionEffectType.JUMP, 4, 40);
+            break;
+          }
+          default: {
+            return;
+          }
         }
-        case IRON_INGOT: {
-          forceApplyBardEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 3, 40);
-        }
-        case FEATHER: {
-          forceApplyBardEffect(player, PotionEffectType.JUMP, 4, 20);
-        }
-        case SUGAR: {
-          forceApplyBardEffect(player, PotionEffectType.SPEED, 3, 30);
-        }
+        itemStack.setAmount(itemStack.getAmount() - 1);
+        break;
       }
     }
   }
