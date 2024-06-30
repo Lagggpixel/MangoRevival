@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -126,7 +127,7 @@ public class ClassesHandler implements Listener {
    * @param amplifier the amplifier for the potion effect
    * @param ticks     the duration of the potion effect in ticks
    */
-  public static void applySelfEffect(Player p, PotionEffectType effect, int amplifier, int ticks) {
+  public static void applySelfEffect(@NotNull Player p, PotionEffectType effect, int amplifier, int ticks) {
     if (p.hasPotionEffect(effect)
         && p.getActivePotionEffects().stream().anyMatch(potionEffect ->
         potionEffect.getType() == effect)
@@ -137,7 +138,7 @@ public class ClassesHandler implements Listener {
     p.addPotionEffect(new PotionEffect(effect, ticks, amplifier));
   }
 
-  private void checkBard(Player player) {
+  private void checkBard(@NotNull Player player) {
     ItemStack itemStack = player.getInventory().getItemInHand();
     switch (XMaterial.matchXMaterial(itemStack.getType())) {
       case MAGMA_CREAM: {
