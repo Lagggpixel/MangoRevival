@@ -4,7 +4,6 @@ import me.lagggpixel.mango.Mango;
 import me.lagggpixel.mango.commands.FactionSubCommand;
 import me.lagggpixel.mango.config.ConfigFile;
 import me.lagggpixel.mango.config.LanguageFile;
-import me.lagggpixel.mango.factions.Faction;
 import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
 import org.bukkit.Bukkit;
@@ -13,7 +12,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 
@@ -33,11 +31,11 @@ public class ChatCommand extends FactionSubCommand implements Listener {
       p.sendMessage(this.lf.getString("FACTION_TOO_MANY_ARGS.CHAT"));
       return;
     }
-    if (this.fm.getFaction(p) == null) {
+    PlayerFaction faction = this.fm.getFaction(p);
+    if (faction == null) {
       p.sendMessage(this.lf.getString("FACTION_NOT_IN"));
       return;
     }
-    PlayerFaction faction = this.fm.getFaction(p);
     if (args.length == 1) {
       String type = args[0];
       if (type.equalsIgnoreCase("faction") || type.equalsIgnoreCase("f")) {
@@ -57,9 +55,7 @@ public class ChatCommand extends FactionSubCommand implements Listener {
       }
       return;
     }
-    if (args.length == 0) {
-      toggleChat(faction, p);
-    }
+    toggleChat(faction, p);
   }
 
   private void toggleChat(PlayerFaction faction, Player p) {
@@ -83,11 +79,14 @@ public class ChatCommand extends FactionSubCommand implements Listener {
     Player p = e.getPlayer();
     if (this.fm.getFaction(p) != null && this.fm.getFaction(p) != null) {
       PlayerFaction faction = this.fm.getFaction(p);
+      if (faction == null) {
+        return;
+      }
       if (faction.getAllyChat().contains(p.getUniqueId())) {
         e.setCancelled(true);
         faction.sendMessage(this.lf.getString("FACTION_CHAT_FORMAT.ALLY").replace("{player}", p.getName()).replace("{message}", e.getMessage()).replace("{faction}", faction.getName()));
-        for (Faction allies : faction.getAllies()) {
-          ((PlayerFaction) allies).sendMessage(this.lf.getString("FACTION_CHAT_FORMAT.ALLY").replace("{player}", p.getName()).replace("{message}", e.getMessage()).replace("{faction", faction.getName()));
+        for (PlayerFaction allies : faction.getAllies()) {
+          allies.sendMessage(this.lf.getString("FACTION_CHAT_FORMAT.ALLY").replace("{player}", p.getName()).replace("{message}", e.getMessage()).replace("{faction", faction.getName()));
         }
       } else if (faction.getFactionChat().contains(p.getUniqueId())) {
         e.setCancelled(true);
