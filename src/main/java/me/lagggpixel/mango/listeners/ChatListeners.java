@@ -27,47 +27,47 @@ public class ChatListeners implements Listener {
 
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onChat(AsyncPlayerChatEvent e) {
-    if (!e.isCancelled() && this.cf.getBoolean("Chat-Prefix.Enabled")) {
-      Player p = e.getPlayer();
-      e.setCancelled(true);
+    if (e.isCancelled() || !this.cf.getBoolean("Chat-Prefix.Enabled")) {
+      return;
+    }
+    Player p = e.getPlayer();
+    e.setCancelled(true);
 
-      if (this.chat == null) {
-        for (Player online : e.getRecipients()) {
-          PlayerFaction playerFaction = this.fm.getFaction(p);
-          if (playerFaction == null) {
-            Bukkit.broadcastMessage(this.cf.getString("Chat-Prefix.No-Faction") + p.getDisplayName() + " " + e.getMessage());
-            return;
-          }
-          if (playerFaction.getOnlinePlayers().contains(online)) {
-            online.sendMessage(this.cf.getString("Chat-Prefix.Friendly-Faction").replace("{faction}", playerFaction.getName()) + p.getDisplayName() + " " + e.getMessage());
-            continue;
-          }
-          if (playerFaction.isAlly(online)) {
-            online.sendMessage(this.cf.getString("Chat-Prefix.Ally-Faction").replace("{faction}", playerFaction.getName()) + p.getDisplayName() + " " + e.getMessage());
-            continue;
-          }
-          online.sendMessage(this.cf.getString("Chat-Prefix.Enemy-Faction").replace("{faction}", playerFaction.getName()) + p.getDisplayName() + " " + e.getMessage());
+    if (this.chat == null) {
+      for (Player online : e.getRecipients()) {
+        PlayerFaction playerFaction = this.fm.getFaction(p);
+        if (playerFaction == null) {
+          Bukkit.broadcastMessage(this.cf.getString("Chat-Prefix.No-Faction") + p.getDisplayName() + " " + e.getMessage());
+          return;
         }
-      } else {
+        if (playerFaction.getOnlinePlayers().contains(online)) {
+          online.sendMessage(this.cf.getString("Chat-Prefix.Friendly-Faction").replace("{faction}", playerFaction.getName()) + p.getDisplayName() + " " + e.getMessage());
+          continue;
+        }
+        if (playerFaction.isAlly(online)) {
+          online.sendMessage(this.cf.getString("Chat-Prefix.Ally-Faction").replace("{faction}", playerFaction.getName()) + p.getDisplayName() + " " + e.getMessage());
+          continue;
+        }
+        online.sendMessage(this.cf.getString("Chat-Prefix.Enemy-Faction").replace("{faction}", playerFaction.getName()) + p.getDisplayName() + " " + e.getMessage());
+      }
+    } else {
 
-        String name = getChatName(p);
-        for (Player online : e.getRecipients()) {
-          PlayerFaction playerFaction = this.fm.getFaction(p);
-          if (playerFaction == null) {
-            Bukkit.broadcastMessage(this.cf.getString("Chat-Prefix.No-Faction") + e.getFormat().replace("%1$s", name).replace("%2$s", e.getMessage()).replace("<3", "❤"));
-            return;
-          }
-          Bukkit.getConsoleSender().sendMessage(this.cf.getString("Chat-Prefix.Enemy-Faction").replace("{faction}", playerFaction.getName()) + e.getFormat().replace("%1$s", name).replace("%2$s", e.getMessage()).replace("<3", "❤"));
-          if (playerFaction.getOnlinePlayers().contains(online)) {
-            online.sendMessage(this.cf.getString("Chat-Prefix.Friendly-Faction").replace("{faction}", playerFaction.getName()) + e.getFormat().replace("%1$s", name).replace("%2$s", e.getMessage()).replace("<3", "❤"));
-            continue;
-          }
-          if (playerFaction.isAlly(online)) {
-            online.sendMessage(this.cf.getString("Chat-Prefix.Ally-Faction").replace("{faction}", playerFaction.getName()) + e.getFormat().replace("%1$s", name).replace("%2$s", e.getMessage()).replace("<3", "❤"));
-            continue;
-          }
-          online.sendMessage(this.cf.getString("Chat-Prefix.Enemy-Faction").replace("{faction}", playerFaction.getName()) + e.getFormat().replace("%1$s", name).replace("%2$s", e.getMessage()).replace("<3", "❤"));
+      String name = getChatName(p);
+      for (Player online : e.getRecipients()) {
+        PlayerFaction playerFaction = this.fm.getFaction(p);
+        if (playerFaction == null) {
+          Bukkit.broadcastMessage(this.cf.getString("Chat-Prefix.No-Faction") + e.getFormat().replace("%1$s", name).replace("%2$s", e.getMessage()).replace("<3", "❤"));
+          return;
         }
+        if (playerFaction.getOnlinePlayers().contains(online)) {
+          online.sendMessage(this.cf.getString("Chat-Prefix.Friendly-Faction").replace("{faction}", playerFaction.getName()) + e.getFormat().replace("%1$s", name).replace("%2$s", e.getMessage()).replace("<3", "❤"));
+          continue;
+        }
+        if (playerFaction.isAlly(online)) {
+          online.sendMessage(this.cf.getString("Chat-Prefix.Ally-Faction").replace("{faction}", playerFaction.getName()) + e.getFormat().replace("%1$s", name).replace("%2$s", e.getMessage()).replace("<3", "❤"));
+          continue;
+        }
+        online.sendMessage(this.cf.getString("Chat-Prefix.Enemy-Faction").replace("{faction}", playerFaction.getName()) + e.getFormat().replace("%1$s", name).replace("%2$s", e.getMessage()).replace("<3", "❤"));
       }
     }
   }
