@@ -1,6 +1,7 @@
 package me.lagggpixel.mango.factions.types;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.lagggpixel.mango.Mango;
 import me.lagggpixel.mango.config.ConfigFile;
 import me.lagggpixel.mango.factions.Faction;
@@ -22,38 +23,24 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class PlayerFaction
-    extends Faction {
-  @Getter
+@Setter
+@Getter
+public class PlayerFaction extends Faction {
   private Mango main = Mango.getInstance();
-  @Getter
   private UUID leader;
-  @Getter
   private ArrayList<UUID> officers;
-  @Getter
   private ArrayList<UUID> members;
-  @Getter
   private ArrayList<UUID> invitedPlayers;
-  @Getter
   private ConfigFile configFile = this.main.getConfigFile();
-  @Getter
   private int balance;
-  @Getter
   private int frozenInit;
-  @Getter
   private int frozenTime;
   private BigDecimal dtr;
-  @Getter
   private HashSet<PlayerFaction> allies;
-  @Getter
   private HashSet<PlayerFaction> requestedAllies;
-  @Getter
   private YamlConfiguration config = getConfiguration();
-  @Getter
   private List<UUID> allyChat;
-  @Getter
   private List<UUID> factionChat;
-  @Getter
   private boolean deleted = false;
 
   public PlayerFaction(String name, UUID leader) {
@@ -73,68 +60,7 @@ public class PlayerFaction
     checkDTR();
   }
 
-  public void setMain(Mango main) {
-    this.main = main;
-  }
-
-  public void setConfigFile(ConfigFile configFile) {
-    this.configFile = configFile;
-  }
-
-  public void setLeader(UUID leader) {
-    this.leader = leader;
-  }
-
-  public void setOfficers(ArrayList<UUID> officers) {
-    this.officers = officers;
-  }
-
-  public void setMembers(ArrayList<UUID> members) {
-    this.members = members;
-  }
-
-  public void setBalance(int balance) {
-    this.balance = balance;
-  }
-
-  public void setFrozenInit(int frozenInit) {
-    this.frozenInit = frozenInit;
-  }
-
-  public void setFrozenTime(int frozenTime) {
-    this.frozenTime = frozenTime;
-  }
-
-  public void setFile(File file) {
-    this.file = file;
-  }
-
-  @Getter
-  private File file = getFile();
-
-  public void setAllies(HashSet<PlayerFaction> allies) {
-    this.allies = allies;
-  }
-
-  public void setRequestedAllies(HashSet<PlayerFaction> requestedAllies) {
-    this.requestedAllies = requestedAllies;
-  }
-
-  public void setConfig(YamlConfiguration config) {
-    this.config = config;
-  }
-
-  public void setAllyChat(List<UUID> allyChat) {
-    this.allyChat = allyChat;
-  }
-
-  public void setFactionChat(List<UUID> factionChat) {
-    this.factionChat = factionChat;
-  }
-
-  public void setDeleted(boolean deleted) {
-    this.deleted = deleted;
-  }
+  private File file;
 
   public void save() throws IOException {
     if (this.deleted) {
@@ -192,10 +118,6 @@ public class PlayerFaction
       this.config.set("home", LocationSerialization.serializeLocation(getHome()));
     }
     this.config.save(this.file);
-  }
-
-  public void setInvitedPlayers(ArrayList<UUID> invitedPlayers) {
-    this.invitedPlayers = invitedPlayers;
   }
 
   public ArrayList<Player> getOnlinePlayers() {
@@ -343,10 +265,6 @@ public class PlayerFaction
 
   public double getDtr() {
     return this.dtr.doubleValue();
-  }
-
-  public void setDtr(BigDecimal dtr) {
-    this.dtr = dtr;
   }
 
   public BigDecimal getDtrDecimal() {
