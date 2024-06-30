@@ -143,6 +143,9 @@ public class ClassListeners implements Listener {
   public void onPlayerInteract(PlayerInteractEvent event) {
     Player player = event.getPlayer();
     Classes classes = ClassesHandler.getPlayerData().get(player).getClasses();
+    if (classes == null) {
+      return;
+    }
     if (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.RIGHT_CLICK_AIR) {
       return;
     }
@@ -152,19 +155,27 @@ public class ClassListeners implements Listener {
       case BARD: {
         switch (itemStack.getType()) {
           case BLAZE_POWDER: {
-            forceApplyBardEffect(player, PotionEffectType.INCREASE_DAMAGE, 2, 40);
+            if (!forceApplyBardEffect(player, PotionEffectType.INCREASE_DAMAGE, 2, 40)) {
+              return;
+            }
             break;
           }
           case IRON_INGOT: {
-            forceApplyBardEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 3, 40);
+            if (!forceApplyBardEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 3, 40)) {
+              return;
+            }
             break;
           }
           case FEATHER: {
-            forceApplyBardEffect(player, PotionEffectType.JUMP, 4, 20);
+            if (!forceApplyBardEffect(player, PotionEffectType.JUMP, 4, 20)) {
+              return;
+            }
             break;
           }
           case SUGAR: {
-            forceApplyBardEffect(player, PotionEffectType.SPEED, 3, 30);
+            if (!forceApplyBardEffect(player, PotionEffectType.SPEED, 3, 30)) {
+              return;
+            }
             break;
           }
           default: {
@@ -179,11 +190,15 @@ public class ClassListeners implements Listener {
       case ARCHER: {
         switch (itemStack.getType()) {
           case SUGAR: {
-            forceApplyArcherEffect(player, PotionEffectType.SPEED, 4, 50);
+            if (!forceApplyArcherEffect(player, PotionEffectType.SPEED, 4, 50)) {
+              return;
+            }
             break;
           }
           case FEATHER: {
-            forceApplyArcherEffect(player, PotionEffectType.JUMP, 4, 40);
+            if (!forceApplyArcherEffect(player, PotionEffectType.JUMP, 4, 40)) {
+              return;
+            }
             break;
           }
           default: {
@@ -196,24 +211,28 @@ public class ClassListeners implements Listener {
     }
   }
 
-  private void forceApplyArcherEffect(Player player, PotionEffectType effect, int amplifier, int energy) {
+  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+  private boolean forceApplyArcherEffect(Player player, PotionEffectType effect, int amplifier, int energy) {
     cPlayer cPlayer = ClassesHandler.getPlayerData().get(player);
     if (!cPlayer.hasEnergy(energy)) {
       player.sendMessage(lf.getString("CLASSES.NOT_ENOUGH_ENERGY").replace("{amount_required}", String.valueOf(energy)).replace("{current_energy}", String.valueOf(cPlayer.getEnergyRounded())));
-      return;
+      return false;
     }
     cPlayer.removeEnergy(energy);
     ClassesHandler.applySelfEffect(player, effect, amplifier, 20 * 5);
+    return true;
   }
 
-  private void forceApplyBardEffect(Player player, PotionEffectType effect, int amplifier, int energy) {
+  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+  private boolean forceApplyBardEffect(Player player, PotionEffectType effect, int amplifier, int energy) {
     cPlayer cPlayer = ClassesHandler.getPlayerData().get(player);
     if (!cPlayer.hasEnergy(energy)) {
       player.sendMessage(lf.getString("CLASSES.NOT_ENOUGH_ENERGY").replace("{amount_required}", String.valueOf(energy)).replace("{current_energy}", String.valueOf(cPlayer.getEnergyRounded())));
-      return;
+      return false;
     }
     cPlayer.removeEnergy(energy);
     ClassesHandler.applyTeamEffect(player, effect, amplifier, 20 * 5);
+    return true;
   }
 
   /**
@@ -233,24 +252,31 @@ public class ClassListeners implements Listener {
       switch (itemStack.getType()) {
         case MAGMA_CREAM: {
           ClassesHandler.applyTeamEffect(player, PotionEffectType.FIRE_RESISTANCE, 1);
+          break;
         }
         case GOLDEN_CARROT: {
           ClassesHandler.applyTeamEffect(player, PotionEffectType.NIGHT_VISION, 1);
+          break;
         }
         case SUGAR: {
           ClassesHandler.applyTeamEffect(player, PotionEffectType.SPEED, 2);
+          break;
         }
         case BLAZE_POWDER: {
           ClassesHandler.applyTeamEffect(player, PotionEffectType.INCREASE_DAMAGE, 1);
+          break;
         }
         case GHAST_TEAR: {
           ClassesHandler.applyTeamEffect(player, PotionEffectType.REGENERATION, 1);
+          break;
         }
         case FEATHER: {
           ClassesHandler.applyTeamEffect(player, PotionEffectType.JUMP, 2);
+          break;
         }
         case IRON_INGOT: {
           ClassesHandler.applyTeamEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 1);
+          break;
         }
       }
     }

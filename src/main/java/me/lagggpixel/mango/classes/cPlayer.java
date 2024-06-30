@@ -3,11 +3,13 @@ package me.lagggpixel.mango.classes;
 import lombok.Data;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @Data
 public class cPlayer {
 
   private final Player player;
+  @Nullable
   private Classes classes;
   private double classEnergy;
   private boolean isArcherTagged;
