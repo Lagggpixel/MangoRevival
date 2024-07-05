@@ -1,6 +1,7 @@
 package me.lagggpixel.mango.factions.claims;
 
 
+import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import me.lagggpixel.mango.Mango;
 import me.lagggpixel.mango.config.ConfigFile;
@@ -8,7 +9,6 @@ import me.lagggpixel.mango.config.LanguageFile;
 import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.SystemFaction;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -52,7 +52,7 @@ public class ClaimManager {
 
   public ItemStack getWand() {
 
-    ItemStack stack = new ItemStack(Material.valueOf(this.cf.getString("Claiming-Wand.Item")));
+    ItemStack stack = XMaterial.matchXMaterial(this.cf.getString("Claiming-Wand.Item")).get().parseItem();
 
     ItemMeta meta = stack.getItemMeta();
 

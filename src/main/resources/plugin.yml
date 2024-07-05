@@ -1,5 +1,5 @@
 name: Mango-Revival
-version: '${project.version}'
+version: '0.0'
 description: An extensive faction plugin for use on hardcore faction servers.
 main: me.lagggpixel.mango.Mango
 api-version: '1.20'

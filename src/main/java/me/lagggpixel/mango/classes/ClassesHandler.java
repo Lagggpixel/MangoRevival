@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.logging.Level;
 
 @Getter
 public class ClassesHandler implements Listener {
@@ -55,9 +55,6 @@ public class ClassesHandler implements Listener {
             switch (classes) {
               case BARD: {
                 checkBard(player);
-              }
-              case ARCHER: {
-                checkArcher(player);
               }
             }
           }
@@ -97,14 +94,7 @@ public class ClassesHandler implements Listener {
       if (distance > 15) {
         continue;
       }
-      if (factionPlayer.hasPotionEffect(effect)
-          && factionPlayer.getActivePotionEffects().stream().anyMatch(potionEffect ->
-          potionEffect.getType() == effect)
-          && factionPlayer.getActivePotionEffects().stream().filter(potionEffect ->
-          potionEffect.getType() == effect).collect(Collectors.toList()).get(0).getAmplifier() > amplifier) {
-        continue;
-      }
-      factionPlayer.addPotionEffect(new PotionEffect(effect, ticks, amplifier));
+      factionPlayer.addPotionEffect(effect.createEffect(ticks, amplifier), true);
     }
   }
 
@@ -128,14 +118,10 @@ public class ClassesHandler implements Listener {
    * @param ticks     the duration of the potion effect in ticks
    */
   public static void applySelfEffect(@NotNull Player p, PotionEffectType effect, int amplifier, int ticks) {
-    if (p.hasPotionEffect(effect)
-        && p.getActivePotionEffects().stream().anyMatch(potionEffect ->
-        potionEffect.getType() == effect)
-        && p.getActivePotionEffects().stream().filter(potionEffect ->
-        potionEffect.getType() == effect).collect(Collectors.toList()).get(0).getAmplifier() > amplifier) {
-      return;
+    boolean b = p.addPotionEffect(effect.createEffect(ticks, amplifier), true);
+    if (!b) {
+      Mango.getInstance().getLogger().log(Level.WARNING, "Effect " + effect.getName().toLowerCase(), " was not successfully applied to " + p.getName());
     }
-    p.addPotionEffect(new PotionEffect(effect, ticks, amplifier));
   }
 
   private void checkBard(@NotNull Player player) {
@@ -167,16 +153,6 @@ public class ClassesHandler implements Listener {
       }
       case IRON_INGOT: {
         applyTeamEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 1);
-        break;
-      }
-    }
-  }
-
-  private void checkArcher(Player player) {
-    ItemStack itemStack = player.getInventory().getItemInHand();
-    switch (XMaterial.matchXMaterial(itemStack.getType())) {
-      case FEATHER: {
-        applyTeamEffect(player, PotionEffectType.JUMP, 2);
         break;
       }
     }
