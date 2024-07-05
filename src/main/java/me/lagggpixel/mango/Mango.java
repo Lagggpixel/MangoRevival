@@ -119,8 +119,10 @@ public class Mango extends JavaPlugin {
 
     this.pillarManager = new PillarManager();
 
-    this.glaedr = new Glaedr(this, this.configFile.getString("Scoreboard.Title"));
-    this.glaedr.registerPlayers();
+    if (this.configFile.getBoolean("Scoreboard.Enabled")) {
+      this.glaedr = new Glaedr(this, this.configFile.getString("Scoreboard.Title"));
+      this.glaedr.registerPlayers();
+    }
 
     setupDirectories();
 

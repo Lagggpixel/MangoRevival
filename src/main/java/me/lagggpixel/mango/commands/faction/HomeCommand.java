@@ -18,11 +18,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class HomeCommand extends FactionSubCommand implements Listener {
@@ -32,54 +34,82 @@ public class HomeCommand extends FactionSubCommand implements Listener {
   private final ConfigFile cf = Mango.getInstance().getConfigFile();
   private final FactionManager fm = Mango.getInstance().getFactionManager();
 
+  private static Map<UUID, Integer> homeTimerTicks = new HashMap<>();
+
   public HomeCommand() {
     super("home", Collections.singletonList("h"));
     Bukkit.getPluginManager().registerEvents(this, Mango.getInstance());
+
+    if (Mango.getInstance().getGlaedr() == null) {
+      BukkitRunnable homeTimerRunnable = new BukkitRunnable() {
+        @Override
+        public void run() {
+          Map<UUID, Integer> newHomeTimer = new HashMap<>();
+          homeTimerTicks.forEach((uuid, time) -> {
+            if (time - 1 > 0) {
+              newHomeTimer.put(uuid, time - 1);
+            }
+          });
+          homeTimerTicks = newHomeTimer;
+        }
+      };
+      homeTimerRunnable.runTaskTimerAsynchronously(Mango.getInstance(), 0L, 1L);
+    }
   }
 
 
   public void execute(Player p, String[] args) {
-    PlayerScoreboard scoreboard = PlayerScoreboard.getScoreboard(p);
-    if (scoreboard != null) {
-      PlayerFaction playerFaction = this.fm.getFaction(p);
+    PlayerFaction playerFaction = this.fm.getFaction(p);
 
-      if (playerFaction == null) {
-        p.sendMessage(this.lf.getString("FACTION_NOT_IN"));
+    if (playerFaction == null) {
+      p.sendMessage(this.lf.getString("FACTION_NOT_IN"));
 
-        return;
-      }
-
-      if (waiting.containsKey(p.getName())) {
-        p.sendMessage(ChatColor.RED + "You're already teleporting to your faction home!");
-
-        return;
-      }
-      if (playerFaction.getHome() == null) {
-        p.sendMessage(this.lf.getString("FACTION_HOME_NOT_SET"));
-
-        return;
-      }
-      if (Mango.getInstance().getClaimManager().isInSafezone(p.getLocation())) {
-        p.teleport(playerFaction.getHome());
-
-        return;
-      }
-      String worldName = p.getWorld().getName();
-      int seconds;
-      if (!this.cf.contains("Teleport-Cooldown.Home." + worldName)) {
-        seconds = this.cf.getInt("Teleport-Cooldown.Home.Default", 10);
-      } else {
-        seconds = this.cf.getInt("Teleport-Cooldown.Home." + worldName, 10);
-      }
-      if (seconds == -1) {
-        p.sendMessage(this.lf.getString("FACTION_HOME_CAN_NOT_TELEPORT_FROM_WORLD"));
-        return;
-      }
-      Warmup warmup = new Warmup(p, playerFaction.getHome(), (new Entry("stuck", scoreboard)).setText(this.cf.getString("Scoreboard.Faction-Home")).setCountdown(true).setTime(seconds).send());
-      warmup.runTaskLater(Mango.getInstance(), seconds * 20L);
-      waiting.put(p.getName(), warmup);
-      p.sendMessage(ChatColor.RED + "You will be teleported to your faction home in " + seconds + " seconds!");
+      return;
     }
+
+    if (waiting.containsKey(p.getName())) {
+      p.sendMessage(ChatColor.RED + "You're already teleporting to your faction home!");
+
+      return;
+    }
+    if (playerFaction.getHome() == null) {
+      p.sendMessage(this.lf.getString("FACTION_HOME_NOT_SET"));
+
+      return;
+    }
+    if (Mango.getInstance().getClaimManager().isInSafezone(p.getLocation())) {
+      p.teleport(playerFaction.getHome());
+
+      return;
+    }
+    String worldName = p.getWorld().getName();
+    int seconds;
+    if (!this.cf.contains("Teleport-Cooldown.Home." + worldName)) {
+      seconds = this.cf.getInt("Teleport-Cooldown.Home.Default", 10);
+    } else {
+      seconds = this.cf.getInt("Teleport-Cooldown.Home." + worldName, 10);
+    }
+    if (seconds == -1) {
+      p.sendMessage(this.lf.getString("FACTION_HOME_CAN_NOT_TELEPORT_FROM_WORLD"));
+      return;
+    }
+
+    Entry entry = null;
+    if (Mango.getInstance().getGlaedr() != null) {
+      entry = new Entry("stuck", PlayerScoreboard.getScoreboard(p));
+      entry
+          .setText(this.cf.getString("Scoreboard.Faction-Home"))
+          .setCountdown(true)
+          .setTime(seconds)
+          .send();
+    } else {
+      homeTimerTicks.remove(p.getUniqueId());
+      homeTimerTicks.put(p.getUniqueId(), seconds);
+    }
+    Warmup warmup = new Warmup(p, playerFaction.getHome(), entry);
+    warmup.runTaskLater(Mango.getInstance(), seconds * 20L);
+    waiting.put(p.getName(), warmup);
+    p.sendMessage(ChatColor.RED + "You will be teleported to your faction home in " + seconds + " seconds!");
   }
 
 
@@ -124,15 +154,20 @@ public class HomeCommand extends FactionSubCommand implements Listener {
   public static class Warmup extends BukkitRunnable {
     private final Player player;
     private final Location location;
+    @Nullable
     private final Entry entry;
 
-    public Warmup(Player player, Location location, Entry entry) {
+    public Warmup(Player player, Location location, @Nullable Entry entry) {
       this.player = player;
       this.location = location;
       this.entry = entry;
     }
 
     public void cancelEntry() {
+      if (entry == null) {
+        homeTimerTicks.remove(this.player.getUniqueId());
+        return;
+      }
       this.entry.cancel();
     }
 
@@ -142,6 +177,12 @@ public class HomeCommand extends FactionSubCommand implements Listener {
     }
 
     public BigDecimal getSeconds() {
+
+      if (this.entry == null) {
+        int ticks = homeTimerTicks.get(this.player.getUniqueId());
+        return BigDecimal.valueOf((double) ticks / 20);
+      }
+
       return this.entry.getTime();
     }
   }

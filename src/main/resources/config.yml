@@ -7,6 +7,8 @@
 
 # The following section will contain all the configuration options for your scoreboard
 Scoreboard:
+  # Whether the scoreboard module should be enabled (requires restart)
+  Enabled: true
   # The title of the scoreboard
   Title: "&6Mango Revival&7(Map 1)"
   # What will be displayed on scoreboard when a player does /f stuck
