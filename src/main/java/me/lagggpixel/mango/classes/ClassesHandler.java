@@ -12,14 +12,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Getter
 public class ClassesHandler implements Listener {
@@ -66,6 +64,7 @@ public class ClassesHandler implements Listener {
 
   /**
    * Apply an effect to the player and nearby faction members for 40 ticks
+   * Note that the effect will not apply if the player has an existing effect of the same type
    *
    * @param p         the player to apply the effect to
    * @param effect    the type of potion effect to apply
@@ -76,7 +75,20 @@ public class ClassesHandler implements Listener {
   }
 
   /**
-   * Applies an effect to the given player and their faction members.
+   * Force apply an effect to the player and nearby faction members for 40 ticks
+   * Note that the effect will override any effect the player currently have
+   *
+   * @param p         the player to apply the effect to
+   * @param effect    the type of potion effect to apply
+   * @param amplifier the strength of the potion effect
+   */
+  public static void forceApplyTeamEffect(Player p, PotionEffectType effect, int amplifier) {
+    forceApplyTeamEffect(p, effect, amplifier, 45);
+  }
+
+  /**
+   * Applies an effect to the given player and their faction members
+   * Note that the effect will not apply if the player has an existing effect of the same type
    *
    * @param p         the player to apply the effect to
    * @param effect    the potion effect type to apply
@@ -99,7 +111,32 @@ public class ClassesHandler implements Listener {
   }
 
   /**
+   * Force applies an effect to the given player and their faction members
+   * Note that the effect will override any effect the player currently have
+   *
+   * @param p         the player to apply the effect to
+   * @param effect    the potion effect type to apply
+   * @param amplifier the amplifier for the potion effect
+   * @param ticks     the duration of the potion effect in ticks
+   */
+  public static void forceApplyTeamEffect(Player p, PotionEffectType effect, int amplifier, int ticks) {
+    forceApplyEffect(p, effect, amplifier, ticks);
+    PlayerFaction faction = Mango.getInstance().getFactionManager().getFaction(p);
+    if (faction == null) {
+      return;
+    }
+    for (Player factionPlayer : faction.getOnlinePlayers()) {
+      double distance = p.getLocation().distance(factionPlayer.getLocation());
+      if (distance > 15) {
+        continue;
+      }
+      forceApplyEffect(factionPlayer, effect, amplifier, ticks);
+    }
+  }
+
+  /**
    * Applies a effect to the given player for 40 ticks
+   * Note that the effect will not apply if the player has an existing effect of the same type
    *
    * @param p         the player to apply the effect to
    * @param effect    the type of potion effect to apply
@@ -110,7 +147,20 @@ public class ClassesHandler implements Listener {
   }
 
   /**
+   * Force Applies a effect to the given player for 40 ticks
+   * Note that the effect will override any effect the player currently have
+   *
+   * @param p         the player to apply the effect to
+   * @param effect    the type of potion effect to apply
+   * @param amplifier the strength of the potion effect
+   */
+  public static void forceApplyEffect(Player p, PotionEffectType effect, int amplifier) {
+    forceApplyEffect(p, effect, amplifier, 45);
+  }
+
+  /**
    * Applies a effect to the given player
+   * Note that the effect will not apply if the player has an existing effect of the same type
    *
    * @param p         the player to apply the effect to
    * @param effect    the potion effect type to apply
@@ -118,17 +168,19 @@ public class ClassesHandler implements Listener {
    * @param ticks     the duration of the potion effect in ticks
    */
   public static void applyEffect(@NotNull Player p, PotionEffectType effect, int amplifier, int ticks) {
-    if (p.hasPotionEffect(effect)) {
-      for (PotionEffect potionEffect : p.getActivePotionEffects().stream().filter(potionEffect ->
-          potionEffect.getType() == effect).collect(Collectors.toList())) {
-        if (potionEffect.getAmplifier() > amplifier) {
-          return;
-        }
-        if (potionEffect.getAmplifier() == amplifier && potionEffect.getDuration() >= ticks) {
-          return;
-        }
-      }
-    }
+    p.addPotionEffect(effect.createEffect(ticks, amplifier), false);
+  }
+
+  /**
+   * Applies a effect to the given player
+   * Note that the effect will override any effect the player currently have
+   *
+   * @param p         the player to apply the effect to
+   * @param effect    the potion effect type to apply
+   * @param amplifier the amplifier for the potion effect
+   * @param ticks     the duration of the potion effect in ticks
+   */
+  public static void forceApplyEffect(@NotNull Player p, PotionEffectType effect, int amplifier, int ticks) {
     p.addPotionEffect(effect.createEffect(ticks, amplifier), true);
   }
 

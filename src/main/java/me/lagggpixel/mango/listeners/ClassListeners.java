@@ -19,7 +19,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
@@ -236,7 +235,7 @@ public class ClassListeners implements Listener {
       return false;
     }
     cPlayer.removeEnergy(energy);
-    ClassesHandler.applyEffect(player, effect, amplifier, 20 * 5);
+    ClassesHandler.forceApplyEffect(player, effect, amplifier, 20 * 5);
     return true;
   }
 
@@ -248,7 +247,7 @@ public class ClassListeners implements Listener {
       return false;
     }
     cPlayer.removeEnergy(energy);
-    ClassesHandler.applyTeamEffect(player, effect, amplifier, 20 * 5);
+    ClassesHandler.forceApplyTeamEffect(player, effect, amplifier, 20 * 5);
     return true;
   }
 
