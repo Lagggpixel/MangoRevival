@@ -158,8 +158,8 @@ public class ClassListeners implements Listener {
     try {
       Class<? extends PlayerInteractEvent> clazz = event.getClass();
       Method method = clazz.getMethod("getHand");
-      EquipmentSlot value = (EquipmentSlot) method.invoke(clazz);
-      if (value != EquipmentSlot.HAND) {
+      Object value =  method.invoke(clazz);
+      if (!value.toString().equalsIgnoreCase("hand")) {
         return;
       }
     } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
@@ -236,7 +236,7 @@ public class ClassListeners implements Listener {
       return false;
     }
     cPlayer.removeEnergy(energy);
-    ClassesHandler.applySelfEffect(player, effect, amplifier, 20 * 5);
+    ClassesHandler.applyEffect(player, effect, amplifier, 20 * 5);
     return true;
   }
 

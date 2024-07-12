@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 @Getter
 public class ClassesHandler implements Listener {
@@ -46,7 +46,7 @@ public class ClassesHandler implements Listener {
         playerData.forEach((player, cPlayer) -> {
           if (cPlayer.getClasses() != null) {
             cPlayer.getClasses().getClassEffects().forEach((k, v) -> {
-              player.addPotionEffect(new PotionEffect(k, 40, v));
+              applyEffect(player, k, v);
             });
           }
 
@@ -72,7 +72,7 @@ public class ClassesHandler implements Listener {
    * @param amplifier the strength of the potion effect
    */
   public static void applyTeamEffect(Player p, PotionEffectType effect, int amplifier) {
-    applyTeamEffect(p, effect, amplifier, 40);
+    applyTeamEffect(p, effect, amplifier, 45);
   }
 
   /**
@@ -84,7 +84,7 @@ public class ClassesHandler implements Listener {
    * @param ticks     the duration of the potion effect in ticks
    */
   public static void applyTeamEffect(Player p, PotionEffectType effect, int amplifier, int ticks) {
-    applySelfEffect(p, effect, amplifier, ticks);
+    applyEffect(p, effect, amplifier, ticks);
     PlayerFaction faction = Mango.getInstance().getFactionManager().getFaction(p);
     if (faction == null) {
       return;
@@ -94,7 +94,7 @@ public class ClassesHandler implements Listener {
       if (distance > 15) {
         continue;
       }
-      factionPlayer.addPotionEffect(effect.createEffect(ticks, amplifier), true);
+      applyEffect(factionPlayer, effect, amplifier, ticks);
     }
   }
 
@@ -105,8 +105,8 @@ public class ClassesHandler implements Listener {
    * @param effect    the type of potion effect to apply
    * @param amplifier the strength of the potion effect
    */
-  public static void applySelfEffect(Player p, PotionEffectType effect, int amplifier) {
-    applySelfEffect(p, effect, amplifier, 40);
+  public static void applyEffect(Player p, PotionEffectType effect, int amplifier) {
+    applyEffect(p, effect, amplifier, 45);
   }
 
   /**
@@ -117,11 +117,19 @@ public class ClassesHandler implements Listener {
    * @param amplifier the amplifier for the potion effect
    * @param ticks     the duration of the potion effect in ticks
    */
-  public static void applySelfEffect(@NotNull Player p, PotionEffectType effect, int amplifier, int ticks) {
-    boolean b = p.addPotionEffect(effect.createEffect(ticks, amplifier), true);
-    if (!b) {
-      Mango.getInstance().getLogger().log(Level.WARNING, "Effect " + effect.getName().toLowerCase(), " was not successfully applied to " + p.getName());
+  public static void applyEffect(@NotNull Player p, PotionEffectType effect, int amplifier, int ticks) {
+    if (p.hasPotionEffect(effect)) {
+      for (PotionEffect potionEffect : p.getActivePotionEffects().stream().filter(potionEffect ->
+          potionEffect.getType() == effect).collect(Collectors.toList())) {
+        if (potionEffect.getAmplifier() > amplifier) {
+          return;
+        }
+        if (potionEffect.getAmplifier() == amplifier && potionEffect.getDuration() >= ticks) {
+          return;
+        }
+      }
     }
+    p.addPotionEffect(effect.createEffect(ticks, amplifier), true);
   }
 
   private void checkBard(@NotNull Player player) {
