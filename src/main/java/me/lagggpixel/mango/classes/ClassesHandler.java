@@ -63,7 +63,7 @@ public class ClassesHandler implements Listener {
   }
 
   /**
-   * Apply an effect to the player and nearby faction members for 40 ticks
+   * Apply an effect to the player and nearby faction members for 20 ticks
    * Note that the effect will not apply if the player has an existing effect of the same type
    *
    * @param p         the player to apply the effect to
@@ -71,11 +71,11 @@ public class ClassesHandler implements Listener {
    * @param amplifier the strength of the potion effect
    */
   public static void applyTeamEffect(Player p, PotionEffectType effect, int amplifier) {
-    applyTeamEffect(p, effect, amplifier, 45);
+    applyTeamEffect(p, effect, amplifier, 20);
   }
 
   /**
-   * Force apply an effect to the player and nearby faction members for 40 ticks
+   * Force apply an effect to the player and nearby faction members for 20 ticks
    * Note that the effect will override any effect the player currently have
    *
    * @param p         the player to apply the effect to
@@ -83,7 +83,7 @@ public class ClassesHandler implements Listener {
    * @param amplifier the strength of the potion effect
    */
   public static void forceApplyTeamEffect(Player p, PotionEffectType effect, int amplifier) {
-    forceApplyTeamEffect(p, effect, amplifier, 45);
+    forceApplyTeamEffect(p, effect, amplifier, 20);
   }
 
   /**
@@ -103,7 +103,7 @@ public class ClassesHandler implements Listener {
     }
     for (Player factionPlayer : faction.getOnlinePlayers()) {
       double distance = p.getLocation().distance(factionPlayer.getLocation());
-      if (distance > 15) {
+      if (distance > Mango.getInstance().getConfigFile().getInt("Bard-Radius")) {
         continue;
       }
       applyEffect(factionPlayer, effect, amplifier, ticks);
@@ -127,7 +127,7 @@ public class ClassesHandler implements Listener {
     }
     for (Player factionPlayer : faction.getOnlinePlayers()) {
       double distance = p.getLocation().distance(factionPlayer.getLocation());
-      if (distance > 15) {
+      if (distance > Mango.getInstance().getConfigFile().getInt("Bard-Radius")) {
         continue;
       }
       forceApplyEffect(factionPlayer, effect, amplifier, ticks);
@@ -135,7 +135,7 @@ public class ClassesHandler implements Listener {
   }
 
   /**
-   * Applies a effect to the given player for 40 ticks
+   * Applies a effect to the given player for 20 ticks
    * Note that the effect will not apply if the player has an existing effect of the same type
    *
    * @param p         the player to apply the effect to
@@ -143,11 +143,11 @@ public class ClassesHandler implements Listener {
    * @param amplifier the strength of the potion effect
    */
   public static void applyEffect(Player p, PotionEffectType effect, int amplifier) {
-    applyEffect(p, effect, amplifier, 45);
+    applyEffect(p, effect, amplifier, 20);
   }
 
   /**
-   * Force Applies a effect to the given player for 40 ticks
+   * Force Applies a effect to the given player for 20 ticks
    * Note that the effect will override any effect the player currently have
    *
    * @param p         the player to apply the effect to
@@ -155,7 +155,7 @@ public class ClassesHandler implements Listener {
    * @param amplifier the strength of the potion effect
    */
   public static void forceApplyEffect(Player p, PotionEffectType effect, int amplifier) {
-    forceApplyEffect(p, effect, amplifier, 45);
+    forceApplyEffect(p, effect, amplifier, 20);
   }
 
   /**

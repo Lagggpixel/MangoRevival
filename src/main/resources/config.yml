@@ -148,5 +148,7 @@ Hooks:
 
 # Classes
 Classes:
+  # Bard radius in blocks
+  Bard-Radius: 15
   # Time in seconds a player will be archer tagged for
   Archer-Tag-Time: 5
