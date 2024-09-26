@@ -148,6 +148,8 @@ Hooks:
 
 # Classes
 Classes:
+  # Whether the classes module should be enabled (requires restart)
+  Enabled: false
   # Bard radius in blocks
   Bard-Radius: 15
   # Time in seconds a player will be archer tagged for
