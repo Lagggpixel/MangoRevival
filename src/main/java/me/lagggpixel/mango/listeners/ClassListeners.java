@@ -235,7 +235,7 @@ public class ClassListeners implements Listener {
       return false;
     }
     cPlayer.removeEnergy(energy);
-    ClassesHandler.forceApplyEffect(player, effect, amplifier, 20 * 5);
+    ClassesHandler.applyEffect(player, effect, amplifier, 20 * 5);
     return true;
   }
 
@@ -247,7 +247,7 @@ public class ClassListeners implements Listener {
       return false;
     }
     cPlayer.removeEnergy(energy);
-    ClassesHandler.forceApplyTeamEffect(player, effect, amplifier, 20 * 5);
+    ClassesHandler.applyTeamEffect(player, effect, amplifier, 20 * 5);
     return true;
   }
 
