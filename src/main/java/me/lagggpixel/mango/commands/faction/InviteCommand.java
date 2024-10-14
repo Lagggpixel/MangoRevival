@@ -32,6 +32,7 @@ public class InviteCommand extends FactionSubCommand {
       }
       if (this.fm.getFaction(p) != null) {
         PlayerFaction faction = this.fm.getFaction(p);
+        assert faction != null;
         if (faction.getOfficers().contains(p.getUniqueId()) || faction.isLeader(p.getUniqueId()) || p.hasPermission(Mango.getInstance().getRootPermissionNode() + ".invite")) {
 
           StringBuilder sb = new StringBuilder();
@@ -61,6 +62,7 @@ public class InviteCommand extends FactionSubCommand {
           }
 
           faction.sendMessage(this.lf.getString("FACTION_PLAYER_INVITED_FACTION").replace("{inviter}", p.getName()).replace("{invited}", inv.getName()));
+          faction.sendMessage(this.lf.getString("FACTION_PLAYER_INVITE_FACTION").replace("{inviter}", p.getName()).replace("{faction}", faction.getName()));
           faction.getInvitedPlayers().add(inv.getUniqueId());
         } else {
 

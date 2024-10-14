@@ -7,6 +7,7 @@ FACTION_PLAYER_NOT_INVITED_2: "&cThat player has not been invited to your factio
 FACTION_PLAYER_INVITED_PLAYER_TOOLTIP: "&aClick to join!"
 FACTION_PLAYER_INVITED_PLAYER: "&a{inviter}&e has invited you to join &a{faction}&e."
 FACTION_PLAYER_INVITED_FACTION: "&a{invited}&e has been invited to join the faction by &a{inviter}&e."
+FACTION_PLAYER_INVITE_FACTION: "&a{inviter}&e has invited you to join the faction &a{faction}&e."
 FACTION_PLAYER_ALREADY_JOINED: "&c{player} is already in your faction!"
 FACTION_PLAYER_ALREADY_INVITED: "&c{player} has already been invited to join your faction!"
 FACTION_PLAYER_NOT_FOUND: "&c{player} was not found!"
