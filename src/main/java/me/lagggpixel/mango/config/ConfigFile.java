@@ -76,6 +76,14 @@ public class ConfigFile {
     }
     return Collections.singletonList("ERROR: STRING LIST NOT FOUND!");
   }
+
+  public String getBasePermission() {
+    return this.getString("Permissions.Root-Permission-Node");
+  }
+
+  public String getPermission(String node) {
+    return this.getString("Permissions."+ node).replace("{root}", getBasePermission());
+  }
 }
 
 

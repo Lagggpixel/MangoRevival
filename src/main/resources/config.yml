@@ -31,9 +31,14 @@ Scoreboard:
     3: '&aServer uptime: %server_uptime%'
     4: ' '
 
-# What the root permission node will be for mango
-# e.g. "mango" will make permissions look like "mango.setdtr"
-Root-Permission-Node: "mango"
+Permissions:
+  # What the root permission node will be for mango
+  # e.g. "mango" will make permissions look like "mango.setdtr"
+  Root-Permission-Node: "mango"
+  # Admin permission node (used when there is no specific permission for an action)
+  Admin: "{root}.admin"
+  # System faction build permission node
+  System-Faction: "{root}.system_build"
 
 # The following section will contain all the configuration options for your faction values
 Faction:
