@@ -62,7 +62,7 @@ public class InviteCommand extends FactionSubCommand {
           }
 
           faction.sendMessage(this.lf.getString("FACTION_PLAYER_INVITED_FACTION").replace("{inviter}", p.getName()).replace("{invited}", inv.getName()));
-          faction.sendMessage(this.lf.getString("FACTION_PLAYER_INVITE_FACTION").replace("{inviter}", p.getName()).replace("{faction}", faction.getName()));
+          inv.sendMessage(this.lf.getString("FACTION_PLAYER_INVITE_FACTION").replace("{inviter}", p.getName()).replace("{faction}", faction.getName()));
           faction.getInvitedPlayers().add(inv.getUniqueId());
         } else {
 
