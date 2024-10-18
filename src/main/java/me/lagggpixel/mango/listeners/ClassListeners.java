@@ -19,6 +19,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
@@ -156,12 +157,12 @@ public class ClassListeners implements Listener {
     // For 1.9+ checking hand
     try {
       Class<? extends PlayerInteractEvent> clazz = event.getClass();
-      Method method = clazz.getMethod("getHand");
-      Object value =  method.invoke(clazz);
-      if (!value.toString().equalsIgnoreCase("hand")) {
+      Method method = clazz.getDeclaredMethod("getHand");
+      EquipmentSlot value = (EquipmentSlot) method.invoke(event);
+      if (value != EquipmentSlot.HAND) {
         return;
       }
-    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
+    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | IllegalStateException ignored) {
       // Not on 1.9+
     }
 
