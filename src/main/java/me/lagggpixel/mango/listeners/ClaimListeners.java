@@ -377,7 +377,7 @@ public class ClaimListeners implements Listener {
           return;
         }
 
-        if (!faction.getClaims().isEmpty() && !faction.isNearBorder(e.getClickedBlock().getLocation()) && !p.hasPermission(this.cf.getString("ADMIN_NODE"))) {
+        if (cf.getBoolean("Connected-Claims") && !faction.getClaims().isEmpty() && !faction.isNearBorder(e.getClickedBlock().getLocation()) && !p.hasPermission(this.cf.getString("ADMIN_NODE"))) {
           p.sendMessage(this.lf.getString("WAND_MESSAGES.TOO_FAR"));
 
           return;
