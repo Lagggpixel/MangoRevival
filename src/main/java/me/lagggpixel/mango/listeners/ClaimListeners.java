@@ -247,7 +247,6 @@ public class ClaimListeners implements Listener {
     }
   }
 
-
   @EventHandler
   public void onDrop(@NotNull PlayerDropItemEvent e) {
     if (this.cm.isWand(e.getItemDrop().getItemStack())) {
@@ -378,7 +377,7 @@ public class ClaimListeners implements Listener {
           return;
         }
 
-        if (!faction.getClaims().isEmpty() && !faction.isNearBorder(e.getClickedBlock().getLocation()) && !p.hasPermission(this.cf.getString("ADMIN_NODE"))) {
+        if (cf.getBoolean("Connected-Claims") && !faction.getClaims().isEmpty() && !faction.isNearBorder(e.getClickedBlock().getLocation()) && !p.hasPermission(this.cf.getString("ADMIN_NODE"))) {
           p.sendMessage(this.lf.getString("WAND_MESSAGES.TOO_FAR"));
 
           return;
@@ -548,35 +547,57 @@ public class ClaimListeners implements Listener {
   private void handleClaimInteract(@NotNull BlockBreakEvent blockBreakEvent) {
     Player player = blockBreakEvent.getPlayer();
     for (Claim claim : this.cm.getClaims()) {
-      if (claim.isInside(blockBreakEvent.getBlock().getLocation(), false)) {
-        PlayerFaction playerFaction = this.fm.getFaction(player);
-        if ((playerFaction != null && playerFaction == claim.getOwner()) || player.hasPermission(this.cf.getString("ADMIN_NODE"))) {
-          return;
-        }
-        if (claim.getOwner() instanceof PlayerFaction && ((PlayerFaction) claim.getOwner()).isRaidable()) {
-          return;
-        }
-        blockBreakEvent.setCancelled(true);
-        player.sendMessage(this.lf.getString("FACTION_NO_INTERACT").replace("{faction}", claim.getOwner().getName()));
+      if (!claim.isInside(blockBreakEvent.getBlock().getLocation(), false)) {
+        continue;
       }
+
+      if (claim.getOwner() instanceof SystemFaction) {
+        if (!player.hasPermission(this.cf.getPermission("System-Faction"))) {
+          blockBreakEvent.setCancelled(true);
+          return;
+        }
+        return;
+      }
+
+      PlayerFaction playerFaction = this.fm.getFaction(player);
+      if ((playerFaction != null && playerFaction == claim.getOwner()) || player.hasPermission(this.cf.getPermission("Admin"))) {
+        return;
+      }
+      if (claim.getOwner() instanceof PlayerFaction && ((PlayerFaction) claim.getOwner()).isRaidable()) {
+        return;
+      }
+      blockBreakEvent.setCancelled(true);
+      player.sendMessage(this.lf.getString("FACTION_NO_INTERACT").replace("{faction}", claim.getOwner().getName()));
+
     }
   }
 
   private void handleClaimInteract(@NotNull BlockPlaceEvent blockPlaceEvent) {
     Player player = blockPlaceEvent.getPlayer();
     for (Claim claim : this.cm.getClaims()) {
-      if (claim.isInside(blockPlaceEvent.getBlock().getLocation(), false)) {
-        PlayerFaction playerFaction = this.fm.getFaction(player);
-        if ((playerFaction != null && playerFaction == claim.getOwner()) || player.hasPermission(this.cf.getString("ADMIN_NODE"))) {
-          return;
-        }
-        if (claim.getOwner() instanceof PlayerFaction && ((PlayerFaction) claim.getOwner()).isRaidable()) {
-          return;
-        }
-        blockPlaceEvent.setCancelled(true);
-        player.sendMessage(this.lf.getString("FACTION_NO_INTERACT").replace("{faction}", claim.getOwner().getName()));
+      if (!claim.isInside(blockPlaceEvent.getBlock().getLocation(), false)) {
+        continue;
       }
+
+      if (claim.getOwner() instanceof SystemFaction) {
+        if (!player.hasPermission(this.cf.getPermission("System-Faction"))) {
+          blockPlaceEvent.setCancelled(true);
+          return;
+        }
+        return;
+      }
+
+      PlayerFaction playerFaction = this.fm.getFaction(player);
+      if ((playerFaction != null && playerFaction == claim.getOwner()) || player.hasPermission(this.cf.getPermission("Admin"))) {
+        return;
+      }
+      if (claim.getOwner() instanceof PlayerFaction && ((PlayerFaction) claim.getOwner()).isRaidable()) {
+        return;
+      }
+      blockPlaceEvent.setCancelled(true);
+      player.sendMessage(this.lf.getString("FACTION_NO_INTERACT").replace("{faction}", claim.getOwner().getName()));
     }
+
   }
 }
 

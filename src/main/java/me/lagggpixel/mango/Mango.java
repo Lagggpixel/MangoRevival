@@ -119,8 +119,10 @@ public class Mango extends JavaPlugin {
 
     this.pillarManager = new PillarManager();
 
-    this.glaedr = new Glaedr(this, this.configFile.getString("Scoreboard.Title"));
-    this.glaedr.registerPlayers();
+    if (this.configFile.getBoolean("Scoreboard.Enabled")) {
+      this.glaedr = new Glaedr(this, this.configFile.getString("Scoreboard.Title"));
+      this.glaedr.registerPlayers();
+    }
 
     setupDirectories();
 
@@ -133,7 +135,9 @@ public class Mango extends JavaPlugin {
 
     autoSaveRunnable.runTaskTimerAsynchronously(this, 20L * 60 * 5, 20L * 60 * 5);
 
-    classesHandler = new ClassesHandler();
+    if (getConfig().getBoolean("Classes.Enabled", false)) {
+      classesHandler = new ClassesHandler();
+    }
   }
 
 
@@ -208,7 +212,9 @@ public class Mango extends JavaPlugin {
 
     new ClaimListeners();
 
-    new ClassListeners();
+    if (getConfig().getBoolean("Classes.Enabled", false)) {
+      new ClassListeners();
+    }
 
     new PlayerListeners();
 

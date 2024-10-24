@@ -109,5 +109,7 @@ buildNumber.properties
 # Common working directory
 run/
 
-/target/
+# Gradle
+.gradle/
+build/
 

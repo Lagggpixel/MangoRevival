@@ -13,6 +13,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +29,7 @@ import java.util.UUID;
 public class PlayerFaction extends Faction {
   private Mango main = Mango.getInstance();
   private UUID leader;
-  private ArrayList<UUID> officers;
+  private @NotNull ArrayList<UUID> officers;
   private ArrayList<UUID> members;
   private ArrayList<UUID> invitedPlayers;
   private ConfigFile configFile = this.main.getConfigFile();

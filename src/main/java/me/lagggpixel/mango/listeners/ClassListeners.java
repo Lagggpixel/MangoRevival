@@ -19,8 +19,12 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * @author Lagggpixel
@@ -139,16 +143,29 @@ public class ClassListeners implements Listener {
    *
    * @param event the PlayerInteractEvent triggered when the player interacts
    */
-  @EventHandler
+  @EventHandler()
   public void onPlayerInteract(PlayerInteractEvent event) {
     Player player = event.getPlayer();
     Classes classes = ClassesHandler.getPlayerData().get(player).getClasses();
     if (classes == null) {
       return;
     }
-    if (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.RIGHT_CLICK_AIR) {
+    if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.PHYSICAL) {
       return;
     }
+
+    // For 1.9+ checking hand
+    try {
+      Class<? extends PlayerInteractEvent> clazz = event.getClass();
+      Method method = clazz.getDeclaredMethod("getHand");
+      EquipmentSlot value = (EquipmentSlot) method.invoke(event);
+      if (value != EquipmentSlot.HAND) {
+        return;
+      }
+    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | IllegalStateException ignored) {
+      // Not on 1.9+
+    }
+
     ItemStack itemStack = player.getInventory().getItemInHand();
 
     switch (classes) {
@@ -219,7 +236,7 @@ public class ClassListeners implements Listener {
       return false;
     }
     cPlayer.removeEnergy(energy);
-    ClassesHandler.applySelfEffect(player, effect, amplifier, 20 * 5);
+    ClassesHandler.applyEffect(player, effect, amplifier, 20 * 5);
     return true;
   }
 

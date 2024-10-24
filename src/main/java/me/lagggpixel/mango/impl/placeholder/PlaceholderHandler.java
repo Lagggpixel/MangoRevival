@@ -188,6 +188,9 @@ public class PlaceholderHandler extends PlaceholderExpansion {
       }
 
       case "energy": {
+        if (Mango.getInstance().getGlaedr() == null) {
+          return null;
+        }
         if (args.length > 2) {
           return null;
         }

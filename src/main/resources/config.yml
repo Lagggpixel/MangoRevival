@@ -7,6 +7,8 @@
 
 # The following section will contain all the configuration options for your scoreboard
 Scoreboard:
+  # Whether the scoreboard module should be enabled (requires restart)
+  Enabled: true
   # The title of the scoreboard
   Title: "&6Mango Revival&7(Map 1)"
   # What will be displayed on scoreboard when a player does /f stuck
@@ -29,9 +31,14 @@ Scoreboard:
     3: '&aServer uptime: %server_uptime%'
     4: ' '
 
-# What the root permission node will be for mango
-# e.g. "mango" will make permissions look like "mango.setdtr"
-Root-Permission-Node: "mango"
+Permissions:
+  # What the root permission node will be for mango
+  # e.g. "mango" will make permissions look like "mango.setdtr"
+  Root-Permission-Node: "mango"
+  # Admin permission node (used when there is no specific permission for an action)
+  Admin: "{root}.admin"
+  # System faction build permission node
+  System-Faction: "{root}.system_build"
 
 # The following section will contain all the configuration options for your faction values
 Faction:
@@ -123,6 +130,9 @@ Claim:
   # Note that admins can claim in any world
   Worlds:
     - "world"
+  # Should claims require to be connected
+  # Note toggling this to false will not delete all the non-connected claims
+  Connected-Claims: true
 
 # The following section will contain all the configuration options for your wand
 Claiming-Wand:
@@ -146,5 +156,9 @@ Hooks:
 
 # Classes
 Classes:
+  # Whether the classes module should be enabled (requires restart)
+  Enabled: false
+  # Bard radius in blocks
+  Bard-Radius: 15
   # Time in seconds a player will be archer tagged for
   Archer-Tag-Time: 5

@@ -17,9 +17,11 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Getter
 public class ClassesHandler implements Listener {
@@ -46,7 +48,7 @@ public class ClassesHandler implements Listener {
         playerData.forEach((player, cPlayer) -> {
           if (cPlayer.getClasses() != null) {
             cPlayer.getClasses().getClassEffects().forEach((k, v) -> {
-              player.addPotionEffect(new PotionEffect(k, 40, v));
+              applyEffect(player, k, v);
             });
           }
 
@@ -55,9 +57,6 @@ public class ClassesHandler implements Listener {
             switch (classes) {
               case BARD: {
                 checkBard(player);
-              }
-              case ARCHER: {
-                checkArcher(player);
               }
             }
           }
@@ -68,18 +67,20 @@ public class ClassesHandler implements Listener {
   }
 
   /**
-   * Apply an effect to the player and nearby faction members for 40 ticks
+   * Apply an effect to the player and nearby faction members for 20 ticks
+   * Note that the effect will not apply if the player has an existing effect of the same type
    *
    * @param p         the player to apply the effect to
    * @param effect    the type of potion effect to apply
    * @param amplifier the strength of the potion effect
    */
   public static void applyTeamEffect(Player p, PotionEffectType effect, int amplifier) {
-    applyTeamEffect(p, effect, amplifier, 40);
+    applyTeamEffect(p, effect, amplifier, 20);
   }
 
   /**
-   * Applies an effect to the given player and their faction members.
+   * Applies an effect to the given player and their faction members
+   * Note that the effect will not apply if the player has an existing effect of the same type
    *
    * @param p         the player to apply the effect to
    * @param effect    the potion effect type to apply
@@ -87,55 +88,53 @@ public class ClassesHandler implements Listener {
    * @param ticks     the duration of the potion effect in ticks
    */
   public static void applyTeamEffect(Player p, PotionEffectType effect, int amplifier, int ticks) {
-    applySelfEffect(p, effect, amplifier, ticks);
+    applyEffect(p, effect, amplifier, ticks);
     PlayerFaction faction = Mango.getInstance().getFactionManager().getFaction(p);
     if (faction == null) {
       return;
     }
     for (Player factionPlayer : faction.getOnlinePlayers()) {
       double distance = p.getLocation().distance(factionPlayer.getLocation());
-      if (distance > 15) {
+      if (distance > Mango.getInstance().getConfigFile().getInt("Bard-Radius")) {
         continue;
       }
-      if (factionPlayer.hasPotionEffect(effect)
-          && factionPlayer.getActivePotionEffects().stream().anyMatch(potionEffect ->
-          potionEffect.getType() == effect)
-          && factionPlayer.getActivePotionEffects().stream().filter(potionEffect ->
-          potionEffect.getType() == effect).collect(Collectors.toList()).get(0).getAmplifier() > amplifier) {
-        continue;
-      }
-      factionPlayer.addPotionEffect(new PotionEffect(effect, ticks, amplifier));
+      applyEffect(factionPlayer, effect, amplifier, ticks);
     }
   }
 
   /**
-   * Applies a effect to the given player for 40 ticks
+   * Applies a effect to the given player for 20 ticks
+   * Note that the effect will not apply if the player has an existing effect of the same type
    *
    * @param p         the player to apply the effect to
    * @param effect    the type of potion effect to apply
    * @param amplifier the strength of the potion effect
    */
-  public static void applySelfEffect(Player p, PotionEffectType effect, int amplifier) {
-    applySelfEffect(p, effect, amplifier, 40);
+  public static void applyEffect(Player p, PotionEffectType effect, int amplifier) {
+    applyEffect(p, effect, amplifier, 20);
   }
 
   /**
    * Applies a effect to the given player
+   * Note that the effect will not apply if the player has an existing effect of the same type
    *
    * @param p         the player to apply the effect to
    * @param effect    the potion effect type to apply
    * @param amplifier the amplifier for the potion effect
    * @param ticks     the duration of the potion effect in ticks
    */
-  public static void applySelfEffect(@NotNull Player p, PotionEffectType effect, int amplifier, int ticks) {
-    if (p.hasPotionEffect(effect)
-        && p.getActivePotionEffects().stream().anyMatch(potionEffect ->
-        potionEffect.getType() == effect)
-        && p.getActivePotionEffects().stream().filter(potionEffect ->
-        potionEffect.getType() == effect).collect(Collectors.toList()).get(0).getAmplifier() > amplifier) {
+  public static void applyEffect(@NotNull Player p, PotionEffectType effect, int amplifier, int ticks) {
+    Collection<PotionEffect> effects = p.getActivePotionEffects();
+
+    Stream<PotionEffect> effectsStream = effects.stream().filter(e -> e.getType() != effect);
+    effectsStream = effectsStream.filter(e -> e.getAmplifier() >= amplifier);
+    effectsStream = effectsStream.filter(e -> e.getAmplifier() == amplifier && e.getDuration() >= ticks);
+
+    if (effectsStream.findAny().isPresent()) {
       return;
     }
-    p.addPotionEffect(new PotionEffect(effect, ticks, amplifier));
+
+    p.addPotionEffect(effect.createEffect(ticks, amplifier), true);
   }
 
   private void checkBard(@NotNull Player player) {
@@ -167,16 +166,6 @@ public class ClassesHandler implements Listener {
       }
       case IRON_INGOT: {
         applyTeamEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 1);
-        break;
-      }
-    }
-  }
-
-  private void checkArcher(Player player) {
-    ItemStack itemStack = player.getInventory().getItemInHand();
-    switch (XMaterial.matchXMaterial(itemStack.getType())) {
-      case FEATHER: {
-        applyTeamEffect(player, PotionEffectType.JUMP, 2);
         break;
       }
     }

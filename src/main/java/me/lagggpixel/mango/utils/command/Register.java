@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -17,14 +18,15 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 
+@SuppressWarnings("unused")
 public class Register {
-  private SimpleCommandMap commandMap;
+  private final SimpleCommandMap commandMap;
 
   public Register() {
     try {
       this.commandMap = (SimpleCommandMap) Bukkit.getServer().getClass().getDeclaredMethod("getCommandMap").invoke(Bukkit.getServer(), new Object[0]);
     } catch (Exception ex) {
-      ex.printStackTrace();
+      throw new RuntimeException(ex);
     }
   }
 
@@ -47,8 +49,7 @@ public class Register {
         return command;
       }
     } catch (Exception ex) {
-      ex.printStackTrace();
-      return null;
+      throw new RuntimeException(ex);
     }
     return null;
   }
@@ -61,19 +62,19 @@ public class Register {
           BaseCommand executor = (BaseCommand) clazz.newInstance();
           registerCommand(executor.getName(), executor);
         } catch (Exception e) {
-          e.printStackTrace();
+          throw new RuntimeException(e);
         }
     }
   }
 
-  private ArrayList<Class<?>> getClassesInPackage(String pkgname) {
+  private @NotNull ArrayList<Class<?>> getClassesInPackage(String pkgname) {
     JarFile jFile;
     ArrayList<Class<?>> classes = new ArrayList<>();
     CodeSource codeSource = Mango.getInstance().getClass().getProtectionDomain().getCodeSource();
     URL resource = codeSource.getLocation();
     String relPath = pkgname.replace('.', '/');
     String resPath = resource.getPath().replace("%20", " ");
-    String jarPath = resPath.replaceFirst("[.]jar[!].*", ".jar").replaceFirst("file:", "");
+    String jarPath = resPath.replaceFirst("[.]jar!.*", ".jar").replaceFirst("file:", "");
 
     try {
       jFile = new JarFile(jarPath);
@@ -89,14 +90,11 @@ public class Register {
         className = entryName.replace('/', '.').replace('\\', '.').replace(".class", "");
       }
       if (className != null) {
-        Class<?> c = null;
+        Class<?> c;
         try {
           c = Class.forName(className);
         } catch (ClassNotFoundException e2) {
-          e2.printStackTrace();
-        }
-        if (c == null) {
-          continue;
+          throw new RuntimeException(e2);
         }
         classes.add(c);
       }
@@ -104,7 +102,7 @@ public class Register {
     try {
       jFile.close();
     } catch (IOException e3) {
-      e3.printStackTrace();
+      throw new RuntimeException(e3);
     }
     return classes;
   }
@@ -143,12 +141,13 @@ public class Register {
       if (field.get(executor) instanceof String) {
         command.setDescription(ChatColor.translateAlternateColorCodes('&', (String) field.get(executor)));
       }
-    } catch (Exception exception) {
+    } catch (Exception ignored) {
     }
 
     this.commandMap.register(cmd, command);
   }
 
+  @SuppressWarnings({"JavaReflectionMemberAccess", "unchecked"})
   public void unregisterCommand(String name) {
     try {
       Field known = SimpleCommandMap.class.getDeclaredField("knownCommands");
@@ -159,7 +158,7 @@ public class Register {
       Set<String> aliases = (Set<String>) alias.get(this.commandMap);
       knownCommands.remove(name.toLowerCase());
       aliases.remove(name.toLowerCase());
-    } catch (Exception exception) {
+    } catch (Exception ignored) {
     }
   }
 }
