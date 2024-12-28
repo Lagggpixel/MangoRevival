@@ -75,15 +75,12 @@ public class FactionCommand extends BaseCommand {
   public FactionSubCommand getSubCommand(String key) {
     for (FactionSubCommand sub : this.commands) {
       if (sub.getName().equalsIgnoreCase(key)) {
-        FactionSubCommand tc = sub;
-        return tc;
+        return sub;
       }
       if (sub.getAliases().contains(key.toLowerCase())) {
-        FactionSubCommand tc = sub;
-        return tc;
+        return sub;
       }
     }
-
 
     return null;
   }
@@ -136,7 +133,7 @@ public class FactionCommand extends BaseCommand {
         if (args[0].equalsIgnoreCase("invite") || args[0].equalsIgnoreCase("inv")) {
           PlayerFaction playerFaction = this.fm.getFaction(p);
           List<String> listToReturn = new ArrayList<>();
-          if (playerFaction != null && playerFaction instanceof PlayerFaction) {
+          if (playerFaction != null) {
             for (Player player : PlayerUtility.getOnlinePlayers()) {
               if (!playerFaction.getPlayers().contains(player) && player.getName().toLowerCase().startsWith(args[1])) {
                 listToReturn.add(player.getName());
@@ -163,7 +160,7 @@ public class FactionCommand extends BaseCommand {
         if (args[0].equalsIgnoreCase("enemy") || args[0].equalsIgnoreCase("unally")) {
           List<String> listToReturn = new ArrayList<>();
           PlayerFaction playerFaction = this.fm.getFaction(p);
-          if (playerFaction != null && playerFaction instanceof PlayerFaction) {
+          if (playerFaction != null) {
             for (Faction allies : playerFaction.getAllies()) {
               if (allies.getName().toLowerCase().startsWith(args[1])) {
                 listToReturn.add(allies.getName().toLowerCase());
@@ -197,7 +194,7 @@ public class FactionCommand extends BaseCommand {
 
         if (args[0].equalsIgnoreCase("promote") || args[0].equalsIgnoreCase("mod") || args[0].equalsIgnoreCase("officer")) {
           PlayerFaction playerFaction = this.fm.getFaction(p);
-          if (playerFaction != null && playerFaction instanceof PlayerFaction) {
+          if (playerFaction != null) {
             List<String> members = new ArrayList<>();
             for (OfflinePlayer player : playerFaction.getPlayers()) {
               if (playerFaction.getMembers().contains(player.getUniqueId())) {
@@ -211,7 +208,7 @@ public class FactionCommand extends BaseCommand {
 
         if (args[0].equalsIgnoreCase("demote") || args[0].equalsIgnoreCase("demod") || args[0].equalsIgnoreCase("unmod")) {
           PlayerFaction playerFaction = this.fm.getFaction(p);
-          if (playerFaction != null && playerFaction instanceof PlayerFaction) {
+          if (playerFaction != null) {
             List<String> members = new ArrayList<>();
             for (OfflinePlayer player : playerFaction.getPlayers()) {
               if (playerFaction.getOfficers().contains(player.getUniqueId())) {
@@ -225,7 +222,7 @@ public class FactionCommand extends BaseCommand {
 
         if (args[0].equalsIgnoreCase("leader") || args[0].equalsIgnoreCase("owner")) {
           PlayerFaction playerFaction = this.fm.getFaction(p);
-          if (playerFaction != null && playerFaction instanceof PlayerFaction) {
+          if (playerFaction != null) {
             List<String> members = new ArrayList<>();
             for (OfflinePlayer player : playerFaction.getPlayers()) {
               if (playerFaction.getLeader() != player.getUniqueId()) {
@@ -240,7 +237,7 @@ public class FactionCommand extends BaseCommand {
         if (args[0].equalsIgnoreCase("uninvite") || args[0].equalsIgnoreCase("deinvite")) {
           PlayerFaction playerFaction = this.fm.getFaction(p);
 
-          if (playerFaction != null && playerFaction instanceof PlayerFaction) {
+          if (playerFaction != null) {
             List<String> members = new ArrayList<>();
             List<OfflinePlayer> invitedPlayers = new ArrayList<>();
             for (UUID id : playerFaction.getInvitedPlayers()) {
