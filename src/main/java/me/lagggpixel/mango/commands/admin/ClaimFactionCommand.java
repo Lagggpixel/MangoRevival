@@ -7,7 +7,9 @@ import me.lagggpixel.mango.config.LanguageFile;
 import me.lagggpixel.mango.factions.Faction;
 import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.claims.ClaimManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 
 public class ClaimFactionCommand extends FactionSubCommand {
@@ -18,6 +20,7 @@ public class ClaimFactionCommand extends FactionSubCommand {
 
   public ClaimFactionCommand() {
     super("claimfaction");
+    Bukkit.getPluginManager().addPermission(new Permission(Mango.getInstance().getRootPermissionNode() + ".claimfaction"));
   }
 
 

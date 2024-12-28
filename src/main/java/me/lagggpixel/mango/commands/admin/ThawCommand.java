@@ -7,7 +7,9 @@ import me.lagggpixel.mango.config.LanguageFile;
 import me.lagggpixel.mango.factions.Faction;
 import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 
 public class ThawCommand extends FactionSubCommand {
@@ -17,6 +19,7 @@ public class ThawCommand extends FactionSubCommand {
 
   public ThawCommand() {
     super("thaw");
+    Bukkit.getPluginManager().addPermission(new Permission(Mango.getInstance().getRootPermissionNode() + ".thaw"));
   }
 
   public void execute(Player p, String[] args) {
