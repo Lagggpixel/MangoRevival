@@ -8,7 +8,9 @@ import me.lagggpixel.mango.factions.Faction;
 import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
 import me.lagggpixel.mango.utils.PlayerUtility;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 import java.io.IOException;
 
@@ -20,6 +22,7 @@ public class SaveCommand extends FactionSubCommand {
 
   public SaveCommand() {
     super("save");
+    Bukkit.getPluginManager().addPermission(new Permission(Mango.getInstance().getRootPermissionNode() + ".save"));
   }
 
   public void execute(Player p, String[] args) {

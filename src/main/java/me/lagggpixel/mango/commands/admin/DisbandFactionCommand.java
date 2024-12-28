@@ -8,6 +8,7 @@ import me.lagggpixel.mango.factions.Faction;
 import me.lagggpixel.mango.factions.FactionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 
 public class DisbandFactionCommand extends FactionSubCommand {
@@ -17,6 +18,7 @@ public class DisbandFactionCommand extends FactionSubCommand {
 
   public DisbandFactionCommand() {
     super("disbandfaction");
+    Bukkit.getPluginManager().addPermission(new Permission(Mango.getInstance().getRootPermissionNode() + ".disbandfaction"));
   }
 
 

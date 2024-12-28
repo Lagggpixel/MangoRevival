@@ -9,6 +9,7 @@ import me.lagggpixel.mango.factions.FactionManager;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 
 public class RenameFactionCommand extends FactionSubCommand {
@@ -18,6 +19,7 @@ public class RenameFactionCommand extends FactionSubCommand {
 
   public RenameFactionCommand() {
     super("renamefaction");
+    Bukkit.getPluginManager().addPermission(new Permission(Mango.getInstance().getRootPermissionNode() + ".rename"));
   }
 
 

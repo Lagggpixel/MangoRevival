@@ -8,8 +8,10 @@ import me.lagggpixel.mango.factions.Faction;
 import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.claims.Claim;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 
 public class SetFactionHomeCommand extends FactionSubCommand {
@@ -19,6 +21,7 @@ public class SetFactionHomeCommand extends FactionSubCommand {
 
   public SetFactionHomeCommand() {
     super("setfactionhome");
+    Bukkit.getPluginManager().addPermission(new Permission(Mango.getInstance().getRootPermissionNode() + ".setfactionhome"));
   }
 
 
