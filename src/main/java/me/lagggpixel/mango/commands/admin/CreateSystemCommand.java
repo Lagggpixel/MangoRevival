@@ -10,6 +10,7 @@ import me.lagggpixel.mango.factions.types.SystemFaction;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 
 public class CreateSystemCommand extends FactionSubCommand {
@@ -19,6 +20,7 @@ public class CreateSystemCommand extends FactionSubCommand {
 
   public CreateSystemCommand() {
     super("createsystem");
+    Bukkit.getPluginManager().addPermission(new Permission(Mango.getInstance().getRootPermissionNode() + ".createsystem"));
   }
 
 

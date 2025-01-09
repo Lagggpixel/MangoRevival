@@ -9,7 +9,9 @@ import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.claims.ClaimManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
 import org.apache.commons.lang.math.NumberUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 
 public class FreezeCommand extends FactionSubCommand {
@@ -20,6 +22,7 @@ public class FreezeCommand extends FactionSubCommand {
 
   public FreezeCommand() {
     super("freeze");
+    Bukkit.getPluginManager().addPermission(new Permission(Mango.getInstance().getRootPermissionNode() + ".freeze"));
   }
 
 

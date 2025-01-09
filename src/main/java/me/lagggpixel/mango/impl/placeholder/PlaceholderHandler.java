@@ -194,7 +194,7 @@ public class PlaceholderHandler extends PlaceholderExpansion {
         if (args.length > 2) {
           return null;
         }
-        if (args .length == 1) {
+        if (args.length == 1) {
           Player player = offlinePlayer.getPlayer();
           if (player == null) {
             return null;

@@ -7,8 +7,10 @@ import me.lagggpixel.mango.config.LanguageFile;
 import me.lagggpixel.mango.factions.Faction;
 import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.SystemFaction;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 
 public class ColorCommand extends FactionSubCommand {
@@ -18,6 +20,7 @@ public class ColorCommand extends FactionSubCommand {
 
   public ColorCommand() {
     super("color");
+    Bukkit.getPluginManager().addPermission(new Permission(Mango.getInstance().getRootPermissionNode() + ".color"));
   }
 
 
