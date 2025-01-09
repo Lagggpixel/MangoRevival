@@ -47,7 +47,6 @@ public class ColorCommand extends FactionSubCommand {
 
         try {
           ChatColor color = ChatColor.valueOf(name.toUpperCase());
-          systemFaction.setColor(color);
           p.sendMessage(this.lf.getString("FACTION_SET_COLOR").replace("{faction}", faction.getName()).replace("{color}", color + color.name()));
         } catch (IllegalArgumentException e) {
           p.sendMessage(this.lf.getString("FACTION_INVALID_COLOR"));
