@@ -43,14 +43,12 @@ public class FactionManager {
           }
         }
         boolean deathban = config.getBoolean("deathban");
-        ChatColor color = ChatColor.valueOf(config.getString("color"));
         Location home = null;
         if (config.contains("home")) {
           home = LocationSerialization.deserializeLocation(config.getString("home"));
         }
         final SystemFaction faction = new SystemFaction(name);
         faction.setDeathban(deathban);
-        faction.setColor(color);
         faction.setHome(home);
         if (config.contains("claims")) {
           for (String c : config.getConfigurationSection("claims").getKeys(false)) {

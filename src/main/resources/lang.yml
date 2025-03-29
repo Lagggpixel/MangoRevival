@@ -159,12 +159,12 @@ FACTION_CLAIM_MESSAGES:
     ALLY: "&eNow Entering &a{faction}&e (&cDeathban&e)"
     FRIENDLY: "&eNow Entering &a{faction}&e (&cDeathban&e)"
     ENEMY: "&eNow Entering &c{faction}&e (&cDeathban&e)"
-    SYSTEM: "&eNow Entering %S{faction}&e (&c{deathban}&e)" #%S represents system color. You can set the color of each system faction in game.
+    SYSTEM: "&eNow Entering {faction}&e (&c{deathban}&e)"
   LEAVING:
     ALLY: "&eNow Leaving &a{faction}&e (&cDeathban&e)"
     FRIENDLY: "&eNow Leaving &a{faction}&e (&cDeathban&e)"
     ENEMY: "&eNow Leaving &c{faction}&e (&cDeathban&e)"
-    SYSTEM: "&eNow Leaving %S{faction}&e (&c{deathban}&e)" #%S represents system color. You can set the color of each system faction in game.
+    SYSTEM: "&eNow Leaving {faction}&e (&c{deathban}&e)"
 FACTION_HELP:
   4:
     - "&8&m-----------------------------------------------------"

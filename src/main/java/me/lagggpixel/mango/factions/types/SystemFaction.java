@@ -1,6 +1,7 @@
 package me.lagggpixel.mango.factions.types;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.lagggpixel.mango.Mango;
 import me.lagggpixel.mango.factions.Faction;
 import me.lagggpixel.mango.factions.claims.Claim;
@@ -12,41 +13,21 @@ import java.io.File;
 import java.io.IOException;
 
 
+@Setter
 public class SystemFaction extends Faction {
-  @Getter
-  private ChatColor color;
+
   private boolean deathban;
   @Getter
   private YamlConfiguration config = getConfiguration();
   @Getter
   private boolean deleted;
+  @Getter
+  private File file;
 
   public SystemFaction(String name) {
     super(name);
-    this.color = ChatColor.WHITE;
     this.deathban = true;
     this.file = new File(Mango.getInstance().getDataFolder() + File.separator + "systemfactions", getName().toLowerCase() + ".yml");
-  }
-
-  public void setDeathban(boolean deathban) {
-    this.deathban = deathban;
-  }  @Getter
-  private File file = getFile();
-
-  public void setFile(File file) {
-    this.file = file;
-  }
-
-  public void setConfig(YamlConfiguration config) {
-    this.config = config;
-  }
-
-  public void setColor(ChatColor color) {
-    this.color = color;
-  }
-
-  public void setDeleted(boolean deleted) {
-    this.deleted = deleted;
   }
 
   public void save() throws IOException {
@@ -61,7 +42,6 @@ public class SystemFaction extends Faction {
       this.config.set(string, null);
     }
     this.config.set("name", getName());
-    this.config.set("color", getColor().name());
     this.config.set("deathban", this.deathban);
     if (getHome() != null) {
       this.config.set("home", LocationSerialization.serializeLocation(getHome()));
@@ -99,9 +79,6 @@ public class SystemFaction extends Faction {
   public boolean isDeathbanBoolean() {
     return this.deathban;
   }
-
-
-
 }
 
 

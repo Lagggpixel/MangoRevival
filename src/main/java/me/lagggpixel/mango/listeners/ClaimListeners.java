@@ -164,13 +164,13 @@ public class ClaimListeners implements Listener {
           p.sendMessage(this.lf.getString("FACTION_CLAIM_MESSAGES.ENTERING.ENEMY").replace("{faction}", faction.getName()));
         } else {
           SystemFaction systemFaction = (SystemFaction) faction;
-          p.sendMessage(this.lf.getString("FACTION_CLAIM_MESSAGES.ENTERING.SYSTEM").replace("{faction}", faction.getName()).replace("%S", systemFaction.getColor() + "").replace("{deathban}", systemFaction.isDeathban()));
+          p.sendMessage(this.lf.getString("FACTION_CLAIM_MESSAGES.ENTERING.SYSTEM").replace("{faction}", faction.getName()).replace("{deathban}", systemFaction.isDeathban()));
         }
         return;
       }
       if (faction instanceof SystemFaction) {
         SystemFaction systemFaction = (SystemFaction) faction;
-        p.sendMessage(this.lf.getString("FACTION_CLAIM_MESSAGES.ENTERING.SYSTEM").replace("{faction}", faction.getName()).replace("%S", systemFaction.getColor() + "").replace("{deathban}", systemFaction.isDeathban()));
+        p.sendMessage(this.lf.getString("FACTION_CLAIM_MESSAGES.ENTERING.SYSTEM").replace("{faction}", faction.getName()).replace("{deathban}", systemFaction.isDeathban()));
         return;
       }
       PlayerFaction convertedFaction = (PlayerFaction) faction;
@@ -187,13 +187,13 @@ public class ClaimListeners implements Listener {
           p.sendMessage(this.lf.getString("FACTION_CLAIM_MESSAGES.LEAVING.ENEMY").replace("{faction}", faction.getName()));
         } else {
           SystemFaction systemFaction = (SystemFaction) faction;
-          p.sendMessage(this.lf.getString("FACTION_CLAIM_MESSAGES.LEAVING.SYSTEM").replace("{faction}", faction.getName()).replace("%S", systemFaction.getColor() + "").replace("{deathban}", systemFaction.isDeathban()));
+          p.sendMessage(this.lf.getString("FACTION_CLAIM_MESSAGES.LEAVING.SYSTEM").replace("{faction}", faction.getName()).replace("{deathban}", systemFaction.isDeathban()));
         }
         return;
       }
       if (faction instanceof SystemFaction) {
         SystemFaction systemFaction = (SystemFaction) faction;
-        p.sendMessage(this.lf.getString("FACTION_CLAIM_MESSAGES.LEAVING.SYSTEM").replace("{faction}", faction.getName()).replace("%S", systemFaction.getColor() + "").replace("{deathban}", systemFaction.isDeathban()));
+        p.sendMessage(this.lf.getString("FACTION_CLAIM_MESSAGES.LEAVING.SYSTEM").replace("{faction}", faction.getName()).replace("{deathban}", systemFaction.isDeathban()));
         return;
       }
       PlayerFaction convertedFaction = (PlayerFaction) faction;
