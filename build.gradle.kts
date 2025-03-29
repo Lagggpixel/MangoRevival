@@ -61,5 +61,7 @@ tasks.withType<Javadoc>() {
 tasks {
     shadowJar {
         relocate("com.cryptomorin.xseries", "me.lagggpixel.mango.impl.xseries")
+
+        archiveClassifier.set("")
     }
 }

@@ -63,7 +63,7 @@ public class ClassesHandler implements Listener {
 
         });
       }
-    }.runTaskTimer(Mango.getInstance(), 20, 20);
+    }.runTaskTimer(Mango.getInstance(), 20, 10);
   }
 
   /**
@@ -75,7 +75,7 @@ public class ClassesHandler implements Listener {
    * @param amplifier the strength of the potion effect
    */
   public static void applyTeamEffect(Player p, PotionEffectType effect, int amplifier) {
-    applyTeamEffect(p, effect, amplifier, 20);
+    applyTeamEffect(p, effect, amplifier, 40);
   }
 
   /**
@@ -111,7 +111,7 @@ public class ClassesHandler implements Listener {
    * @param amplifier the strength of the potion effect
    */
   public static void applyEffect(Player p, PotionEffectType effect, int amplifier) {
-    applyEffect(p, effect, amplifier, 20);
+    applyEffect(p, effect, amplifier, 40);
   }
 
   /**
@@ -127,7 +127,7 @@ public class ClassesHandler implements Listener {
     Collection<PotionEffect> effects = p.getActivePotionEffects();
 
     Stream<PotionEffect> effectsStream = effects.stream().filter(e -> e.getType() != effect);
-    effectsStream = effectsStream.filter(e -> e.getAmplifier() >= amplifier);
+    effectsStream = effectsStream.filter(e -> (e.getAmplifier() >= amplifier && e.getDuration() > 10));
     effectsStream = effectsStream.filter(e -> e.getAmplifier() == amplifier && e.getDuration() >= ticks);
 
     if (effectsStream.findAny().isPresent()) {
