@@ -5,11 +5,12 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.ArrayList;
 
 
-public class PlayerUtility {
+public class PlayerUtils {
   public static ArrayList<Player> getOnlinePlayers() {
     ArrayList<Player> list = new ArrayList<>();
     for (World world : Bukkit.getWorlds()) {
@@ -47,6 +48,21 @@ public class PlayerUtility {
     }
 
     return emptySlots;
+  }
+
+  public static void healPlayer(Player target) {
+    if (target == null) {
+      return;
+    }
+    target.setHealth(20);
+    target.setFoodLevel(20);
+    target.setSaturation(0);
+  }
+
+  public static void clearEffects(Player player) {
+    for (PotionEffect activePotionEffect : player.getActivePotionEffects()) {
+      player.removePotionEffect(activePotionEffect.getType());
+    }
   }
 }
 

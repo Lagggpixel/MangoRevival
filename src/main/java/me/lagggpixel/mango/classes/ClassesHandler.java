@@ -63,7 +63,7 @@ public class ClassesHandler implements Listener {
 
         });
       }
-    }.runTaskTimer(Mango.getInstance(), 20, 10);
+    }.runTaskTimer(Mango.getInstance(), 30, 10);
   }
 
   /**
@@ -75,7 +75,7 @@ public class ClassesHandler implements Listener {
    * @param amplifier the strength of the potion effect
    */
   public static void applyTeamEffect(Player p, PotionEffectType effect, int amplifier) {
-    applyTeamEffect(p, effect, amplifier, 40);
+    applyTeamEffect(p, effect, amplifier, 20 * 5);
   }
 
   /**
@@ -103,7 +103,7 @@ public class ClassesHandler implements Listener {
   }
 
   /**
-   * Applies a effect to the given player for 20 ticks
+   * Applies an effect to the given player for INFINITE ticks
    * Note that the effect will not apply if the player has an existing effect of the same type
    *
    * @param p         the player to apply the effect to
@@ -111,11 +111,11 @@ public class ClassesHandler implements Listener {
    * @param amplifier the strength of the potion effect
    */
   public static void applyEffect(Player p, PotionEffectType effect, int amplifier) {
-    applyEffect(p, effect, amplifier, 40);
+    applyEffect(p, effect, amplifier, Integer.MAX_VALUE);
   }
 
   /**
-   * Applies a effect to the given player
+   * Applies an effect to the given player
    * Note that the effect will not apply if the player has an existing effect of the same type
    *
    * @param p         the player to apply the effect to
@@ -126,9 +126,9 @@ public class ClassesHandler implements Listener {
   public static void applyEffect(@NotNull Player p, PotionEffectType effect, int amplifier, int ticks) {
     Collection<PotionEffect> effects = p.getActivePotionEffects();
 
-    Stream<PotionEffect> effectsStream = effects.stream().filter(e -> e.getType() != effect);
-    effectsStream = effectsStream.filter(e -> (e.getAmplifier() >= amplifier && e.getDuration() > 10));
-    effectsStream = effectsStream.filter(e -> e.getAmplifier() == amplifier && e.getDuration() >= ticks);
+    Stream<PotionEffect> effectsStream = effects.stream().filter(e -> e.getType() == effect)
+        .filter(e -> (e.getAmplifier() >= amplifier && e.getDuration() > 10)
+        || (e.getAmplifier() == amplifier && e.getDuration() >= ticks && e.getDuration() > 20 * 60L));
 
     if (effectsStream.findAny().isPresent()) {
       return;
@@ -141,31 +141,31 @@ public class ClassesHandler implements Listener {
     ItemStack itemStack = player.getInventory().getItemInHand();
     switch (XMaterial.matchXMaterial(itemStack.getType())) {
       case MAGMA_CREAM: {
-        applyTeamEffect(player, PotionEffectType.FIRE_RESISTANCE, 1);
+        applyTeamEffect(player, PotionEffectType.FIRE_RESISTANCE, 0);
         break;
       }
       case GOLDEN_CARROT: {
-        applyTeamEffect(player, PotionEffectType.NIGHT_VISION, 1);
+        applyTeamEffect(player, PotionEffectType.NIGHT_VISION, 0);
         break;
       }
       case SUGAR: {
-        applyTeamEffect(player, PotionEffectType.SPEED, 2);
+        applyTeamEffect(player, PotionEffectType.SPEED, 1);
         break;
       }
       case BLAZE_POWDER: {
-        applyTeamEffect(player, PotionEffectType.INCREASE_DAMAGE, 1);
+        applyTeamEffect(player, PotionEffectType.INCREASE_DAMAGE, 0);
         break;
       }
       case GHAST_TEAR: {
-        applyTeamEffect(player, PotionEffectType.REGENERATION, 1);
+        applyTeamEffect(player, PotionEffectType.REGENERATION, 0);
         break;
       }
       case FEATHER: {
-        applyTeamEffect(player, PotionEffectType.JUMP, 2);
+        applyTeamEffect(player, PotionEffectType.JUMP, 1);
         break;
       }
       case IRON_INGOT: {
-        applyTeamEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 1);
+        applyTeamEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 0);
         break;
       }
     }

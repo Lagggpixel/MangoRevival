@@ -1,6 +1,7 @@
 package me.lagggpixel.mango.classes;
 
 import lombok.Data;
+import me.lagggpixel.mango.utils.PlayerUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,6 +25,8 @@ public class cPlayer {
   public void refreshData() {
     Classes newClasses = Classes.getClassByArmourSet(player.getInventory().getHelmet(), player.getInventory().getChestplate(), player.getInventory().getLeggings(), player.getInventory().getBoots());
     if (newClasses != this.classes) {
+      // Class change
+      PlayerUtils.clearEffects(player);
       this.classes = newClasses;
       this.classEnergy = 0;
     }
