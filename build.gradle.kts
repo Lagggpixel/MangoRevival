@@ -40,7 +40,7 @@ dependencies {
 }
 
 group = "me.lagggpixel"
-version = "1.1.1-SNAPSHOT2"
+version = "1.1.1-SNAPSHOT3"
 description = "MangoRevival"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
