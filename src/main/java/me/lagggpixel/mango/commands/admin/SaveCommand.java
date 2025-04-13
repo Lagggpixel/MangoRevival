@@ -7,7 +7,7 @@ import me.lagggpixel.mango.config.LanguageFile;
 import me.lagggpixel.mango.factions.Faction;
 import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
-import me.lagggpixel.mango.utils.PlayerUtility;
+import me.lagggpixel.mango.utils.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -40,7 +40,7 @@ public class SaveCommand extends FactionSubCommand {
           e.printStackTrace();
         }
       }
-      for (Player player : PlayerUtility.getOnlinePlayers()) {
+      for (Player player : PlayerUtils.getOnlinePlayers()) {
         if (player.hasPermission(Mango.getInstance().getRootPermissionNode() + ".save")) {
           player.sendMessage(this.lf.getString("SAVED.PLAYER").replace("{amount}", players + ""));
           player.sendMessage(this.lf.getString("SAVED.SYSTEM").replace("{amount}", systems + ""));

@@ -18,7 +18,7 @@ import me.lagggpixel.mango.listeners.ChatListeners;
 import me.lagggpixel.mango.listeners.ClaimListeners;
 import me.lagggpixel.mango.listeners.ClassListeners;
 import me.lagggpixel.mango.listeners.PlayerListeners;
-import me.lagggpixel.mango.utils.PlayerUtility;
+import me.lagggpixel.mango.utils.PlayerUtils;
 import me.lagggpixel.mango.utils.command.Register;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
@@ -83,7 +83,7 @@ public class Mango extends JavaPlugin {
           throw new RuntimeException(e);
         }
       }
-      for (Player player : PlayerUtility.getOnlinePlayers()) {
+      for (Player player : PlayerUtils.getOnlinePlayers()) {
         if (player.hasPermission(Mango.getInstance().getRootPermissionNode() + ".save")) {
           player.sendMessage(languageFile.getString("SAVED.PLAYER").replace("{amount}", players + ""));
           player.sendMessage(languageFile.getString("SAVED.SYSTEM").replace("{amount}", systems + ""));

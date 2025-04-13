@@ -13,21 +13,21 @@ public enum Classes {
   DIAMOND(new HashMap<PotionEffectType, Integer>() {
   }),
   BARD(new HashMap<PotionEffectType, Integer>() {{
-    put(PotionEffectType.SPEED, 2);
-    put(PotionEffectType.REGENERATION, 1);
-    put(PotionEffectType.DAMAGE_RESISTANCE, 2);
+    put(PotionEffectType.SPEED, 1);
+    put(PotionEffectType.REGENERATION, 0);
+    put(PotionEffectType.DAMAGE_RESISTANCE, 1);
   }}),
   ARCHER(new HashMap<PotionEffectType, Integer>() {{
-    put(PotionEffectType.SPEED, 3);
+    put(PotionEffectType.SPEED, 2);
   }}),
   ROUGE(new HashMap<PotionEffectType, Integer>() {{
-    put(PotionEffectType.SPEED, 4);
-    put(PotionEffectType.JUMP, 4);
+    put(PotionEffectType.SPEED, 3);
+    put(PotionEffectType.JUMP, 3);
   }}),
   MINER(new HashMap<PotionEffectType, Integer>() {{
-    put(PotionEffectType.FAST_DIGGING, 2);
-    put(PotionEffectType.NIGHT_VISION, 1);
-    put(PotionEffectType.FIRE_RESISTANCE, 1);
+    put(PotionEffectType.FAST_DIGGING, 1);
+    put(PotionEffectType.NIGHT_VISION, 0);
+    put(PotionEffectType.FIRE_RESISTANCE, 0);
   }});
 
   private final Map<PotionEffectType, Integer> classEffects;

@@ -8,7 +8,7 @@ import me.lagggpixel.mango.factions.Faction;
 import me.lagggpixel.mango.factions.FactionManager;
 import me.lagggpixel.mango.factions.types.PlayerFaction;
 import me.lagggpixel.mango.utils.MessageManager;
-import me.lagggpixel.mango.utils.PlayerUtility;
+import me.lagggpixel.mango.utils.PlayerUtils;
 import me.lagggpixel.mango.utils.command.BaseCommand;
 import me.lagggpixel.mango.utils.command.CommandUsageBy;
 import org.bukkit.Bukkit;
@@ -134,7 +134,7 @@ public class FactionCommand extends BaseCommand {
           PlayerFaction playerFaction = this.fm.getFaction(p);
           List<String> listToReturn = new ArrayList<>();
           if (playerFaction != null) {
-            for (Player player : PlayerUtility.getOnlinePlayers()) {
+            for (Player player : PlayerUtils.getOnlinePlayers()) {
               if (!playerFaction.getPlayers().contains(player) && player.getName().toLowerCase().startsWith(args[1])) {
                 listToReturn.add(player.getName());
               }
@@ -148,7 +148,7 @@ public class FactionCommand extends BaseCommand {
         if (args[0].equalsIgnoreCase("who")) {
           List<String> listToReturn = new ArrayList<>();
 
-          for (String opt : toList(PlayerUtility.getOnlinePlayers())) {
+          for (String opt : toList(PlayerUtils.getOnlinePlayers())) {
             if (opt.toLowerCase().startsWith(args[1])) {
               listToReturn.add(opt);
             }
@@ -182,7 +182,7 @@ public class FactionCommand extends BaseCommand {
           }
 
 
-          for (String opt : toList(PlayerUtility.getOnlinePlayers())) {
+          for (String opt : toList(PlayerUtils.getOnlinePlayers())) {
             if (opt.toLowerCase().startsWith(args[1]) && !listToReturn.contains(opt)) {
               listToReturn.add(opt);
             }
@@ -255,7 +255,7 @@ public class FactionCommand extends BaseCommand {
 
     List<String> onlinePlayers = new ArrayList<>();
 
-    for (Player player : PlayerUtility.getOnlinePlayers()) {
+    for (Player player : PlayerUtils.getOnlinePlayers()) {
       if (player.getName().toLowerCase().startsWith(args[1])) {
         onlinePlayers.add(player.getName());
       }

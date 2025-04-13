@@ -172,25 +172,25 @@ public class ClassListeners implements Listener {
       case BARD: {
         switch (itemStack.getType()) {
           case BLAZE_POWDER: {
-            if (!forceApplyBardEffect(player, PotionEffectType.INCREASE_DAMAGE, 2, 40)) {
+            if (!forceApplyBardEffect(player, PotionEffectType.INCREASE_DAMAGE, 1, 40)) {
               return;
             }
             break;
           }
           case IRON_INGOT: {
-            if (!forceApplyBardEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 3, 40)) {
+            if (!forceApplyBardEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 2, 40)) {
               return;
             }
             break;
           }
           case FEATHER: {
-            if (!forceApplyBardEffect(player, PotionEffectType.JUMP, 4, 20)) {
+            if (!forceApplyBardEffect(player, PotionEffectType.JUMP, 3, 20)) {
               return;
             }
             break;
           }
           case SUGAR: {
-            if (!forceApplyBardEffect(player, PotionEffectType.SPEED, 3, 30)) {
+            if (!forceApplyBardEffect(player, PotionEffectType.SPEED, 2, 30)) {
               return;
             }
             break;
@@ -207,13 +207,13 @@ public class ClassListeners implements Listener {
       case ARCHER: {
         switch (itemStack.getType()) {
           case SUGAR: {
-            if (!forceApplyArcherEffect(player, PotionEffectType.SPEED, 4, 50)) {
+            if (!forceApplyArcherEffect(player, PotionEffectType.SPEED, 3, 50)) {
               return;
             }
             break;
           }
           case FEATHER: {
-            if (!forceApplyArcherEffect(player, PotionEffectType.JUMP, 4, 40)) {
+            if (!forceApplyArcherEffect(player, PotionEffectType.JUMP, 3, 40)) {
               return;
             }
             break;

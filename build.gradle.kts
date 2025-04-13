@@ -40,7 +40,7 @@ dependencies {
 }
 
 group = "me.lagggpixel"
-version = "1.1.1-SNAPSHOT1"
+version = "1.2.1-SNAPSHOT0"
 description = "MangoRevival"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
@@ -60,8 +60,9 @@ tasks.withType<Javadoc>() {
 
 tasks {
     shadowJar {
-        relocate("com.cryptomorin.xseries", "me.lagggpixel.mango.impl.xseries")
+        // relocate("com.cryptomorin.xseries", "me.lagggpixel.mango.impl.xseries")
 
         archiveClassifier.set("")
+        destinationDirectory.set(File("testbed/1.8/plugins"))
     }
 }
