@@ -219,7 +219,7 @@ public class ClaimListeners implements Listener {
         if (claim.isInside(e.getTo(), true) && claim.getWorld() == p.getWorld()) {
           if (profile.getLastInside() == null) {
             profile.setLastInside(claim);
-            p.sendMessage(this.lf.getString("FACTION_CLAIM_MESSAGES.LEAVING.SYSTEM").replace("%S{faction}", this.cf.getString("Wilderness.Name")).replace("{deathban}", "Deathban"));
+            p.sendMessage(this.lf.getString("FACTION_CLAIM_MESSAGES.LEAVING.SYSTEM").replace("{faction}", this.cf.getString("Wilderness.Name")).replace("{deathban}", "Deathban"));
             sendClaimChange(p, claim.getOwner(), true);
 
             return;
@@ -237,7 +237,7 @@ public class ClaimListeners implements Listener {
             public void run() {
               if (profile.getLastInside() != null && profile.getLastInside() == claim) {
                 ClaimListeners.this.sendClaimChange(p, claim.getOwner(), false);
-                p.sendMessage(ClaimListeners.this.lf.getString("FACTION_CLAIM_MESSAGES.ENTERING.SYSTEM").replace("%S{faction}", ClaimListeners.this.cf.getString("Wilderness.Name")).replace("{deathban}", "Deathban"));
+                p.sendMessage(ClaimListeners.this.lf.getString("FACTION_CLAIM_MESSAGES.ENTERING.SYSTEM").replace("{faction}", ClaimListeners.this.cf.getString("Wilderness.Name")).replace("{deathban}", "Deathban"));
                 profile.setLastInside(null);
               }
             }
